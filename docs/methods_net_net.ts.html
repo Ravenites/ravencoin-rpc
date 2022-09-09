@@ -1,0 +1,279 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ravenite - Ravencoin RPC methods/net/net.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Ravenite (ravencoin-rpc)</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/Ravenites/ravencoin-rpc"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Client</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>methods/net/net.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { IClient } from '@/types';
+import {
+  AddNode,
+  DisconnectNode,
+  GetAddedNodeInfo,
+  GetAddedNodeInfoResponse,
+  GetNetTotalsresponse,
+  GetNetworkInfoResponse,
+  GetPeerInfoResponse,
+  ListBannedResponse,
+  SetBan,
+  SetNetworkActive,
+} from './types';
+
+/**
+ * @class Net
+ * @subcategory Client
+ */
+export class Net {
+  private _client: IClient;
+
+  constructor(client: IClient) {
+    this._client = client;
+  }
+
+  /**
+   * Returns the number of connections to other nodes.
+   * @returns {Promise} The connection count
+   */
+  async getConnectionCount(): Promise&lt;number> {
+    return await this._client.request('getconnectioncount');
+  }
+
+  /**
+   * Requests that a ping be sent to all other nodes, to measure ping time.
+   *
+   * Results provided in getpeerinfo, pingtime and pingwait fields are decimal seconds.
+   *
+   * Ping command is handled in queue with all other commands, so it measures processing backlog, not just network ping.
+   * @returns {Promise}
+   */
+  async ping(): Promise&lt;any> {
+    return await this._client.request('ping');
+  }
+
+  /**
+   * Returns data about each connected network node as a json array of objects.
+   * @returns {Promise}
+   */
+  async getPeerInfo(): Promise&lt;GetPeerInfoResponse[]> {
+    return await this._client.request('getpeerinfo');
+  }
+
+  /**
+   * Attempts to add or remove a node from the addnode list.
+   *
+   * Or try a connection to a node once.
+   *
+   * Nodes added using addnode (or -connect) are protected from DoS disconnection and are not required to be full nodes/support SegWit as other outbound peers are (though such peers will not be synced from).
+   * @param params
+   * @param {string} params.node The node (see getpeerinfo for nodes)
+   * @param {string} params.command 'add' to add a node to the list, 'remove' to remove a node from the list, 'onetry' to try a connection to the node once
+   * @returns {Promise}
+   */
+  async addNode(params: AddNode): Promise&lt;null> {
+    return await this._client.request('addnode', params);
+  }
+
+  /**
+   * Immediately disconnects from the specified peer node.
+   *
+   * Strictly one out of 'address' and 'nodeid' can be provided to identify the node.
+   *
+   * To disconnect by nodeid, either set 'address' to the empty string, or call using the named 'nodeid' argument only.
+   * @param params
+   * @param {string=} params.address The IP address/port of the node
+   * @param {number=} params.nodeid The node ID (see getpeerinfo for node IDs)
+   * @returns {Promise}
+   */
+  async disconnectNode(params: DisconnectNode): Promise&lt;null> {
+    return await this._client.request('disconnectnode', params);
+  }
+
+  /**
+   * Returns information about the given added node, or all added nodes (note that onetry addnodes are not listed here)
+   * @param params
+   * @param {string=} params.node If provided, return information about this specific node, otherwise all nodes are returned.
+   * @returns {Promise}
+   */
+  async getAddedNodeInfo(
+    params: GetAddedNodeInfo
+  ): Promise&lt;GetAddedNodeInfoResponse[]> {
+    return await this._client.request('getaddednodeinfo', params);
+  }
+
+  /**
+   * Returns information about network traffic, including bytes in, bytes out, and current time.
+   * @returns {Promise}
+   */
+  async getNetTotals(): Promise&lt;GetNetTotalsresponse> {
+    return await this._client.request('getnettotals');
+  }
+
+  /**
+   * Returns an object containing various state info regarding P2P networking.
+   * @returns {Promise}
+   */
+  async getNetworkInfo(): Promise&lt;GetNetworkInfoResponse> {
+    return await this._client.request('getnetworkinfo');
+  }
+
+  /**
+   * Attempts to add or remove an IP/Subnet from the banned list.
+   * @param params
+   * @param {string} params.subnet     The IP/Subnet (see getpeerinfo for nodes IP) with an optional netmask (default is /32 = single IP)
+   * @param {string} params.command    'add' to add an IP/Subnet to the list, 'remove' to remove an IP/Subnet from the list
+   * @param {number=} params.bantime   Time in seconds how long (or until when if [absolute] is set) the IP is banned (0 or empty means using the default time of 24h which can also be overwritten by the -bantime startup argument)
+   * @param {boolean=} params.absolute If set, the bantime must be an absolute timestamp in seconds since epoch (Jan 1 1970 GMT)
+   * @returns {Promise}
+   */
+  async setBan(params: SetBan): Promise&lt;null> {
+    return await this._client.request('setban', params);
+  }
+
+  /**
+   * List all banned IPs/Subnets.
+   * @returns {Promise}
+   */
+  async listBanned(): Promise&lt;ListBannedResponse[]> {
+    return await this._client.request('listbanned');
+  }
+
+  /**
+   * Clear all banned IPs.
+   * @param params
+   * @returns {Promise}
+   */
+  async clearBanned(): Promise&lt;null> {
+    return await this._client.request('clearbanned');
+  }
+
+  /**
+   * Disable/enable all p2p network activity.
+   * @param params
+   * @param {boolean} param.state True to enable networking, false to disable
+   * @returns {Promise}
+   */
+  async setNetworkActive(params: SetNetworkActive): Promise&lt;boolean> {
+    return await this._client.request('setnetworkactive', params);
+  }
+
+  /**
+   * Helper RPC CALL, dont use
+   * @returns {Promise}
+   */
+  async testGetAssetData(): Promise&lt;null> {
+    return await this._client.request('testgetassetdata');
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ravenite - Ravencoin RPC Home</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Ravenite (ravencoin-rpc)</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/Ravenites/ravencoin-rpc"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Client</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p></p>
+                    <h1>Home</h1>
+                </header>
+                
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>Ravencoin RPC (Beta)</h1>
+<p>A client library to connect to Ravencoin Core RPC in JavaScript.</p>
+<p><a href="https://www.npmjs.org/package/@ravenite/ravencoin-rpc"><img src="https://img.shields.io/npm/v/@ravenite/ravencoin-rpc.svg?style=flat-square" alt="NPM Package"></a>
+<a href="https://travis-ci.org/@ravenite/ravencoin-rpc"><img src="https://img.shields.io/travis/@ravenite/ravencoin-rpc.svg?branch=master&amp;style=flat-square" alt="Build Status"></a>
+<a href="https://coveralls.io/r/@ravenite/ravencoin-rpc"><img src="https://img.shields.io/coveralls/@ravenite/ravencoin-rpc.svg?style=flat-square" alt="Coverage Status"></a></p>
+<p><strong>A Hyberbit module for <a href="https://github.com/RavenProject/Ravencoin">ravencoin</a>.</strong></p>
+<h2>Getting Started</h2>
+<pre class="prettyprint source lang-sh"><code># Using npm
+npm install @ravenite/ravencoin-rpc;
+
+# Using yarn
+yarn add @ravenite/ravencoin-rpc;
+</code></pre>
+<h3>Usage</h3>
+<pre class="prettyprint source lang-javascript"><code>import Client from '@ravenite/ravencoin-rpc';
+
+const client = new Client({
+  url: 'http://127.0.0.1:9050',
+  username: 'username',
+  password: 'password',
+});
+
+client.assets.listAssets().then(assets => {
+  console.log('assets', assets);
+});
+</code></pre>
+<h2>Examples and Documentation</h2>
+<p>See <a href="https://ravenites.github.io/ravencoin-rpc/Client.html">documentation</a> for developer guides.</p>
+<h2>License</h2>
+<p>Code released under <a href="./LICENSE.md">the MIT license</a>.</p>
+<h3>Development</h3>
+<p>Tested method parameters</p>
+<h4>Assets</h4>
+<ul>
+<li>[ ] issue</li>
+<li>[ ] issueUnique</li>
+<li>[ ] listMyAssets</li>
+<li>[ ] listAssetBalancesByAddress</li>
+<li>[ ] getAssetData</li>
+<li>[ ] listAddressesByAsset</li>
+<li>[ ] transferFromAddress</li>
+<li>[ ] transferFromAddresses</li>
+<li>[ ] transfer</li>
+<li>[ ] reissue</li>
+<li>[x] listAssets</li>
+<li>[ ] getCacheInfo</li>
+<li>[ ] transferQualifier</li>
+<li>[ ] issueRestrictedAsset</li>
+<li>[ ] issueQualifierAsset</li>
+<li>[ ] reissueRestrictedAsset</li>
+<li>[ ] addTagToAddress</li>
+<li>[ ] removeTagFromAddress</li>
+<li>[ ] freezeAddress</li>
+<li>[ ] unfreezeAddress</li>
+<li>[ ] freezerestrictedasset</li>
+<li>[ ] unfreezeRestrictedAsset</li>
+<li>[ ] listAddressesForTag</li>
+<li>[ ] listTagsForAddress</li>
+<li>[ ] listAddressRestrictions</li>
+<li>[ ] listGlobalRestrictions</li>
+<li>[ ] getVerifierString</li>
+<li>[ ] checkAddressTag</li>
+<li>[ ] checkAddressRestriction</li>
+<li>[ ] checkGlobalRestriction</li>
+<li>[ ] isValidVerifierString</li>
+<li>[ ] getSnapshot</li>
+<li>[ ] purgeSnapshot</li>
+</ul>
+<h4>Blockchain</h4>
+<ul>
+<li>[ ] clearMempool</li>
+<li>[ ] getBlockchainInfo</li>
+<li>[ ] getChainTxStats</li>
+<li>[ ] getBestBlockHash</li>
+<li>[ ] getBlockCount</li>
+<li>[ ] getBlock</li>
+<li>[ ] decodeBlock</li>
+<li>[ ] getBlockDeltas</li>
+<li>[ ] getBlockHashes</li>
+<li>[ ] getBlockHash</li>
+<li>[ ] getBlockHeader</li>
+<li>[ ] getChainTips</li>
+<li>[ ] getDifficulty</li>
+<li>[ ] getMempoolAncestors</li>
+<li>[ ] getMempoolDescendants</li>
+<li>[ ] getMempoolEntry</li>
+<li>[ ] getMempoolInfo</li>
+<li>[ ] getRawMempool</li>
+<li>[ ] GetTxOut</li>
+<li>[ ] getTxOutSetInfo</li>
+<li>[ ] pruneBlockchain</li>
+<li>[ ] saveMempool</li>
+<li>[ ] verifyChain</li>
+<li>[ ] preciousBlock</li>
+<li>[ ] invalidateBlock</li>
+<li>[ ] reconsiderBlock</li>
+<li>[ ] waitForNewBlock</li>
+<li>[ ] waitForBlock</li>
+<li>[ ] waitForBlockHeight</li>
+</ul>
+<h4>Messages</h4>
+<ul>
+<li>[x] viewAllMessages</li>
+<li>[x] viewAllMessageChannels</li>
+<li>[x] subscribeToChannel</li>
+<li>[x] unsubscribeFromChannel</li>
+<li>[x] sendMessage</li>
+<li>[x] viewMyTaggedAddresses</li>
+<li>[x] viewMyRestrictedAddresses</li>
+<li>[x] clearMessages</li>
+</ul>
+<h4>Mining</h4>
+<ul>
+<li>[ ] getNetworkHashPs</li>
+<li>[ ] getMiningInfo</li>
+<li>[ ] prioritiseTransaction</li>
+<li>[ ] getBlockTemplate</li>
+<li>[ ] submitBlock</li>
+<li>[ ] pprpcsb</li>
+<li>[ ] getKawpowHash</li>
+<li>[ ] getGenerate</li>
+<li>[ ] setGenerate</li>
+<li>[ ] generateToAddress</li>
+<li>[ ] estimateFee</li>
+<li>[ ] estimateSmartFee</li>
+<li>[ ] estimateRawFee</li>
+</ul>
+<h4>Misc</h4>
+<ul>
+<li>[ ] getInfo</li>
+<li>[ ] getMemoryInfo</li>
+<li>[ ] validateAddress</li>
+<li>[ ] createMultisig</li>
+<li>[ ] verifyMessage</li>
+<li>[ ] signMessageWithPrivKey</li>
+<li>[ ] getAddressMempool</li>
+<li>[ ] getAddressUtxos</li>
+<li>[ ] getAddressDeltas</li>
+<li>[ ] getAddressTxIds</li>
+<li>[ ] getAddressBalance</li>
+<li>[ ] getSpentInfo</li>
+<li>[ ] setMockTime</li>
+<li>[ ] echo</li>
+<li>[ ] echojson</li>
+<li>[ ] logging</li>
+</ul>
+<h4>Net</h4>
+<ul>
+<li>[ ] getConnectionCount</li>
+<li>[ ] ping</li>
+<li>[ ] getPeerInfo</li>
+<li>[ ] addNode</li>
+<li>[ ] disconnectNode</li>
+<li>[ ] getAddedNodeInfo</li>
+<li>[ ] getNetTotals</li>
+<li>[ ] getNetworkInfo</li>
+<li>[ ] setBan</li>
+<li>[ ] listBanned</li>
+<li>[ ] clearBanned</li>
+<li>[ ] setNetworkActive</li>
+<li>[ ] testGetAssetData</li>
+</ul>
+<h4>Raw Transactions</h4>
+<ul>
+<li>[ ] getRawTransaction</li>
+<li>[ ] createRawTransaction</li>
+<li>[ ] decodeRawTransaction</li>
+<li>[ ] decodeScript</li>
+<li>[ ] sendRawTransaction</li>
+<li>[ ] combineRawTransaction</li>
+<li>[ ] signRawTransaction</li>
+<li>[ ] testMempoolAccept</li>
+<li>[ ] getTxOutProof</li>
+<li>[ ] verifyTxOutProof</li>
+</ul>
+<h4>Rewards</h4>
+<ul>
+<li>[ ] requestSnapshot</li>
+<li>[ ] getSnapshotRequest</li>
+<li>[ ] listSnapshotRequests</li>
+<li>[ ] cancelSnapshotRequest</li>
+<li>[ ] distributeReward</li>
+<li>[ ] getDistributeStatus</li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+            </div>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
