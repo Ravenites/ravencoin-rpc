@@ -46,22 +46,22 @@ Tested method parameters
 
 #### Assets
 
-- [ ] issue
-- [ ] issueUnique
-- [ ] listMyAssets
-- [ ] listAssetBalancesByAddress
-- [ ] getAssetData
-- [ ] listAddressesByAsset
-- [ ] transferFromAddress
-- [ ] transferFromAddresses
-- [ ] transfer
-- [ ] reissue
+- [x] issue
+- [x] issueUnique
+- [x] listMyAssets
+- [x] listAssetBalancesByAddress
+- [x] getAssetData
+- [x] listAddressesByAsset
+- [x] transferFromAddress
+- [x] transferFromAddresses
+- [x] transfer
+- [x] reissue
 - [x] listAssets
-- [ ] getCacheInfo
-- [ ] transferQualifier
-- [ ] issueRestrictedAsset
-- [ ] issueQualifierAsset
-- [ ] reissueRestrictedAsset
+- [x] getCacheInfo
+- [x] transferQualifier
+- [x] issueRestrictedAsset
+- [x] issueQualifierAsset
+- [x] reissueRestrictedAsset
 - [ ] addTagToAddress
 - [ ] removeTagFromAddress
 - [ ] freezeAddress

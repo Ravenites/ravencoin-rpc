@@ -67,7 +67,7 @@ export type TransferFromAddress = {
 
 export type TransferFromAddresses = {
   asset_name: string;
-  from_addresses: string;
+  from_addresses: string[];
   qty: number;
   to_address: string;
   message?: string;
