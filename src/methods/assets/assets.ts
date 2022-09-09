@@ -406,7 +406,7 @@ export class Assets {
    * @param {string=} params.asset_data     The asset data (ipfs or a hash) to be applied to the transfer of the owner token
    * @returns {Promise} txid
    */
-  async freezerestrictedasset(params: FreezeRestrictedAsset): Promise<string> {
+  async freezeRestrictedAsset(params: FreezeRestrictedAsset): Promise<string> {
     return await this._client.request('freezerestrictedasset', params);
   }
 

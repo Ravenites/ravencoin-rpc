@@ -175,7 +175,7 @@ export class Mining {
   }
 
   /**
-   * DEPRECATED. Please use estimatesmartfee for more intelligent estimates.
+   * DEPRECATED. Please use estimateSmartFee for more intelligent estimates.
    *
    * Estimates the approximate fee per kilobyte needed for a transaction to begin confirmation within nblocks blocks.
    *
