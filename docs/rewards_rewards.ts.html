@@ -1,0 +1,227 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> rewards/rewards.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3><a href="global.html">Global</a></h3></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>rewards/rewards.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// https://github.com/RavenProject/Ravencoin/blob/master/src/rpc/rewards.cpp
+
+import { IClient } from '@/types';
+import {
+  CancelSnapshotRequest,
+  CancelSnapshotRequestResponse,
+  DistributeReward,
+  DistributeRewardResponse,
+  GetDistributeStatus,
+  GetDistributeStatusResponse,
+  GetSnapshotRequest,
+  GetSnapshotRequestResponse,
+  ListSnapshotRequests,
+  ListSnapshotRequestsResponse,
+  RequestSnapshot,
+  RequestSnapshotResponse,
+} from './types';
+
+export class Rewards {
+  private _client: IClient;
+
+  constructor(client: IClient) {
+    this._client = client;
+  }
+
+  /**
+   * Schedules a snapshot of the specified asset at the specified block height.
+   * @param params
+   * @param {string} params.asset_name   The asset name for which the snapshot will be taken
+   * @param {number} params.block_height The block height at which the snapshot will be take
+   * @returns {Promise} Object - { request_status: 'Added' }
+   */
+  async requestSnapshot(
+    params: RequestSnapshot
+  ): Promise&lt;RequestSnapshotResponse> {
+    return await this._client.request('requestsnapshot', params);
+  }
+
+  /**
+   * Retrieves the specified snapshot request details.
+   * @param params
+   * @param {string} params.asset_name   The asset name for which the snapshot will be taken
+   * @param {number} params.block_height The block height at which the snapshot will be take
+   * @returns {Promise} Returns the asset_name and block_height
+   */
+  async getSnapshotRequest(
+    params: GetSnapshotRequest
+  ): Promise&lt;GetSnapshotRequestResponse> {
+    return await this._client.request('getsnapshotrequest', params);
+  }
+
+  /**
+   * List snapshot request details.
+   * @param params
+   * @param {string=} params.asset_name   List only requests for a specific asset (default is \"\" for ALL)
+   * @param {number=} params.block_height List only requests for a particular block height (default is 0 for ALL)
+   * @returns {Promise} Array of objects containing asset_name and block_height
+   */
+  async listSnapshotRequests(
+    params: ListSnapshotRequests
+  ): Promise&lt;ListSnapshotRequestsResponse[]> {
+    return await this._client.request('listsnapshotrequests', params);
+  }
+
+  /**
+   * Cancels the specified snapshot request.
+   * @param params
+   * @param {string} params.asset_name   The asset name for which the snapshot will be taken
+   * @param {number} params.block_height The block height at which the snapshot will be take
+   * @returns {Promise} Returns the request status
+   */
+  async cancelSnapshotRequest(
+    params: CancelSnapshotRequest
+  ): Promise&lt;CancelSnapshotRequestResponse> {
+    return await this._client.request('cancelsnapshotrequest', params);
+  }
+
+  /**
+   * Splits the specified amount of the distribution asset to all owners of asset_name that are not in the optional exclusion_addresses
+   * @param params
+   * @param {string}  params.asset_name                The reward will be distributed all owners of this asset
+   * @param {number}  params.snapshot_height           The block height of the ownership snapshot
+   * @param {string}  params.distribution_asset_name   The name of the asset that will be distributed, or RVN
+   * @param {number}  params.gross_distribution_amount The amount of the distribution asset that will be split amongst all owners
+   * @param {string=} params.exception_addresses       Ownership addresses that should be excluded
+   * @param {string=} params.change_address            If the rewards can't be fully distributed. The change will be sent to this address
+   * @returns {Promise}
+   */
+  async distributeReward(
+    params: DistributeReward
+  ): Promise&lt;DistributeRewardResponse> {
+    return await this._client.request('distributereward', params);
+  }
+
+  /**
+   * Give information about the status of the distribution
+   * @param params
+   * @param {string}  parasm.asset_name                The reward will be distributed all owners of this asset\n"
+   * @param {number}  parasm.snapshot_height           The block height of the ownership snapshot\n"
+   * @param {string}  parasm.distribution_asset_name   The name of the asset that will be distributed, or RVN\n"
+   * @param {number}  parasm.gross_distribution_amount The amount of the distribution asset that will be split amongst all owners\n"
+   * @param {string=} parasm.exception_addresses       Ownership addresses that should be excluded\n"
+   * @returns {Promise}
+   */
+  async getDistributeStatus(
+    params: GetDistributeStatus
+  ): Promise&lt;string | GetDistributeStatusResponse> {
+    return await this._client.request('getdistributestatus', params);
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

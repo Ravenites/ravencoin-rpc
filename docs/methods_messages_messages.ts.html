@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ravenite - Ravencoin RPC methods/messages/messages.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Ravenite (ravencoin-rpc)</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/Ravenites/ravencoin-rpc"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Client</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>methods/messages/messages.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { IClient } from '@/types';
+import {
+  SendMessage,
+  SubscribeToChannel,
+  UnsubscribeFromChannel,
+  ViewAllMessageChannelsResponse,
+  ViewAllMessagesResponse,
+  ViewMyRestrictedAddressesResponse,
+  ViewMyTaggedAddressesResponse,
+} from './types';
+
+/**
+ * @class Messages
+ * @subcategory Client
+ */
+export class Messages {
+  private _client: IClient;
+
+  constructor(client: IClient) {
+    this._client = client;
+  }
+
+  /**
+   * View all messages that the wallet contains
+   * @returns {Promise}
+   */
+  async viewAllMessages(): Promise&lt;ViewAllMessagesResponse> {
+    return await this._client.request('viewallmessages');
+  }
+
+  /**
+   * View all message channels the wallet is subscribed to
+   * @returns {Promise}
+   */
+  async viewAllMessageChannels(): Promise&lt;ViewAllMessageChannelsResponse> {
+    return await this._client.request('viewallmessagechannels');
+  }
+
+  /**
+   * Subscribe to a certain message channel
+   * @example
+   * client.messages.subscribeToChannel({channel_name: 'MU3GOZ2FMGHJLM5TTAJDQ5SNAHHRBC!'})
+   * @param params
+   * @param {string} params.channel_name The channel name to subscribe to, it must end with '!' or have an '~' in the name
+   * @returns {Promise}
+   */
+  async subscribeToChannel(params: SubscribeToChannel): Promise&lt;string> {
+    return await this._client.request('subscribetochannel', params);
+  }
+
+  /**
+   * Unsubscribe from a certain message channel
+   * @example
+   * client.messages.unsubscribeFromChannel({channel_name: 'MU3GOZ2FMGHJLM5TTAJDQ5SNAHHRBC!'})
+   * @param params
+   * @param {string} params.channel_name The channel name to unsubscribe from, must end with '!' or have an '~' in the name
+   * @returns {Promise}
+   */
+  async unsubscribeFromChannel(params: UnsubscribeFromChannel): Promise&lt;string> {
+    return await this._client.request('unsubscribefromchannel', params);
+  }
+
+  /**
+   * Creates and broadcasts a message transaction to the network for a channel this wallet owns
+   * @example
+   * client.messages.sendMessage({
+      channel: 'MU3GOZ2FMGHJLM5TTAJDQ5SNAHHRBC!',
+      ipfs_hash: 'QmTqu3Lk3gmTsQVtjU7rYYM37EAW4xNmbuEAp2Mjr4AV7E',
+      expire_time: 60
+    })
+   * @param params
+   * @param {string} params.channel Name of the channel that you want to send a message with (message channel, administrator asset), if a non administrator asset name is given, the administrator '!' will be added to it
+   * @param {string} params.ipfs_hash    The IPFS hash of the message
+   * @param {number=} params.expire_time UTC timestamp of when the message expires
+   * @returns {Promise} Array of a transaction id
+   */
+  async sendMessage(params: SendMessage): Promise&lt;string[]> {
+    return await this._client.request('sendmessage', params);
+  }
+
+  /**
+   * View all addresses this wallet owns that have been tagged
+   * @returns {Promise}
+   */
+  async viewMyTaggedAddresses(): Promise&lt;ViewMyTaggedAddressesResponse> {
+    return await this._client.request('viewmytaggedaddresses');
+  }
+
+  /**
+   * View all addresses this wallet owns that have been restricted
+   * @returns {Promise}
+   */
+  async viewMyRestrictedAddresses(): Promise&lt;ViewMyRestrictedAddressesResponse> {
+    return await this._client.request('viewmyrestrictedaddresses');
+  }
+
+  /**
+   * Delete current database of messages
+   * @param params
+   * @returns {Promise}
+   */
+  async clearMessages(): Promise&lt;string> {
+    return await this._client.request('clearmessages');
+  }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
