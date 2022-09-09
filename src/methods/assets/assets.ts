@@ -13,6 +13,7 @@ import {
   GetSnapshotResponse,
   GetVerifierString,
   Issue,
+  IssueQualifierAsset,
   IssueRestrictedAsset,
   IssueUnique,
   IsValidVerifierString,
@@ -50,16 +51,18 @@ export class Assets {
 
   /**
    * Issue an asset, subasset or unique asset.
-   * 
+   *
    * Asset name must not conflict with any existing asset.
-   * 
+   *
    * Unit as the number of decimals precision for the asset (0 for whole units (\"1\"), 8 for max precision (\"1.00000000\")
-   * 
+   *
    * Reissuable is true/false for whether additional units can be issued by the original issuer.
-   * 
+   *
    * If issuing a unique asset these values are required (and will be defaulted to): qty=1, units=0, reissuable=false.
-   * @param {Object}  params
-   * @param {string}  params.asset_name          A unique name.
+   * @example
+   * client.assets.issue({ asset_name: 'FE271D55A604409E8C48 })
+   * @param params
+   * @param {string} params.asset_name          A unique name.
    * @param {number=} [params.qty=1]             The number of units to be issued.
    * @param {string=} [params.to_address='']     Address asset will be sent to, if it is empty, address will be generated for you.
    * @param {string=} [params.change_address=''] Address the the rvn change will be sent to, if it is empty, change address will be generated for you.
@@ -83,7 +86,9 @@ export class Assets {
    * If provided ipfs_hashes must be the same length as asset_tags.
    * 
    * Five (5) RVN will be burned for each asset created.
-   * @param {Object}  params
+   * @example
+   * client.assets.issueUnique({ root_name: 'FE271D55A604409E8C48', asset_tags: ['ASSET_ONE', 'ASSET_TWO'] })
+   * @param params
    * @param {string}  params.root_name           Name of the asset the unique asset(s) are being issued under
    * @param {array}   params.asset_tags          The unique tag for each asset which is to be issued
    * @param {array=}  params.ipfs_hashes         Ipfs hashes or txid hashes corresponding to each supplied tag (should be same size as \"asset_tags\")
@@ -97,7 +102,9 @@ export class Assets {
 
   /**
    * Returns a list of all asset that are owned by this wallet
-   * @param {Object}   params
+   * @example
+   * client.assets.listMyAssets()
+   * @param            params
    * @param {string=}  [params.asset='*']     Filters results -- must be an asset name or a partial asset name followed by '*' ('*' matches all trailing characters)
    * @param {boolean=} [params.verbose=false] When false results only contain balances -- when true results include outpoints
    * @param {number=}  params.count           Truncates results to include only the first _count_ assets found
@@ -105,12 +112,32 @@ export class Assets {
    * @param {number=}  [params.confs=0]       Results are skipped if they don't have this number of confirmations
    * @returns {Promise} TODO: Get return data
    */
-  async listMyAssets(params: ListMyAssets = {}): Promise<any> {
+  async listMyAssets(params?: ListMyAssets): Promise<any> {
+    params = params || {};
+    const count = typeof params.count === 'number';
+    const start = typeof params.start === 'number';
+    const confs = typeof params.confs === 'number';
+    if ((params.verbose || !!count || !!start || !!confs) && !params.asset) {
+      params.asset = '*';
+    }
+    if ((!!count || !!start || !!confs) && !params.verbose) {
+      params.verbose = false;
+    }
+    if ((!!start || !!confs) && !count) {
+      params.count = 999999999;
+    }
+    if (!!confs && !start) {
+      throw new Error(
+        'Confs parameter is required when using the Start parameter'
+      );
+    }
     return await this._client.request('listmyassets', params);
   }
 
   /**
    * Returns a list of all asset balances for an address. (requires assetindex to be enabled)
+   * @example
+   * client.assets.listAssetBalancesByAddress({ address: 'mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu', onlytotal: true })
    * @param params
    * @param {string}   [params.address]         A raven address
    * @param {boolean=} [params.onlytotal=false] When false result is just a list of assets balances -- when true the result is just a single number representing the number of assets
@@ -121,11 +148,19 @@ export class Assets {
   async listAssetBalancesByAddress(
     params: ListAssetBalanceByAddress
   ): Promise<any> {
+    if (!params.count) {
+      params.count = 50000;
+    }
+    if (!params.start) {
+      params.start = 0;
+    }
     return await this._client.request('listassetbalancesbyaddress', params);
   }
 
   /**
    * Returns assets metadata if that asset exists
+   * @example
+   * client.assets.getAssetData({ asset_name: 'FE271D55A604409E8C48' })
    * @param params
    * @param {string} params.asset_name The name of the asset
    * @returns {Promise} Asset data
@@ -136,8 +171,10 @@ export class Assets {
 
   /**
    * Returns a list of all address that own the given asset (with balances).  (requires assetindex to be enabled)
-   * 
+   *
    * Or returns the total size of how many address own the given asset
+   * @example
+   * client.assets.listAddressesByAsset({ asset_name: 'FE271D55A604409E8C48' })
    * @param params
    * @param {string}  params.asset_name        Name of asset
    * @param {string=} [params.onlytotal=false] When false result is just a list of addresses with balances -- when true the result is just a single number representing the number of addresses
@@ -146,11 +183,19 @@ export class Assets {
    * @returns {Promise} TODO: Get return type
    */
   async listAddressesByAsset(params: ListAddressesByAsset): Promise<any> {
+    if (!params.count) {
+      params.count = 50000;
+    }
+    if (!params.start) {
+      params.start = 0;
+    }
     return await this._client.request('listaddressesbyasset', params);
   }
 
   /**
    * Transfer a quantity of an owned asset in a specific address to a given address
+   * @example
+   * client.assets.transferFromAddress({ asset_name: 'FE271D55A604409E8C48', from_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ', qty: 1, to_address: 'mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu' })
    * @param params
    * @param {string}  params.asset_name                Name of asset
    * @param {string}  params.from_address              Address that the asset will be transferred from
@@ -170,6 +215,8 @@ export class Assets {
 
   /**
    * Transfer a quantity of an owned asset in specific address(es) to a given address
+   * @example
+   * client.assets.transferFromAddresses({ asset_name: 'FE271D55A604409E8C48', from_addresses: ['mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu'], qty: 1, to_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ' })
    * @param params
    * @param {string}  params.asset_name                Name of asset
    * @param {Array}   params.from_addresses            List of from addresses to send from
@@ -189,6 +236,8 @@ export class Assets {
 
   /**
    * Transfers a quantity of an owned asset to a given address
+   * @example
+   * client.assets.transfer({ asset_name: 'FE271D55A604409E8C48', qty: 1, to_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ' })
    * @param params
    * @param {string}  params.asset_name                Name of asset
    * @param {number}  params.qty                       Number of assets you want to send to the address
@@ -205,10 +254,12 @@ export class Assets {
 
   /**
    * Reissues a quantity of an asset to an owned address if you own the Owner Token.
-   * 
+   *
    * Can change the reissuable flag during reissuance.
-   * 
+   *
    * Can change the ipfs hash during reissuance.
+   * @example
+   * client.assets.reissue({ asset_name: 'FE271D55A604409E8C48', qty: 1, to_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ' })
    * @param params
    * @param {string}   params.asset_name        Name of asset that is being reissued
    * @param {number}   params.qty               Number of assets to reissue
@@ -260,6 +311,8 @@ export class Assets {
 
   /**
    * Transfer a qualifier asset owned by this wallet to the given address
+   * @example
+   * client.assets.transferQualifier({ qualifier_name: '#FE271D55A604409E8C48', qty: 1, to_address: 'mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu' })
    * @param params
    * @param {string}  params.qualifier_name      Name of qualifier asset
    * @param {number}  params.qty                 Number of assets you want to send to the address
@@ -277,11 +330,11 @@ export class Assets {
 
   /**
    * Issue a restricted asset.
-   * 
+   *
    * Restricted asset names must not conflict with any existing restricted asset.
-   * 
+   *
    * Restricted assets have units set to 0.
-   * 
+   *
    * Reissuable is true/false for whether additional asset quantity can be created and if the verifier string can be changed.
    * @param params
    * @param {string}  params.asset_name          unique name, starts with '$', if '$' is not there it will be added automatically
@@ -301,16 +354,18 @@ export class Assets {
 
   /**
    * Issue an qualifier or sub qualifier asset.
-   * 
+   *
    * If the '#' character isn't added, it will be added automatically.
-   * 
+   *
    * Amount is a number between 1 and 10.
-   * 
+   *
    * Asset name must not conflict with any existing asset..
-   * 
+   *
    * Unit is always set to Zero (0) for qualifier assets.
-   * 
+   *
    * Reissuable is always set to false for qualifier assets.
+   * @example
+   * client.assets.issueQualifierAsset({ asset_name: 'FE271D55A604409E8C48', qty: 1, to_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ' })
    * @param params
    * @param {string}  params.asset_name          A unique name
    * @param {string=} [params.qty=1]             The number of units to be issued
@@ -320,13 +375,13 @@ export class Assets {
    * @param {string=} params.ipfs_hash           Required if has_ipfs is true. An ipfs hash or a txid hash once RIP5 is activated
    * @returns {Promise} txid
    */
-  async issueQualifierAsset(params: IssueRestrictedAsset): Promise<string> {
+  async issueQualifierAsset(params: IssueQualifierAsset): Promise<string> {
     return await this._client.request('issuequalifierasset', params);
   }
 
   /**
    * Reissue an already created restricted asset
-   * 
+   *
    * Reissuable is true/false for whether additional asset quantity can be created and if the verifier string can be changed.
    * @param params
    * @param {string}  params.asset_name              A unique name, starts with '$'
