@@ -78,13 +78,13 @@ export class Assets {
 
   /**
    * Issue unique asset(s).
-   * 
+   *
    * root_name must be an asset you own.
-   * 
+   *
    * An asset will be created for each element of asset_tags.
-   * 
+   *
    * If provided ipfs_hashes must be the same length as asset_tags.
-   * 
+   *
    * Five (5) RVN will be burned for each asset created.
    * @example
    * client.assets.issueUnique({ root_name: 'FE271D55A604409E8C48', asset_tags: ['ASSET_ONE', 'ASSET_TWO'] })
