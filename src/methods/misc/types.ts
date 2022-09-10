@@ -27,7 +27,7 @@ export type GetMemoryInfo = {
 
 export type GetMemoryInfoResponse = {
   locked: GetMemoryInfoResponseLocked; // Information about locked memory manager
-}
+};
 
 type GetMemoryInfoResponseLocked = {
   used: number; // Number of bytes used
@@ -36,7 +36,7 @@ type GetMemoryInfoResponseLocked = {
   locked: number; // Amount of bytes that succeeded locking. If this number is smaller than total, locking pages failed at some point and key data could be swapped to disk.
   chunks_used: number; // Number allocated chunks
   chunks_free: number; // Number unused chunks
-}
+};
 
 export type ValidateAddress = {
   address: string;
@@ -59,7 +59,7 @@ export type ValidateAddressResponse = {
   timestamp: number; // The creation time of the key if available in seconds since epoch (Jan 1 1970 GMT)
   hdkeypath?: string; // The HD keypath if the key is HD and available
   hdmasterkeyid?: string; // The Hash160 of the HD master pubkey
-}
+};
 
 export type CreateMultisig = {
   nrequired: number;
@@ -69,7 +69,7 @@ export type CreateMultisig = {
 export type CreateMultisigResponse = {
   address: string; // The value of the new multisig address.
   redeemScript: string; // The string value of the hex-encoded redemption script.
-}
+};
 
 export type VerifyMessage = {
   address: string;
@@ -84,7 +84,7 @@ export type SignMessageWithPrivKey = {
 
 export type SignMessageWithPrivKeyResponse = {
   signature: string; // The signature of the message encoded in base 64
-}
+};
 
 export type GetAddressMempool = {
   addresses: string[]; // Array of base58check encoded address
@@ -100,7 +100,7 @@ export type GetAddressMempoolResponse = {
   timestamp: number; // The time the transaction entered the mempool (seconds)
   prevtxid: string; // The previous txid (if spending)
   prevout: string; // The previous transaction output index (if spending)
-}
+};
 
 export type GetAddressUtxos = {
   addresses: string[];
@@ -132,7 +132,7 @@ export type GetAddressDeltasResponse = {
   index: number; // The related input or output index
   height: number; // The block height
   address: string; // The base58check encoded address
-}
+};
 
 export type GetAddressTxIds = {
   addresses: string[];
@@ -148,11 +148,11 @@ export type GetAddressBalance = {
 export type GetAddressBalanceResponse = {
   balance: string; // The current balance in satoshis
   received: string; // The total number of satoshis received (including change)
-}
+};
 
 export type GetAddressBalanceResponseWithAsset = GetAddressBalanceResponse & {
   assetName: string; // The asset associated with the balance (RVN for Ravencoin)
-}
+};
 
 export type GetSpentInfo = {
   txid: string;
@@ -162,7 +162,7 @@ export type GetSpentInfo = {
 export type GetSpentInfoResponse = {
   txid: string; // The transaction id
   index: number; // The spending input index
-}
+};
 
 export type SetMockTime = {
   timestamp: number;

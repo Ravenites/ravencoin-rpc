@@ -170,9 +170,7 @@ export class Misc {
    */
   async getAddressBalance(
     params: GetAddressBalance
-  ): Promise<
-    GetAddressBalanceResponse | GetAddressBalanceResponseWithAsset[]
-  > {
+  ): Promise<GetAddressBalanceResponse | GetAddressBalanceResponseWithAsset[]> {
     return await this._client.request('getaddressbalance', [params]);
   }
 
