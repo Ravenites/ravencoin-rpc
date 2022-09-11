@@ -1,4 +1,4 @@
-# Ravencoin RPC (Beta)
+# Ravencoin RPC
 
 A client library to connect to Ravencoin Core RPC in JavaScript.
 
@@ -68,14 +68,14 @@ Tested method parameters
 - [ ] unfreezeAddress
 - [ ] freezerestrictedasset
 - [ ] unfreezeRestrictedAsset
-- [ ] listAddressesForTag
-- [ ] listTagsForAddress
-- [ ] listAddressRestrictions
-- [ ] listGlobalRestrictions
+- [x] listAddressesForTag
+- [x] listTagsForAddress
+- [x] listAddressRestrictions
+- [x] listGlobalRestrictions
 - [ ] getVerifierString
-- [ ] checkAddressTag
-- [ ] checkAddressRestriction
-- [ ] checkGlobalRestriction
+- [x] checkAddressTag
+- [x] checkAddressRestriction
+- [x] checkGlobalRestriction
 - [ ] isValidVerifierString
 - [ ] getSnapshot
 - [ ] purgeSnapshot

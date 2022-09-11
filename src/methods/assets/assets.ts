@@ -60,7 +60,7 @@ export class Assets {
    *
    * If issuing a unique asset these values are required (and will be defaulted to): qty=1, units=0, reissuable=false.
    * @example
-   * client.assets.issue({ asset_name: 'FE271D55A604409E8C48 })
+   * client.assets.issue({ asset_name: 'FE271D55A604409E8C48 });
    * @param params
    * @param {string} params.asset_name          A unique name.
    * @param {number=} [params.qty=1]             The number of units to be issued.
@@ -87,7 +87,7 @@ export class Assets {
    *
    * Five (5) RVN will be burned for each asset created.
    * @example
-   * client.assets.issueUnique({ root_name: 'FE271D55A604409E8C48', asset_tags: ['ASSET_ONE', 'ASSET_TWO'] })
+   * client.assets.issueUnique({ root_name: 'FE271D55A604409E8C48', asset_tags: ['ASSET_ONE', 'ASSET_TWO'] });
    * @param params
    * @param {string}  params.root_name           Name of the asset the unique asset(s) are being issued under
    * @param {array}   params.asset_tags          The unique tag for each asset which is to be issued
@@ -103,7 +103,7 @@ export class Assets {
   /**
    * Returns a list of all asset that are owned by this wallet
    * @example
-   * client.assets.listMyAssets()
+   * client.assets.listMyAssets();
    * @param            params
    * @param {string=}  [params.asset='*']     Filters results -- must be an asset name or a partial asset name followed by '*' ('*' matches all trailing characters)
    * @param {boolean=} [params.verbose=false] When false results only contain balances -- when true results include outpoints
@@ -137,7 +137,7 @@ export class Assets {
   /**
    * Returns a list of all asset balances for an address. (requires assetindex to be enabled)
    * @example
-   * client.assets.listAssetBalancesByAddress({ address: 'mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu', onlytotal: true })
+   * client.assets.listAssetBalancesByAddress({ address: 'mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu', onlytotal: true });
    * @param params
    * @param {string}   [params.address]         A raven address
    * @param {boolean=} [params.onlytotal=false] When false result is just a list of assets balances -- when true the result is just a single number representing the number of assets
@@ -160,7 +160,7 @@ export class Assets {
   /**
    * Returns assets metadata if that asset exists
    * @example
-   * client.assets.getAssetData({ asset_name: 'FE271D55A604409E8C48' })
+   * client.assets.getAssetData({ asset_name: 'FE271D55A604409E8C48' });
    * @param params
    * @param {string} params.asset_name The name of the asset
    * @returns {Promise} Asset data
@@ -174,7 +174,7 @@ export class Assets {
    *
    * Or returns the total size of how many address own the given asset
    * @example
-   * client.assets.listAddressesByAsset({ asset_name: 'FE271D55A604409E8C48' })
+   * client.assets.listAddressesByAsset({ asset_name: 'FE271D55A604409E8C48' });
    * @param params
    * @param {string}  params.asset_name        Name of asset
    * @param {string=} [params.onlytotal=false] When false result is just a list of addresses with balances -- when true the result is just a single number representing the number of addresses
@@ -195,7 +195,7 @@ export class Assets {
   /**
    * Transfer a quantity of an owned asset in a specific address to a given address
    * @example
-   * client.assets.transferFromAddress({ asset_name: 'FE271D55A604409E8C48', from_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ', qty: 1, to_address: 'mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu' })
+   * client.assets.transferFromAddress({ asset_name: 'FE271D55A604409E8C48', from_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ', qty: 1, to_address: 'mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu' });
    * @param params
    * @param {string}  params.asset_name                Name of asset
    * @param {string}  params.from_address              Address that the asset will be transferred from
@@ -216,7 +216,7 @@ export class Assets {
   /**
    * Transfer a quantity of an owned asset in specific address(es) to a given address
    * @example
-   * client.assets.transferFromAddresses({ asset_name: 'FE271D55A604409E8C48', from_addresses: ['mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu'], qty: 1, to_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ' })
+   * client.assets.transferFromAddresses({ asset_name: 'FE271D55A604409E8C48', from_addresses: ['mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu'], qty: 1, to_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ' });
    * @param params
    * @param {string}  params.asset_name                Name of asset
    * @param {Array}   params.from_addresses            List of from addresses to send from
@@ -237,7 +237,7 @@ export class Assets {
   /**
    * Transfers a quantity of an owned asset to a given address
    * @example
-   * client.assets.transfer({ asset_name: 'FE271D55A604409E8C48', qty: 1, to_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ' })
+   * client.assets.transfer({ asset_name: 'FE271D55A604409E8C48', qty: 1, to_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ' });
    * @param params
    * @param {string}  params.asset_name                Name of asset
    * @param {number}  params.qty                       Number of assets you want to send to the address
@@ -259,7 +259,7 @@ export class Assets {
    *
    * Can change the ipfs hash during reissuance.
    * @example
-   * client.assets.reissue({ asset_name: 'FE271D55A604409E8C48', qty: 1, to_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ' })
+   * client.assets.reissue({ asset_name: 'FE271D55A604409E8C48', qty: 1, to_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ' });
    * @param params
    * @param {string}   params.asset_name        Name of asset that is being reissued
    * @param {number}   params.qty               Number of assets to reissue
@@ -312,7 +312,7 @@ export class Assets {
   /**
    * Transfer a qualifier asset owned by this wallet to the given address
    * @example
-   * client.assets.transferQualifier({ qualifier_name: '#FE271D55A604409E8C48', qty: 1, to_address: 'mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu' })
+   * client.assets.transferQualifier({ qualifier_name: '#FE271D55A604409E8C48', qty: 1, to_address: 'mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu' });
    * @param params
    * @param {string}  params.qualifier_name      Name of qualifier asset
    * @param {number}  params.qty                 Number of assets you want to send to the address
@@ -365,7 +365,7 @@ export class Assets {
    *
    * Reissuable is always set to false for qualifier assets.
    * @example
-   * client.assets.issueQualifierAsset({ asset_name: 'FE271D55A604409E8C48', qty: 1, to_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ' })
+   * client.assets.issueQualifierAsset({ asset_name: 'FE271D55A604409E8C48', qty: 1, to_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ' });
    * @param params
    * @param {string}  params.asset_name          A unique name
    * @param {string=} [params.qty=1]             The number of units to be issued
@@ -481,6 +481,8 @@ export class Assets {
 
   /**
    * List all addresses that have been assigned a given tag
+   * @example
+   * client.assets.listAddressesForTag({ tag_name: '#ASSET_ONE' });
    * @param params
    * @param {string} params.tag_name The tag asset name to search for
    * @returns {Promise} TODO: Get Address type
@@ -491,6 +493,8 @@ export class Assets {
 
   /**
    * List all tags assigned to an address
+   * @example
+   * client.assets.listTagsForAddress({ address: 'mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu' });
    * @param params
    * @param {string} params.address The address to list tags for
    * @returns {Promise} Array of tag names
@@ -501,6 +505,7 @@ export class Assets {
 
   /**
    * List all assets that have frozen this address
+   * client.assets.listAddressRestrictions({ address: 'mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu' })
    * @param params
    * @param {string} params.address The address to list restrictions for
    * @returns {Promise} Array of asset names
@@ -513,7 +518,9 @@ export class Assets {
 
   /**
    * List all global restricted assets
-   * @returns {Promise} Array of asset names
+   * @example
+   * client.assets.listGlobalRestrictions();
+   * @returns {Promise} Array of asset names;
    */
   async listGlobalRestrictions(): Promise<string[]> {
     return await this._client.request('listglobalrestrictions', {});
@@ -531,6 +538,8 @@ export class Assets {
 
   /**
    * Checks to see if an address has the given tag
+   * @example
+   * client.assets.checkAddressTag({ address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ', tag_name: 'ASSET_ONE' });
    * @param params
    * @param {string} params.address  The RVN address to search
    * @param {string} params.tag_name The tag to search
@@ -542,6 +551,8 @@ export class Assets {
 
   /**
    * Checks to see if an address has been frozen by the given restricted asset
+   * @example
+   * client.assets.checkAddressRestriction({ address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ', restricted_name: 'FE271D55A604409E8C50' });
    * @param params
    * @param {string} params.address         The RVN address to search
    * @param {string} params.restricted_name The restricted asset to search
@@ -555,6 +566,8 @@ export class Assets {
 
   /**
    * Checks to see if a restricted asset is globally frozen
+   * @example
+   * client.assets.checkGlobalRestriction({ restricted_name: 'FE271D55A604409E8C50' });
    * @param params
    * @param {string} params.restricted_name The restricted asset to search
    * @returns {Promise} boolean - If the restricted asset is frozen globally
