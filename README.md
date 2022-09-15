@@ -1,5 +1,7 @@
 # Ravencoin RPC
 
+<a href="https://ravenites.github.io/ravencoin-rpc/Client.html" target="_blank">Documentation Website</a>
+
 A client library to connect to Ravencoin Core RPC in JavaScript.
 
 [![NPM Package](https://img.shields.io/npm/v/@ravenite/ravencoin-rpc.svg?style=flat-square)](https://www.npmjs.org/package/@ravenite/ravencoin-rpc)
