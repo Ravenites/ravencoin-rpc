@@ -305,7 +305,7 @@ export class Assets {
    * Returns an array of a single cache object
    * @returns {Promise}
    */
-  async getCacheInfo(): Promise<[GetCacheInfoResponse]> {
+  async getCacheInfo(): Promise<GetCacheInfoResponse[]> {
     return await this._client.request('getcacheinfo');
   }
 

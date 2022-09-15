@@ -125,15 +125,15 @@ Tested method parameters
 
 #### Mining
 
-- [ ] getNetworkHashPs
-- [ ] getMiningInfo
-- [ ] prioritiseTransaction
-- [ ] getBlockTemplate
+- [x] getNetworkHashPs
+- [x] getMiningInfo
+- [x] prioritiseTransaction
+- [x] getBlockTemplate
 - [ ] submitBlock
 - [ ] pprpcsb
 - [ ] getKawpowHash
-- [ ] getGenerate
-- [ ] setGenerate
+- [x] getGenerate
+- [x] setGenerate
 - [ ] generateToAddress
 - [ ] estimateFee
 - [ ] estimateSmartFee

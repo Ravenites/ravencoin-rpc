@@ -1,67 +1,105 @@
+/** GetRawTransaction */
 export type GetRawTransaction = {
   txid: string;
   verbose?: boolean;
 };
 
+/** GetRawTransactionResponse */
 export type GetRawTransactionResponse = {
-  hex: string; // The serialized, hex-encoded data for 'txid'
-  txid: string; // The transaction id (same as provided)
-  hash: string; // The transaction hash (differs from txid for witness transactions)
-  size: number; // The serialized transaction size
-  vsize: number; // The virtual transaction size (differs from size for witness transactions)
-  version: number; // The version
-  locktime: number; // The lock time
+  /** The serialized, hex-encoded data for 'txid' */
+  hex: string;
+  /** The transaction id (same as provided) */
+  txid: string;
+  /** The transaction hash (differs from txid for witness transactions) */
+  hash: string;
+  /** The serialized transaction size */
+  size: number;
+  /** The virtual transaction size (differs from size for witness transactions) */
+  vsize: number;
+  /** The version */
+  version: number;
+  /** The lock time */
+  locktime: number;
   vin: GetRawTransactionVin;
   vout: GetRawTransactionVout;
-  blockhash: string; // The block hash
-  confirmations: number; // The confirmations
-  time: number; // The transaction time in seconds since epoch (Jan 1 1970 GMT)
-  blocktime: number; // The block time in seconds since epoch (Jan 1 1970 GMT)
+  /** The block hash */
+  blockhash: string;
+  /** The confirmations */
+  confirmations: number;
+  /** The transaction time in seconds since epoch (Jan 1 1970 GMT) */
+  time: number;
+  /** The block time in seconds since epoch (Jan 1 1970 GMT) */
+  blocktime: number;
 };
 
+/** GetRawTransactionVin */
 type GetRawTransactionVin = {
-  txid: string; // The transaction id
+  /** The transaction id */
+  txid: string;
   vout: number;
   scriptSig: VinScriptSig;
-  sequence: number; // The script sequence number
-  txinwitness: string[]; // hex-encoded witness data (if any)
+  /** The script sequence number */
+  sequence: number;
+  /** hex-encoded witness data (if any) */
+  txinwitness: string[];
 };
 
+/** VinScriptSig */
 type VinScriptSig = {
-  asm: string; // the asm
-  hex: string; // the hex
+  /** the asm */
+  asm: string;
+  /** the hex */
+  hex: string;
 };
 
+/** GetRawTransactionVout */
 type GetRawTransactionVout = {
-  value: number; // The value in " + CURRENCY_UNIT + "
-  n: number; // index
+  /** The value in " + CURRENCY_UNIT + " */
+  value: number;
+  /** index */
+  n: number;
   scriptPubKey: VoutScriptPubKey;
 };
 
+/** VoutScriptPubKey */
 type VoutScriptPubKey = {
-  asm: string; // the asm
-  hex: string; // the hex
-  reqSigs: number; // The required sigs
-  type: string; // The type, eg 'pubkeyhash'
-  addresses: string; // json array of address strings
+  /** the asm */
+  asm: string;
+  /** the hex */
+  hex: string;
+  /** The required sigs */
+  reqSigs: number;
+  /** The type, eg 'pubkeyhash' */
+  type: string;
+  /** json array of address strings */
+  addresses: string;
 };
 
+/** CreateRawTransaction */
 export type CreateRawTransaction = {
   inputs: Input[];
   outputs: Outputs;
-  locktime?: number; // Default = 0. Raw locktime. Non-0 value also locktime-activates inputs
+  /** Default = 0. Raw locktime. Non-0 value also locktime-activates inputs */
+  locktime?: number;
 };
 
+/** Input */
 type Input = {
-  txid: string; // The transaction id
-  vout: number; // The output number
-  sequence?: number; // The sequence number
+  /** The transaction id */
+  txid: string;
+  /** The output number */
+  vout: number;
+  /** The sequence number */
+  sequence?: number;
 };
 
+/** Outputs */
 type Outputs = {
-  // The destination raven address. Each output must have a different address.
-  // The RVN amount
-  // e.g. key => 'mjaX9GvK94RuHDHNBnhnyGGKXK1WKjq2Vs': 0.001
+  /** 
+   * The destination raven address. Each output must have a different address.
+   * The RVN amount
+   * e.g. key => 'mjaX9GvK94RuHDHNBnhnyGGKXK1WKjq2Vs': 0.001
+   */
   [key: string]: any;
   transfer?: OutputTransfer;
   transferwithmessage?: OutputTransferWithMessage;
@@ -77,271 +115,458 @@ type Outputs = {
   unfreeze_addresses?: OutputUnfreezeAddresses;
   freeze_asset?: OutputFreezeAsset;
   unfreeze_asset?: OutputUnfreezeAsset;
-  data?: string; // Hex encoded data
+  /** Hex encoded data */
+  data?: string;
 };
 
-// A json object of assets to send
-// The key is the asset name
-// The value is the number of raw units to transfer
-// e.g. key => '#ABC': 10
+/**
+ * @title OutputTransfer
+ * A json object of assets to send
+ * The key is the asset name
+ * The value is the number of raw units to transfer
+ * e.g. key => '#ABC': 10
+ */
 type OutputTransfer = {
   [key: string]: string | number;
 };
 
-// A json object of describing the transfer and message contents to send
+/**
+ * OutputTransferWithMessage
+ * A json object of describing the transfer and message contents to send
+ */
 type OutputTransferWithMessage = OutputTransfer & {
-  message: string; // ipfs hash or a txid hash
-  expire_time: number; // utc time in seconds to expire the message
+  /** ipfs hash or a txid hash */
+  message: string;
+  /** utc time in seconds to expire the message */
+  expire_time: number;
 };
 
-// A json object describing new assets to issue
+/**
+ * @title OutputIssue
+ * A json object describing new assets to issue
+ */
 type OutputIssue = {
-  asset_name: string; // New asset name
-  asset_quantity: number; // The number of raw units to issue
-  units: number; // Display units, between 1 (integral) to 8 (max precision)
-  reissuable: number; // [0-1] 1=reissuable asset
-  has_ipfs: number; // [0-1] 1=passing ipfs_hash
-  ipfs_hash?: string; // An ipfs hash for discovering asset metadata
+  /** New asset name */
+  asset_name: string;
+  /** The number of raw units to issue */
+  asset_quantity: number;
+  /** Display units, between 1 (integral) to 8 (max precision) */
+  units: number;
+  /** [0-1] 1=reissuable asset */
+  reissuable: number;
+  /** [0-1] 1=passing ipfs_hash */
+  has_ipfs: number;
+  /** An ipfs hash for discovering asset metadata */
+  ipfs_hash?: string;
 };
 
-// A json object describing new unique assets to issue
+/**
+ * OutputIssueUnique
+ * A json object describing new unique assets to issue
+ */
 type OutputIssueUnique = {
-  root_name: string; // Name of the asset the unique asset(s)
-  asset_tags: string[]; // The unique tag for each asset which is to be issued.
-  ipfs_hashes?: string[]; // Ipfs hashes corresponding to each supplied tag. Should be same size as asset_tags.
+  /** Name of the asset the unique asset(s) */
+  root_name: string;
+  /** The unique tag for each asset which is to be issued. */
+  asset_tags: string[];
+  /** Ipfs hashes corresponding to each supplied tag. Should be same size as asset_tags. */
+  ipfs_hashes?: string[];
 };
 
-// A json object describing follow-on asset issue
+/**
+ * OutputReissue
+ * A json object describing follow-on asset issue
+ */
 type OutputReissue = {
-  asset_name: string; // Name of asset to be reissued
-  asset_quantity: number; // The number of raw units to issue
-  reissuable?: number; // [0-1] Default is 1, 1=reissuable asset
-  ipfs_hash?: string; // An ipfs hash for discovering asset metadata. Overrides the current ipfs hash if given
-  owner_change_address?: string; // The address where the owner token will be sent to. If not given, it will be sent to the output address.
+  /** Name of asset to be reissued */
+  asset_name: string;
+  /** The number of raw units to issue */
+  asset_quantity: number;
+  /** [0-1] Default is 1, 1=reissuable asset */
+  reissuable?: number;
+  /** An ipfs hash for discovering asset metadata. Overrides the current ipfs hash if given */
+  ipfs_hash?: string;
+  /** The address where the owner token will be sent to. If not given, it will be sent to the output address. */
+  owner_change_address?: string;
 };
 
-// A json object describing how restricted asset to issue
+/**
+ * OutputIssueRestricted
+ * A json object describing how restricted asset to issue
+ */
 type OutputIssueRestricted = {
-  asset_name: string; // New asset name
-  asset_quantity: number; // The number of raw units to issue
-  verifier_string: string; // The verifier string to be used for a restricted asset transfer verification
-  units: number; // [0-8] Display units, between 0 (integral) and 8 (max precision)
-  reissuable: number; // [0-1] 1=reissuable asset
-  has_ipfs: number; // [0-1] 1=passing ipfs_hash
-  ipfs_hash?: string; // An ipfs hash for discovering asset metadata
-  owner_change_address?: string; // The address where the owner token will be sent to. If not given, it will be sent to the output address.
+  /** New asset name */
+  asset_name: string;
+  /** The number of raw units to issue */
+  asset_quantity: number;
+  /** The verifier string to be used for a restricted asset transfer verification */
+  verifier_string: string;
+  /** [0-8] Display units, between 0 (integral) and 8 (max precision) */
+  units: number;
+  /** [0-1] 1=reissuable asset */
+  reissuable: number;
+  /** [0-1] 1=passing ipfs_hash */
+  has_ipfs: number;
+  /** An ipfs hash for discovering asset metadata */
+  ipfs_hash?: string;
+  /** The address where the owner token will be sent to. If not given, it will be sent to the output address. */
+  owner_change_address?: string;
 };
 
-// A json object describing follow-on asset issue
+/**
+ * OutputReissueRestricted
+ * A json object describing follow-on asset issue
+ */
 type OutputReissueRestricted = {
-  asset_name: string; // Name of asset to be reissued
-  asset_quantity: number; // The number of raw units to issue
-  reissuable?: number; // [0-1] Default is 1, 1=reissuable asset
-  verifier_string?: string; // The verifier string to be used for a restricted asset transfer verification
-  ipfs_hash?: string; // An ipfs hash for discovering asset metadata. Overrides the current ipfs hash if given
-  owner_change_address?: string; // The address where the owner token will be sent to. If not given, it will be sent to the output address
+  /** Name of asset to be reissued */
+  asset_name: string;
+  /** The number of raw units to issue */
+  asset_quantity: number;
+  /** [0-1] Default is 1, 1=reissuable asset */
+  reissuable?: number;
+  /** The verifier string to be used for a restricted asset transfer verification */
+  verifier_string?: string;
+  /** An ipfs hash for discovering asset metadata. Overrides the current ipfs hash if given */
+  ipfs_hash?: string;
+  /** The address where the owner token will be sent to. If not given, it will be sent to the output address */
+  owner_change_address?: string;
 };
 
-// A json object describing a new qualifier to issue.
+/**
+ * OutputIssueQualifier
+ * A json object describing a new qualifier to issue.
+ */
 type OutputIssueQualifier = {
-  asset_name: string; // A qualifier name (starts with '#')
-  asset_quantity?: number; // Default = 1. The number of units to be issued (1 to 10)
-  has_ipfs?: boolean; // Default = false. Whether ifps hash is going to be added to the asset
-  ipfs_hash?: string; // Optional but required if has_ipfs = 1. An ipfs hash or a txid hash once RIP5 is activated
-  root_change_address?: string; // Only applies when issuing subqualifiers. The address where the root qualifier will be sent. If not specified, it will be sent to the output address.
-  change_quantity?: number; // Default = 1. The asset change amount
+  /** A qualifier name (starts with '#') */
+  asset_name: string;
+  /** Default = 1. The number of units to be issued (1 to 10) */
+  asset_quantity?: number;
+  /** Default = false. Whether ifps hash is going to be added to the asset */
+  has_ipfs?: boolean;
+  /** Optional but required if has_ipfs = 1. An ipfs hash or a txid hash once RIP5 is activated */
+  ipfs_hash?: string;
+  /** Only applies when issuing subqualifiers. The address where the root qualifier will be sent. If not specified, it will be sent to the output address. */
+  root_change_address?: string;
+  /** Default = 1. The asset change amount */
+  change_quantity?: number;
 };
 
-// A json object describing addresses to be tagged. The address in the key will used as the asset change address.
+/**
+ * OutputTagAddresses
+ * A json object describing addresses to be tagged. The address in the key will used as the asset change address.
+ */
 type OutputTagAddresses = {
-  qualifier: string; // A qualifier name (starts with '#')
-  addresses: string[]; // The addresses to be tagged (up to 10)
-  change_quantity?: number; // Defaut = 1. The asset change amount
+  /** A qualifier name (starts with '#') */
+  qualifier: string;
+  /** The addresses to be tagged (up to 10) */
+  addresses: string[];
+  /** Defaut = 1. The asset change amount */
+  change_quantity?: number;
 };
 
-// A json object describing addresses to be untagged. The address in the key will be used as the asset change address.
+/**
+ * OutputUntagAddresses
+ * A json object describing addresses to be untagged. The address in the key will be used as the asset change address.
+ */
 type OutputUntagAddresses = {
-  qualifier: string; // A qualifier name (starts with '#')
-  addresses: string[]; // The addresses to be untagged (up to 10)
-  change_quantity?: number; // Defaut = 1. The asset change amount
+  /** A qualifier name (starts with '#') */
+  qualifier: string;
+  /** The addresses to be untagged (up to 10) */
+  addresses: string[];
+  /** Defaut = 1. The asset change amount */
+  change_quantity?: number;
 };
 
-// A json object describing addresses to be frozen. The address in the key will used as the owner change address.
+/**
+ * OutputFreezeAddresses
+ * A json object describing addresses to be frozen. The address in the key will used as the owner change address.
+ */
 type OutputFreezeAddresses = {
-  asset_name: string; // A restricted asset name (starts with '$')
-  addresses: string[]; // The addresses to be frozen (up to 10)
+  /** A restricted asset name (starts with '$') */
+  asset_name: string;
+  /** The addresses to be frozen (up to 10) */
+  addresses: string[];
 };
 
-// A json object describing addresses to be frozen. The address in the key will be used as the owner change address
+/**
+ * OutputUnfreezeAddresses
+ * A json object describing addresses to be frozen. The address in the key will be used as the owner change address
+ */
 type OutputUnfreezeAddresses = {
-  asset_name: string; // A restricted asset name (starts with '$')
-  addresses: string[]; // The addresses to be unfrozen (up to 10)
+  /** A restricted asset name (starts with '$') */
+  asset_name: string;
+  /** The addresses to be unfrozen (up to 10) */
+  addresses: string[];
 };
 
-// A json object describing an asset to be frozen. The address in the key will used as the owner change address.
+/**
+ * OutputFreezeAsset
+ * A json object describing an asset to be frozen. The address in the key will used as the owner change address.
+ */
 type OutputFreezeAsset = {
-  asset_name: string; // A restricted asset name (starts with '$')
+  /** A restricted asset name (starts with '$') */
+  asset_name: string;
 };
 
-// A json object describing an asset to be frozen. The address in the key will be used as the owner change address.
+/**
+ * @title OutputUnfreezeAsset
+ * A json object describing an asset to be frozen. The address in the key will be used as the owner change address.
+ */
 type OutputUnfreezeAsset = {
-  asset_name: string; // A restricted asset name (starts with '$')
+  /** A restricted asset name (starts with '$') */
+  asset_name: string;
 };
 
+/** DecodeRawTransaction */
 export type DecodeRawTransaction = {
   hexstring: string;
 };
 
+/** DecodeRawTransactionResponse */
 export type DecodeRawTransactionResponse = {
-  txi: string; // The transaction id
-  has: string; // The transaction hash (differs from txid for witness transactions)
-  size: number; // The transaction size
-  vsize: number; // The virtual transaction size (differs from size for witness transactions)
-  version: number; // The version
-  locktime: number; // The lock time
+  /** The transaction id */
+  txi: string;
+  /** The transaction hash (differs from txid for witness transactions) */
+  has: string;
+  /** The transaction size */
+  size: number;
+  /** The virtual transaction size (differs from size for witness transactions) */
+  vsize: number;
+  /** The version */
+  version: number;
+  /** The lock time */
+  locktime: number;
   vin: DecodeRawTransactionVin[];
   vout: DecodeRawTransactionVout[];
 };
 
+/** DecodeRawTransactionVin */
 type DecodeRawTransactionVin = {
-  txid: string; // The transaction id
-  vout: number; // The output number
+  /** The transaction id */
+  txid: string;
+  /** The output number */
+  vout: number;
   scriptSig: RawTransactionScriptSig;
-  txinwitness?: string[]; // hex-encoded witness data (if any)
-  sequence: number; // The script sequence number
+  /** hex-encoded witness data (if any) */
+  txinwitness?: string[];
+  /** The script sequence number */
+  sequence: number;
 };
 
+/** RawTransactionScriptSig */
 type RawTransactionScriptSig = {
   asm: string;
   hex: string;
 };
 
+/** DecodeRawTransactionVout */
 type DecodeRawTransactionVout = {
-  value: number; // The value in " + CURRENCY_UNIT + "
-  n: number; // Index
+  /** The value in " + CURRENCY_UNIT + " */
+  value: number;
+  /** Index */
+  n: number;
   scriptPubKey: DecodeRawTransactionVoutScriptPubKey;
 };
 
+/** DecodeRawTransactionVoutScriptPubKey */
 type DecodeRawTransactionVoutScriptPubKey = {
   asm: string;
   hex: string;
-  regSigs: number; // The required sigs
-  type: string; // The type, eg 'pubkeyhash'
+  /** The required sigs */
+  regSigs: number;
+  /** The type, eg 'pubkeyhash' */
+  type: string;
   asset?: DecodeRawTransactionVoutScriptPubKeyAsset;
   addresses: string[];
 };
 
+/** DecodeRawTransactionVoutScriptPubKeyAsset */
 type DecodeRawTransactionVoutScriptPubKeyAsset = {
-  name: string; // The asset name
-  amount: number; // The amount of asset that was sent
-  message?: string; // The message if one was sent
-  expire_time?: number; // The message epoch expiration time if one was set
+  /** The asset name */
+  name: string;
+  /** The amount of asset that was sent */
+  amount: number;
+  /** The message if one was sent */
+  message?: string;
+  /** The message epoch expiration time if one was set */
+  expire_time?: number;
 };
 
+/** DecodeScript */
 export type DecodeScript = {
   hexstring: string;
 };
 
+/** DecodeScriptResponse */
 export type DecodeScriptResponse = {
-  asm: string; // Script public key
-  hex: string; // Hex encoded public key
-  type: string; // The output type
+  /** Script public key */
+  asm: string;
+  /** Hex encoded public key */
+  hex: string;
+  /** The output type */
+  type: string;
   asset: DecodeScriptResponseAsset;
   addresses: string[];
-  p2sh: string; // Address of P2SH script wrapping this redeem script (not returned if the script is already a P2SH).
-  // The following only appears if the script is an asset script
-  asset_name?: string; // Name of the asset.
-  amount?: number; // The amount of assets interacted with.
-  units?: number; // The units of the asset. (Only appears in the type (new_asset))
-  reissuable?: boolean; // If this asset is reissuable. (Only appears in type (new_asset|reissue_asset))
-  hasIPFS?: boolean; // If this asset has an IPFS hash. (Only appears in type (new_asset if hasIPFS is true))
-  ipfs_hash?: string; // The ipfs hash for the new asset. (Only appears in type (new_asset))
-  new_ipfs_hash?: string; // If new ipfs hash (Only appears in type. (reissue_asset))
+  /**
+   * Address of P2SH script wrapping this redeem script (not returned if the script is already a P2SH).
+   * The following only appears if the script is an asset script
+   */
+  p2sh: string;
+  /** Name of the asset. */
+  asset_name?: string;
+  /** The amount of assets interacted with. */
+  amount?: number;
+  /** (new_asset */
+  /** The units of the asset. (Only appears in the type (new_asset)) */
+  units?: number;
+  /** (new_asset */
+  /** If this asset is reissuable. (Only appears in type (new_asset|reissue_asset)) */
+  reissuable?: boolean;
+  /** (new_asset */
+  /** If this asset has an IPFS hash. (Only appears in type (new_asset if hasIPFS is true)) */
+  hasIPFS?: boolean;
+  /** (new_asset */
+  /** The ipfs hash for the new asset. (Only appears in type (new_asset)) */
+  ipfs_hash?: string;
+  /** If new ipfs hash (Only appears in type. (reissue_asset)) */
+  new_ipfs_hash?: string;
 };
 
+/** DecodeScriptResponseAsset */
 type DecodeScriptResponseAsset = {
-  name: string; // The asset name
-  amount: number; // The amount of asset that was sent
-  message?: string; // The message if one was sent
-  expire_time?: number; // The message epoch expiration time if one was set
+  /** The asset name */
+  name: string;
+  /** The amount of asset that was sent */
+  amount: number;
+  /** The message if one was sent */
+  message?: string;
+  /** The message epoch expiration time if one was set */
+  expire_time?: number;
 };
 
+/** SendRawTransaction */
 export type SendRawTransaction = {
   hexstring: string;
   allowhighfees?: boolean;
 };
 
+/** CombineRawTransaction */
 export type CombineRawTransaction = {
-  txs: CombineRawTransactionHexstring[]; // A json array of hex strings of partially signed transactions
+  /** A json array of hex strings of partially signed transactions */
+  txs: CombineRawTransactionHexstring[];
 };
 
-type CombineRawTransactionHexstring = string; // A transaction hash
+/** CombineRawTransactionHexstring */
+/** A transaction hash */
+type CombineRawTransactionHexstring = string;
 
+/** SignRawTransaction */
 export type SignRawTransaction = {
-  hexstring: string; // The transaction hex string
-  // An array of previous dependent transaction outputs
-  prevtxs?: SignRawTransactionPrevTxs[]; // Array of json objects, or 'null' if none provided
-  // A json array of base58-encoded private keys for signing
-  privkeys?: string[]; // Array of strings, or 'null' if none provided. Private key in base58-encoding
+  /**
+   * The transaction hex string
+   * An array of previous dependent transaction outputs
+   */
+  hexstring: string;
+  /**
+   * Array of json objects, or 'null' if none provided
+   * A json array of base58-encoded private keys for signing
+   */
+  prevtxs?: SignRawTransactionPrevTxs[];
+  /** Array of strings, or 'null' if none provided. Private key in base58-encoding */
+  privkeys?: string[];
   sighashtype?:
     | 'ALL'
     | 'NONE'
     | 'SINGLE'
     | 'ALL|ANYONECANPAY'
     | 'NONE|ANYONECANPAY'
-    | 'SINGLE|ANYONECANPAY'; // Default = ALL. The signature hash type
+    /** Default = ALL. The signature hash type */
+    | 'SINGLE|ANYONECANPAY';
 };
 
+/** SignRawTransactionPrevTxs */
 export type SignRawTransactionPrevTxs = {
-  txid: string; // The transaction id
-  vout: number; // The output number
-  scriptPubKey: string; // Script key
-  redeemScript: string; // Redeem script. Required for P2SH or P2WSH.
-  amount: number; // The amount spent
+  /** The transaction id */
+  txid: string;
+  /** The output number */
+  vout: number;
+  /** Script key */
+  scriptPubKey: string;
+  /** Redeem script. Required for P2SH or P2WSH. */
+  redeemScript: string;
+  /** The amount spent */
+  amount: number;
 };
 
+/** SignRawTransactionResponse */
 export type SignRawTransactionResponse = {
-  hex: string; // The hex-encoded raw transaction with signature(s)
-  complete: boolean; // If the transaction has a complete set of signatures
-  // Script verification errors (if there are any)
+  /** The hex-encoded raw transaction with signature(s) */
+  hex: string;
+  /**
+   * If the transaction has a complete set of signatures
+   * Script verification errors (if there are any)
+   */
+  complete: boolean;
   errors?: SignRawTransactionErrors[];
 };
 
+/** SignRawTransactionErrors */
 export type SignRawTransactionErrors = {
-  txid: string; // The hash of the referenced, previous transaction
-  vout: number; // The index of the output to spent and used as input
-  scriptSig: string; // The hex-encoded signature script
-  sequence: number; // Script sequence number
-  error: string; // Verification or signing error related to the input
+  /** The hash of the referenced, previous transaction */
+  txid: string;
+  /** The index of the output to spent and used as input */
+  vout: number;
+  /** The hex-encoded signature script */
+  scriptSig: string;
+  /** Script sequence number */
+  sequence: number;
+  /** Verification or signing error related to the input */
+  error: string;
 };
 
+/** TestMempoolAccept */
 export type TestMempoolAccept = {
-  rawtxs: string[]; // An array of hex strings of raw transactions. Length must be one for now.
-  allowhighfees?: boolean; // Default = false. Allow high fees.
+  /** An array of hex strings of raw transactions. Length must be one for now. */
+  rawtxs: string[];
+  /** Default = false. Allow high fees. */
+  allowhighfees?: boolean;
 };
 
+/** TestMempoolAcceptResponse */
 export type TestMempoolAcceptResponse = AcceptanceTest[];
 
+/** AcceptanceTest */
 export type AcceptanceTest = {
-  txid: string; // The transaction hash in hex
-  allowed: boolean; // If the mempool allows this tx to be inserted
-  'reject-reason': string; // Rejection string (only present when 'allowed' is false)
+  /** The transaction hash in hex */
+  txid: string;
+  /** If the mempool allows this tx to be inserted */
+  allowed: boolean;
+  /** Rejection string (only present when 'allowed' is false) */
+  'reject-reason': string;
 };
 
+/** GetTxOutProof */
 export type GetTxOutProof = {
-  // An array of txids to filter
-  txids: string[]; // A transaction hash
-  blockhash?: string; // If specified, looks for txid in the block with this hash
+  /**
+   * An array of txids to filter
+   * A transaction hash
+   */
+  txids: string[];
+  /** If specified, looks for txid in the block with this hash */
+  blockhash?: string;
 };
 
+/** GetTxOutProofResponse */
 export type GetTxOutProofResponse = {
   data: string;
 };
 
+/** VerifyTxOutProof */
 export type VerifyTxOutProof = {
   proof: string;
 };
 
+/** VerifyTxOutProofResponse */
 export type VerifyTxOutProofResponse = {
   txid: string[];
 };
