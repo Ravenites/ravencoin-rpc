@@ -79,7 +79,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Client</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Client</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li><li><a href="Wallet.html">Wallet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
                 
             </nav>
         </div>
@@ -244,7 +244,7 @@
         
         <span class="code-name">
             
-                combineRawTransaction<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise}</span>
+                combineRawTransaction<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span>
             
         </span>
     </h4>
@@ -414,7 +414,7 @@
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise</code>
+<code class="param-type">Promise.&lt;string></code>
 
 
     </div>
@@ -443,7 +443,7 @@
         
         <span class="code-name">
             
-                createRawTransaction<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise}</span>
+                createRawTransaction<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span>
             
         </span>
     </h4>
@@ -775,7 +775,7 @@ Assets For Authorization: These operations require a specific asset input for au
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise</code>
+<code class="param-type">Promise.&lt;string></code>
 
 
     </div>
@@ -804,7 +804,7 @@ Assets For Authorization: These operations require a specific asset input for au
         
         <span class="code-name">
             
-                decodeRawTransaction<span class="signature">(params, hexstring)</span><span class="type-signature"> &rarr; {Promise}</span>
+                decodeRawTransaction<span class="signature">(params, hexstring)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="global.html#DecodeRawTransactionResponse">DecodeRawTransactionResponse</a>>}</span>
             
         </span>
     </h4>
@@ -972,7 +972,7 @@ Assets For Authorization: These operations require a specific asset input for au
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise</code>
+<code class="param-type">Promise.&lt;<a href="global.html#DecodeRawTransactionResponse">DecodeRawTransactionResponse</a>></code>
 
 
     </div>
@@ -1001,7 +1001,7 @@ Assets For Authorization: These operations require a specific asset input for au
         
         <span class="code-name">
             
-                decodeScript<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise}</span>
+                decodeScript<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="global.html#DecodeScriptResponse">DecodeScriptResponse</a>>}</span>
             
         </span>
     </h4>
@@ -1168,7 +1168,7 @@ Assets For Authorization: These operations require a specific asset input for au
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise</code>
+<code class="param-type">Promise.&lt;<a href="global.html#DecodeScriptResponse">DecodeScriptResponse</a>></code>
 
 
     </div>
@@ -1197,7 +1197,7 @@ Assets For Authorization: These operations require a specific asset input for au
         
         <span class="code-name">
             
-                getRawTransaction<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise}</span>
+                getRawTransaction<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise.&lt;(string|<a href="global.html#GetRawTransactionResponse">GetRawTransactionResponse</a>)>}</span>
             
         </span>
     </h4>
@@ -1439,7 +1439,7 @@ If verbose is 'false' or omitted, returns a string that is serialized, hex-encod
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise</code>
+<code class="param-type">Promise.&lt;(string|<a href="global.html#GetRawTransactionResponse">GetRawTransactionResponse</a>)></code>
 
 
     </div>
@@ -1468,7 +1468,7 @@ If verbose is 'false' or omitted, returns a string that is serialized, hex-encod
         
         <span class="code-name">
             
-                getTxOutProof<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise}</span>
+                getTxOutProof<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="global.html#GetTxOutProofResponse">GetTxOutProofResponse</a>>}</span>
             
         </span>
     </h4>
@@ -1689,7 +1689,7 @@ If verbose is 'false' or omitted, returns a string that is serialized, hex-encod
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise</code>
+<code class="param-type">Promise.&lt;<a href="global.html#GetTxOutProofResponse">GetTxOutProofResponse</a>></code>
 
 
     </div>
@@ -1718,7 +1718,7 @@ If verbose is 'false' or omitted, returns a string that is serialized, hex-encod
         
         <span class="code-name">
             
-                sendRawTransaction<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise}</span>
+                sendRawTransaction<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise.&lt;string>}</span>
             
         </span>
     </h4>
@@ -1955,7 +1955,7 @@ If verbose is 'false' or omitted, returns a string that is serialized, hex-encod
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise</code>
+<code class="param-type">Promise.&lt;string></code>
 
 
     </div>
@@ -1984,7 +1984,7 @@ If verbose is 'false' or omitted, returns a string that is serialized, hex-encod
         
         <span class="code-name">
             
-                signRawTransaction<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise}</span>
+                signRawTransaction<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="global.html#SignRawTransactionResponse">SignRawTransactionResponse</a>>}</span>
             
         </span>
     </h4>
@@ -2270,7 +2270,7 @@ If verbose is 'false' or omitted, returns a string that is serialized, hex-encod
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise</code>
+<code class="param-type">Promise.&lt;<a href="global.html#SignRawTransactionResponse">SignRawTransactionResponse</a>></code>
 
 
     </div>
@@ -2299,7 +2299,7 @@ If verbose is 'false' or omitted, returns a string that is serialized, hex-encod
         
         <span class="code-name">
             
-                testMempoolAccept<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise}</span>
+                testMempoolAccept<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise.&lt;TestMempoolAcceptResponse>}</span>
             
         </span>
     </h4>
@@ -2539,7 +2539,7 @@ If verbose is 'false' or omitted, returns a string that is serialized, hex-encod
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise</code>
+<code class="param-type">Promise.&lt;TestMempoolAcceptResponse></code>
 
 
     </div>
@@ -2568,7 +2568,7 @@ If verbose is 'false' or omitted, returns a string that is serialized, hex-encod
         
         <span class="code-name">
             
-                verifyTxOutProof<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise}</span>
+                verifyTxOutProof<span class="signature">(params)</span><span class="type-signature"> &rarr; {Promise.&lt;<a href="global.html#VerifyTxOutProofResponse">VerifyTxOutProofResponse</a>>}</span>
             
         </span>
     </h4>
@@ -2737,7 +2737,7 @@ If verbose is 'false' or omitted, returns a string that is serialized, hex-encod
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise</code>
+<code class="param-type">Promise.&lt;<a href="global.html#VerifyTxOutProofResponse">VerifyTxOutProofResponse</a>></code>
 
 
     </div>

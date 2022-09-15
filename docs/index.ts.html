@@ -81,7 +81,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Client</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Client</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li><li><a href="Wallet.html">Wallet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
                 
             </nav>
         </div>
@@ -111,6 +111,7 @@ import {
   Net,
   RawTransactions,
   Rewards,
+  Wallet,
 } from './methods';
 import { Config, IClient, Options } from './types';
 import axios from 'axios';
@@ -154,6 +155,8 @@ export default class Client implements IClient {
   public rawTransactions: RawTransactions;
   /** @type {Rewards} */
   public rewards: Rewards;
+  /** @type {Wallet} */
+  public wallet: Wallet;
   protected _url: string;
   protected _options: Options;
 
@@ -180,6 +183,7 @@ export default class Client implements IClient {
     this.net = new Net(this);
     this.rawTransactions = new RawTransactions(this);
     this.rewards = new Rewards(this);
+    this.wallet = new Wallet(this);
   }
 
   /**

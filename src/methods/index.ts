@@ -6,3 +6,4 @@ export * from './misc';
 export * from './net';
 export * from './raw-transactions';
 export * from './rewards';
+export * from './wallet';

@@ -11,6 +11,7 @@ import {
   Net,
   RawTransactions,
   Rewards,
+  Wallet,
 } from './methods';
 import { Config, IClient, Options } from './types';
 import axios from 'axios';
@@ -54,6 +55,8 @@ export default class Client implements IClient {
   public rawTransactions: RawTransactions;
   /** @type {Rewards} */
   public rewards: Rewards;
+  /** @type {Wallet} */
+  public wallet: Wallet;
   protected _url: string;
   protected _options: Options;
 
@@ -80,6 +83,7 @@ export default class Client implements IClient {
     this.net = new Net(this);
     this.rawTransactions = new RawTransactions(this);
     this.rewards = new Rewards(this);
+    this.wallet = new Wallet(this);
   }
 
   /**

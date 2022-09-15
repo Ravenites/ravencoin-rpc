@@ -35,12 +35,14 @@ export class Mining {
    * Pass in [blocks] to override # of blocks, -1 specifies since last difficulty change.
    *
    * Pass in [height] to estimate the network speed at the time when a certain block was found.
+   * @example
+   * client.mining.getNetworkHashPs()
    * @param params
    * @param {number=} [params.nblocks=120] The number of blocks, or -1 for blocks since last difficulty change.
    * @param {number=} [params.height=1] To estimate at the time of the given height.
    * @returns {Promise} Hashes per second estimated
    */
-  async getNetworkHashPs(params: GetNetworkHashPs): Promise<number> {
+  async getNetworkHashPs(params?: GetNetworkHashPs): Promise<number> {
     params = params || {};
     params.nblocks = params.nblocks ?? 120;
     params.height = params.height ?? 1;
@@ -49,6 +51,8 @@ export class Mining {
 
   /**
    * Returns a json object containing mining-related information.
+   * @example
+   * client.mining.getMiningInfo()
    * @returns {Promise}
    */
   async getMiningInfo(): Promise<GetMiningInfoResponse> {
@@ -57,6 +61,8 @@ export class Mining {
 
   /**
    * Accepts the transaction into mined blocks at a higher (or lower) priority
+   * @example
+   * client.mining.prioritiseTransaction({ txid: 'e71417299f383b4e1ec54b95ed803bf038330fc01019b4ac74b0be1e5060ac08', fee_delta: 100000 })
    * @param params
    * @param {string} params.txid The transaction id.
    * @param {number=} params.dummy API-Compatibility for previous API. Must be zero or null. DEPRECATED. For forward compatibility use named arguments and omit this parameter.
@@ -85,12 +91,14 @@ export class Mining {
    *  * https://github.com/raven/bips/blob/master/bip-0023.mediawiki
    *  * https://github.com/raven/bips/blob/master/bip-0009.mediawiki#getblocktemplate_changes
    *  * https://github.com/raven/bips/blob/master/bip-0145.mediawiki
+   * @example
+   * client.mining.getBlockTemplate()
    * @param params
    * @param {TemplateRequest} params.template_request
    * @returns {Promise}
    */
   async getBlockTemplate(
-    params: GetBlockTemplate
+    params?: GetBlockTemplate
   ): Promise<GetBlockTemplateResponse> {
     return await this._client.request('getblocktemplate', params);
   }
@@ -140,6 +148,8 @@ export class Mining {
    * It is set with the command line argument -gen (or " + std::string(RAVEN_CONF_FILENAME) + " setting gen)
    *
    * It can also be set with the setgenerate call.
+   * @example
+   * client.mining.getGenerate()
    * @returns {Promise} If the server is set to generate coins or not
    */
   async getGenerate(): Promise<boolean> {
@@ -152,6 +162,8 @@ export class Mining {
    * Generation is limited to 'genproclimit' processors, -1 is unlimited.
    *
    * See the getgenerate call for the current setting.
+   * @example
+   * client.mining.setGenerate()
    * @param params
    * @param {boolean} params.generate Set to true to turn on generation, false to turn off.
    * @param {number=} params.genproclimit Set the processor limit for when generation is on. Can be -1 for unlimited.

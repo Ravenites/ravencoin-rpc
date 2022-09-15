@@ -13,7 +13,7 @@ export type GetMiningInfoResponse = {
   pooledtx: number; // The size of the mempool
   chain: string; // current network name as defined in BIP70 (main, test, regtest)
   warnings: string; // any network and blockchain warnings
-  errors: string; // DEPRECATED. Same as warnings. Only shown when ravend is started with -deprecatedrpc=getmininginfo
+  errors?: string; // DEPRECATED. Same as warnings. Only shown when ravend is started with -deprecatedrpc=getmininginfo
 };
 
 export type PrioritiseTransaction = {
@@ -33,11 +33,13 @@ type GetBlockTemplateTemplateRequest = {
 };
 
 export type GetBlockTemplateResponse = {
+  capabilities?: string[];
   version: number; // The preferred block version
   rules: string[]; // Specific block rules that are to be enforced
   vbavailable: {
     // Set of pending, supported versionbit (BIP 9) softfork deployments
-    rulename: number; // Identifies the bit number as indicating acceptance and readiness for the named softfork rule
+    // Identifies the bit number as indicating acceptance and readiness for the named softfork rule
+    [key: number]: number;
   };
   vbrequired: number; // Bit mask of versionbits the server requires set in submissions
   previousblockhash: string; // The hash of current highest block
@@ -47,6 +49,7 @@ export type GetBlockTemplateResponse = {
     flags: string; // Key name is to be ignored, and value included in scriptSig
   };
   coinbasevalue: number; // Maximum allowable input to coinbase transaction, including the generation award and transaction fees (in satoshis)
+  longpollid?: string;
   coinbasetxn: any; // Information for coinbase transaction
   target: string; // The hash target
   mintime: number; // The minimum timestamp appropriate for next block time in seconds since epoch (Jan 1 1970 GMT)
@@ -59,6 +62,9 @@ export type GetBlockTemplateResponse = {
   curtime: number; // Current timestamp in seconds since epoch (Jan 1 1970 GMT)
   bits: string; // Compressed target of next block
   height: number; // The height of the next block
+  default_witness_commitment?: string;
+  pprpcheader?: string;
+  pprpcepoch?: number;
 };
 
 type GetBlockTemplateResponseTransaction = {
