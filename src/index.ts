@@ -57,8 +57,8 @@ export default class Client implements IClient {
   public rewards: Rewards;
   /** @type {Wallet} */
   public wallet: Wallet;
-  protected _url: string;
-  protected _options: Options;
+  private _url: string;
+  private _options: Options;
 
   constructor(config: Config) {
     this._url = config.url;
