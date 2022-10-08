@@ -157,8 +157,8 @@ export default class Client implements IClient {
   public rewards: Rewards;
   /** @type {Wallet} */
   public wallet: Wallet;
-  protected _url: string;
-  protected _options: Options;
+  private _url: string;
+  private _options: Options;
 
   constructor(config: Config) {
     this._url = config.url;
@@ -192,7 +192,7 @@ export default class Client implements IClient {
    * @param {(Object|Array)=} params Data required by rpc command. Typically an object or an array.
    * @returns {Promise}
    */
-  async request(method: string, params = {}): Promise&lt;any> {
+  request(method: string, params = {}): Promise&lt;any> {
     const data = {
       jsonrpc: '2.0',
       id: Math.random(),
@@ -200,7 +200,7 @@ export default class Client implements IClient {
       params,
     };
 
-    return await axios
+    return axios
       .post(this._url, data, this._options)
       .then(res => (res.data?.result ? res.data.result : res.data))
       .catch(err => ({

@@ -85,7 +85,7 @@ Tested method parameters
 #### Blockchain
 
 - [ ] clearMempool
-- [ ] getBlockchainInfo
+- [x] getBlockchainInfo
 - [ ] getChainTxStats
 - [ ] getBestBlockHash
 - [ ] getBlockCount
@@ -156,25 +156,25 @@ Tested method parameters
 - [ ] getAddressBalance
 - [ ] getSpentInfo
 - [ ] setMockTime
-- [ ] echo
+- [x] echo
 - [ ] echojson
 - [ ] logging
 
 #### Net
 
-- [ ] getConnectionCount
-- [ ] ping
-- [ ] getPeerInfo
-- [ ] addNode
-- [ ] disconnectNode
-- [ ] getAddedNodeInfo
-- [ ] getNetTotals
-- [ ] getNetworkInfo
-- [ ] setBan
-- [ ] listBanned
-- [ ] clearBanned
-- [ ] setNetworkActive
-- [ ] testGetAssetData
+- [x] getConnectionCount
+- [x] ping
+- [x] getPeerInfo
+- [x] addNode
+- [x] disconnectNode
+- [x] getAddedNodeInfo
+- [x] getNetTotals
+- [x] getNetworkInfo
+- [x] setBan
+- [x] listBanned
+- [x] clearBanned
+- [x] setNetworkActive
+- [x] testGetAssetData
 
 #### Raw Transactions
 

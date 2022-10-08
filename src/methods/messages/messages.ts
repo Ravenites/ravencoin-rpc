@@ -22,18 +22,18 @@ export class Messages {
 
   /**
    * View all messages that the wallet contains
-   * @returns {Promise}
+   * @returns {Promise<ViewAllMessagesResponse>}
    */
-  async viewAllMessages(): Promise<ViewAllMessagesResponse> {
-    return await this._client.request('viewallmessages');
+  viewAllMessages(): Promise<ViewAllMessagesResponse> {
+    return this._client.request('viewallmessages');
   }
 
   /**
    * View all message channels the wallet is subscribed to
-   * @returns {Promise}
+   * @returns {Promise<ViewAllMessageChannelsResponse>}
    */
-  async viewAllMessageChannels(): Promise<ViewAllMessageChannelsResponse> {
-    return await this._client.request('viewallmessagechannels');
+  viewAllMessageChannels(): Promise<ViewAllMessageChannelsResponse> {
+    return this._client.request('viewallmessagechannels');
   }
 
   /**
@@ -42,10 +42,10 @@ export class Messages {
    * client.messages.subscribeToChannel({channel_name: 'MU3GOZ2FMGHJLM5TTAJDQ5SNAHHRBC!'})
    * @param params
    * @param {string} params.channel_name The channel name to subscribe to, it must end with '!' or have an '~' in the name
-   * @returns {Promise}
+   * @returns {Promise<string>}
    */
-  async subscribeToChannel(params: SubscribeToChannel): Promise<string> {
-    return await this._client.request('subscribetochannel', params);
+  subscribeToChannel(params: SubscribeToChannel): Promise<string> {
+    return this._client.request('subscribetochannel', params);
   }
 
   /**
@@ -54,12 +54,12 @@ export class Messages {
    * client.messages.unsubscribeFromChannel({channel_name: 'MU3GOZ2FMGHJLM5TTAJDQ5SNAHHRBC!'})
    * @param params
    * @param {string} params.channel_name The channel name to unsubscribe from, must end with '!' or have an '~' in the name
-   * @returns {Promise}
+   * @returns {Promise<string>}
    */
-  async unsubscribeFromChannel(
+  unsubscribeFromChannel(
     params: UnsubscribeFromChannel
   ): Promise<string> {
-    return await this._client.request('unsubscribefromchannel', params);
+    return this._client.request('unsubscribefromchannel', params);
   }
 
   /**
@@ -74,36 +74,36 @@ export class Messages {
    * @param {string} params.channel Name of the channel that you want to send a message with (message channel, administrator asset), if a non administrator asset name is given, the administrator '!' will be added to it
    * @param {string} params.ipfs_hash    The IPFS hash of the message
    * @param {number=} params.expire_time UTC timestamp of when the message expires
-   * @returns {Promise} Array of a transaction id
+   * @returns {Promise<string[]>} Array of a transaction id
    */
-  async sendMessage(params: SendMessage): Promise<string[]> {
-    return await this._client.request('sendmessage', params);
+  sendMessage(params: SendMessage): Promise<string[]> {
+    return this._client.request('sendmessage', params);
   }
 
   /**
    * View all addresses this wallet owns that have been tagged
-   * @returns {Promise}
+   * @returns {Promise<ViewMyTaggedAddressesResponse>}
    */
-  async viewMyTaggedAddresses(): Promise<ViewMyTaggedAddressesResponse> {
-    return await this._client.request('viewmytaggedaddresses');
+  viewMyTaggedAddresses(): Promise<ViewMyTaggedAddressesResponse> {
+    return this._client.request('viewmytaggedaddresses');
   }
 
   /**
    * View all addresses this wallet owns that have been restricted
-   * @returns {Promise}
+   * @returns {Promise<ViewMyRestrictedAddressesResponse>}
    */
-  async viewMyRestrictedAddresses(): Promise<
+  viewMyRestrictedAddresses(): Promise<
     ViewMyRestrictedAddressesResponse
   > {
-    return await this._client.request('viewmyrestrictedaddresses');
+    return this._client.request('viewmyrestrictedaddresses');
   }
 
   /**
    * Delete current database of messages
    * @param params
-   * @returns {Promise}
+   * @returns {Promise<string>}
    */
-  async clearMessages(): Promise<string> {
-    return await this._client.request('clearmessages');
+  clearMessages(): Promise<string> {
+    return this._client.request('clearmessages');
   }
 }

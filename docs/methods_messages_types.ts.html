@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ravenite - Ravencoin RPC methods/messages/messages.ts</title>
+  <title>Ravenite - Ravencoin RPC methods/messages/types.ts</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -89,7 +89,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>methods/messages/messages.ts</h1>
+                    <h1>methods/messages/types.ts</h1>
                 </header>
                 
 
@@ -98,115 +98,70 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { IClient } from '@/types';
-import {
-  SendMessage,
-  SubscribeToChannel,
-  UnsubscribeFromChannel,
-  ViewAllMessageChannelsResponse,
-  ViewAllMessagesResponse,
-  ViewMyRestrictedAddressesResponse,
-  ViewMyTaggedAddressesResponse,
-} from './types';
+            <pre class="prettyprint source linenums"><code>/** ViewAllMessagesResponse */
+export type ViewAllMessagesResponse = {
+  /** The name of the asset the message was sent on */
+  'Asset Name': string;
+  /** The IPFS hash of the message */
+  Message: string;
+  /** The time as a date in the format (YY-mm-dd Hour-minute-second) */
+  Time: Date;
+  /** The height of the block the message was included in */
+  'Block Height': number;
+  /** Status of the message (READ, UNREAD, ORPHAN, EXPIRED, SPAM, HIDDEN, ERROR) */
+  Status: string;
+  /** If the message had an expiration date assigned, it will be shown here in the format (YY-mm-dd Hour-minute-second) */
+  'Expire Time'?: Date;
+  /** If the message contains an expire date that is too large, the UTC number will be displayed */
+  'Expire UTC Time'?: Date;
+};
 
-/**
- * @class Messages
- * @subcategory Client
- */
-export class Messages {
-  private _client: IClient;
+/** ViewAllMessageChannelsResponse */
+export type ViewAllMessageChannelsResponse = {
+  /** The asset channel name */
+  'Asset Name': string;
+};
 
-  constructor(client: IClient) {
-    this._client = client;
-  }
+/** SubscribeToChannel */
+export type SubscribeToChannel = {
+  channel_name: string;
+};
 
-  /**
-   * View all messages that the wallet contains
-   * @returns {Promise&lt;ViewAllMessagesResponse>}
-   */
-  viewAllMessages(): Promise&lt;ViewAllMessagesResponse> {
-    return this._client.request('viewallmessages');
-  }
+/** UnsubscribeFromChannel */
+export type UnsubscribeFromChannel = {
+  channel_name: string;
+};
 
-  /**
-   * View all message channels the wallet is subscribed to
-   * @returns {Promise&lt;ViewAllMessageChannelsResponse>}
-   */
-  viewAllMessageChannels(): Promise&lt;ViewAllMessageChannelsResponse> {
-    return this._client.request('viewallmessagechannels');
-  }
+/** SendMessage */
+export type SendMessage = {
+  channel: string;
+  ipfs_hash: string;
+  expire_time?: number;
+};
 
-  /**
-   * Subscribe to a certain message channel
-   * @example
-   * client.messages.subscribeToChannel({channel_name: 'MU3GOZ2FMGHJLM5TTAJDQ5SNAHHRBC!'})
-   * @param params
-   * @param {string} params.channel_name The channel name to subscribe to, it must end with '!' or have an '~' in the name
-   * @returns {Promise&lt;string>}
-   */
-  subscribeToChannel(params: SubscribeToChannel): Promise&lt;string> {
-    return this._client.request('subscribetochannel', params);
-  }
+/** ViewMyTaggedAddressesResponse */
+export type ViewMyTaggedAddressesResponse = {
+  /** The address that was tagged */
+  Address: string;
+  /** The asset name */
+  'Tag Name': string;
+  /** The UTC datetime of the assignment or removal of the tag in the format (YY-mm-dd HH:MM:SS). (Only the most recent tagging/untagging event will be returned for each address) */
+  Assigned?: Date;
+  /** The UTC datetime of the assignment or removal of the tag in the format (YY-mm-dd HH:MM:SS). (Only the most recent tagging/untagging event will be returned for each address) */
+  Removed?: Date;
+};
 
-  /**
-   * Unsubscribe from a certain message channel
-   * @example
-   * client.messages.unsubscribeFromChannel({channel_name: 'MU3GOZ2FMGHJLM5TTAJDQ5SNAHHRBC!'})
-   * @param params
-   * @param {string} params.channel_name The channel name to unsubscribe from, must end with '!' or have an '~' in the name
-   * @returns {Promise&lt;string>}
-   */
-  unsubscribeFromChannel(
-    params: UnsubscribeFromChannel
-  ): Promise&lt;string> {
-    return this._client.request('unsubscribefromchannel', params);
-  }
-
-  /**
-   * Creates and broadcasts a message transaction to the network for a channel this wallet owns
-   * @example
-   * client.messages.sendMessage({
-      channel: 'MU3GOZ2FMGHJLM5TTAJDQ5SNAHHRBC!',
-      ipfs_hash: 'QmTqu3Lk3gmTsQVtjU7rYYM37EAW4xNmbuEAp2Mjr4AV7E',
-      expire_time: 60
-    })
-   * @param params
-   * @param {string} params.channel Name of the channel that you want to send a message with (message channel, administrator asset), if a non administrator asset name is given, the administrator '!' will be added to it
-   * @param {string} params.ipfs_hash    The IPFS hash of the message
-   * @param {number=} params.expire_time UTC timestamp of when the message expires
-   * @returns {Promise&lt;string[]>} Array of a transaction id
-   */
-  sendMessage(params: SendMessage): Promise&lt;string[]> {
-    return this._client.request('sendmessage', params);
-  }
-
-  /**
-   * View all addresses this wallet owns that have been tagged
-   * @returns {Promise&lt;ViewMyTaggedAddressesResponse>}
-   */
-  viewMyTaggedAddresses(): Promise&lt;ViewMyTaggedAddressesResponse> {
-    return this._client.request('viewmytaggedaddresses');
-  }
-
-  /**
-   * View all addresses this wallet owns that have been restricted
-   * @returns {Promise&lt;ViewMyRestrictedAddressesResponse>}
-   */
-  viewMyRestrictedAddresses(): Promise&lt;
-    ViewMyRestrictedAddressesResponse
-  > {
-    return this._client.request('viewmyrestrictedaddresses');
-  }
-
-  /**
-   * Delete current database of messages
-   * @param params
-   * @returns {Promise&lt;string>}
-   */
-  clearMessages(): Promise&lt;string> {
-    return this._client.request('clearmessages');
-  }
-}
+/** ViewMyRestrictedAddressesResponse */
+export type ViewMyRestrictedAddressesResponse = {
+  /** The address that was restricted */
+  Address: string;
+  /** The asset that the restriction applies to */
+  'Asset Name': string;
+  /** The UTC datetime of the restriction or derestriction in the format (YY-mm-dd HH:MM:SS)). (Only the most recent restriction/derestriction event will be returned for each address) */
+  Restricted?: Date;
+  /** The UTC datetime of the restriction or derestriction in the format (YY-mm-dd HH:MM:SS)). (Only the most recent restriction/derestriction event will be returned for each address) */
+  Derestricted?: Date;
+};
 </code></pre>
         </article>
     </section>

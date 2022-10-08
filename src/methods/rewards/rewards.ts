@@ -34,10 +34,10 @@ export class Rewards {
    * @param {number} params.block_height The block height at which the snapshot will be take
    * @returns {Promise} Object - { request_status: 'Added' }
    */
-  async requestSnapshot(
+  requestSnapshot(
     params: RequestSnapshot
   ): Promise<RequestSnapshotResponse> {
-    return await this._client.request('requestsnapshot', params);
+    return this._client.request('requestsnapshot', params);
   }
 
   /**
@@ -47,10 +47,10 @@ export class Rewards {
    * @param {number} params.block_height The block height at which the snapshot will be take
    * @returns {Promise} Returns the asset_name and block_height
    */
-  async getSnapshotRequest(
+  getSnapshotRequest(
     params: GetSnapshotRequest
   ): Promise<GetSnapshotRequestResponse> {
-    return await this._client.request('getsnapshotrequest', params);
+    return this._client.request('getsnapshotrequest', params);
   }
 
   /**
@@ -60,10 +60,10 @@ export class Rewards {
    * @param {number=} params.block_height List only requests for a particular block height (default is 0 for ALL)
    * @returns {Promise} Array of objects containing asset_name and block_height
    */
-  async listSnapshotRequests(
+  listSnapshotRequests(
     params: ListSnapshotRequests
   ): Promise<ListSnapshotRequestsResponse[]> {
-    return await this._client.request('listsnapshotrequests', params);
+    return this._client.request('listsnapshotrequests', params);
   }
 
   /**
@@ -73,10 +73,10 @@ export class Rewards {
    * @param {number} params.block_height The block height at which the snapshot will be take
    * @returns {Promise} Returns the request status
    */
-  async cancelSnapshotRequest(
+  cancelSnapshotRequest(
     params: CancelSnapshotRequest
   ): Promise<CancelSnapshotRequestResponse> {
-    return await this._client.request('cancelsnapshotrequest', params);
+    return this._client.request('cancelsnapshotrequest', params);
   }
 
   /**
@@ -90,10 +90,10 @@ export class Rewards {
    * @param {string=} params.change_address            If the rewards can't be fully distributed. The change will be sent to this address
    * @returns {Promise}
    */
-  async distributeReward(
+  distributeReward(
     params: DistributeReward
   ): Promise<DistributeRewardResponse> {
-    return await this._client.request('distributereward', params);
+    return this._client.request('distributereward', params);
   }
 
   /**
@@ -106,9 +106,9 @@ export class Rewards {
    * @param {string=} parasm.exception_addresses       Ownership addresses that should be excluded\n"
    * @returns {Promise}
    */
-  async getDistributeStatus(
+  getDistributeStatus(
     params: GetDistributeStatus
   ): Promise<string | GetDistributeStatusResponse> {
-    return await this._client.request('getdistributestatus', params);
+    return this._client.request('getdistributestatus', params);
   }
 }
