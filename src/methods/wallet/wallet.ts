@@ -108,10 +108,10 @@ export class Wallet {
    * @param {Object=} params.options
    * @returns {Promise<FundRawTransactionResponse>}
    */
-  async fundRawTransaction(
+  fundRawTransaction(
     params: FundRawTransaction
   ): Promise<FundRawTransactionResponse> {
-    return await this._client.request('fundrawtransaction', params);
+    return this._client.request('fundrawtransaction', params);
   }
 
   /**
@@ -124,8 +124,8 @@ export class Wallet {
    * Returns array of transaction ids that were re-broadcast.
    * @returns {Promise<string[]>} Transaction ID
    */
-  async resendWalletTransactions(): Promise<string[]> {
-    return await this._client.request('resendwallettransactions');
+  resendWalletTransactions(): Promise<string[]> {
+    return this._client.request('resendwallettransactions');
   }
 
   /**
@@ -140,16 +140,16 @@ export class Wallet {
    * @param {string} params.txid The transaction id.
    * @returns {Promise<null>}
    */
-  async abandonTransaction(params: AbandonTransaction): Promise<null> {
-    return await this._client.request('abandontransaction', params);
+  abandonTransaction(params: AbandonTransaction): Promise<null> {
+    return this._client.request('abandontransaction', params);
   }
 
   /**
    * Stops current wallet rescan triggered e.g. by an importprivkey call.
    * @returns {Promise<boolean>}
    */
-  async abortRescan(): Promise<boolean> {
-    return await this._client.request('abortrescan');
+  abortRescan(): Promise<boolean> {
+    return this._client.request('abortrescan');
   }
 
   /**
@@ -164,10 +164,10 @@ export class Wallet {
    * @param {string=} params.account DEPRECATED. An account to assign the addresses to.
    * @returns {Promise<AddMultisigAddressResponse>}
    */
-  async addMultisigAddress(
+  addMultisigAddress(
     params: AddMultisigAddress
   ): Promise<AddMultisigAddressResponse> {
-    return await this._client.request('addmultisigaddress', params);
+    return this._client.request('addmultisigaddress', params);
   }
 
   /**
@@ -178,10 +178,10 @@ export class Wallet {
    * @param {string} addresss An address known to the wallet
    * @returns {Promise<AddWitnessAddressResponse>} The value of the new address (P2SH of witness script).
    */
-  async addWitnessAddress(
+  addWitnessAddress(
     params: AddWitnessAddress
   ): Promise<AddWitnessAddressResponse> {
-    return await this._client.request('addwitnessaddress', params);
+    return this._client.request('addwitnessaddress', params);
   }
 
   /**
@@ -190,8 +190,8 @@ export class Wallet {
    * @param {string} params.destination The destination directory or file
    * @returns {Promise<null>}
    */
-  async backupWallet(params: BackupWallet): Promise<null> {
-    return await this._client.request('backupwallet', params);
+  backupWallet(params: BackupWallet): Promise<null> {
+    return this._client.request('backupwallet', params);
   }
 
   /**
@@ -217,8 +217,8 @@ export class Wallet {
    * @param {Object=} params.options
    * @returns {Promise<null | BumpFeeResponse>}
    */
-  async bumpFee(params: BumpFee): Promise<null | BumpFeeResponse> {
-    return await this._client.request('bumpfee', params);
+  bumpFee(params: BumpFee): Promise<null | BumpFeeResponse> {
+    return this._client.request('bumpfee', params);
   }
 
   /**
@@ -229,8 +229,8 @@ export class Wallet {
    * @param {string} params.address The raven address for the private key
    * @returns {Promise<DumpPrivKeyResponse>} The private key
    */
-  async dumpPrivKey(params: DumpPrivKey): Promise<DumpPrivKeyResponse> {
-    return await this._client.request('dumpprivkey', params);
+  dumpPrivKey(params: DumpPrivKey): Promise<DumpPrivKeyResponse> {
+    return this._client.request('dumpprivkey', params);
   }
 
   /**
@@ -239,8 +239,8 @@ export class Wallet {
    * @param {string} params.filename The filename with path (either absolute or relative to ravend)
    * @returns {Promise<DumpWalletResponse>} The filename with full absolute path
    */
-  async dumpWallet(params: DumpWallet): Promise<DumpWalletResponse> {
-    return await this._client.request('dumpwallet', params);
+  dumpWallet(params: DumpWallet): Promise<DumpWalletResponse> {
+    return this._client.request('dumpwallet', params);
   }
 
   /**
@@ -257,8 +257,8 @@ export class Wallet {
    * @param {string} params.passphrase The pass phrase to encrypt the wallet with. It must be at least 1 character, but should be long.
    * @returns {Promise<string>} Wallet encrypted; Raven server stopping, restart to run with encrypted wallet. The keypool has been flushed and a new HD seed was generated (if you are using HD). You need to make a new backup.
    */
-  async encryptWallet(params: EncryptWallet): Promise<string> {
-    return await this._client.request('encryptwallet', params);
+  encryptWallet(params: EncryptWallet): Promise<string> {
+    return this._client.request('encryptwallet', params);
   }
 
   /**
@@ -268,10 +268,10 @@ export class Wallet {
    * @param {string} params.account The account name for the address. It can also be set to the empty string \"\" to represent the default account. The account does not need to exist, it will be created and a new address created  if there is no account by the given name.
    * @returns {Promise<GetAccountAddressResponse>} The account raven address
    */
-  async getAccountAddress(
+  getAccountAddress(
     params: GetAccountAddress
   ): Promise<GetAccountAddressResponse> {
-    return await this._client.request('getaccountaddress', params);
+    return this._client.request('getaccountaddress', params);
   }
 
   /**
@@ -281,8 +281,8 @@ export class Wallet {
    * @param {string} params.address The raven address for account lookup.
    * @returns {Promise<GetAccountResponse>} The account address
    */
-  async getAccount(params: GetAccount): Promise<GetAccountResponse> {
-    return await this._client.request('getaccount', params);
+  getAccount(params: GetAccount): Promise<GetAccountResponse> {
+    return this._client.request('getaccount', params);
   }
 
   /**
@@ -292,10 +292,10 @@ export class Wallet {
    * @param {string} params.account The account name.
    * @returns {Promise<GetAddressesByAccountResponse>} A raven address associated with the given account
    */
-  async getAddressesByAccount(
+  getAddressesByAccount(
     params: GetAddressesByAccount
   ): Promise<GetAddressesByAccountResponse> {
-    return await this._client.request('getaddressesbyaccount', params);
+    return this._client.request('getaddressesbyaccount', params);
   }
 
   /**
@@ -323,16 +323,16 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Also include balance in watch-only addresses (see 'importaddress')
    * @returns {Promise<GetBalanceResponse>} The total amount in " + CURRENCY_UNIT + " received for this account.
    */
-  async getBalance(params: GetBalance): Promise<GetBalanceResponse> {
-    return await this._client.request('getbalance', params);
+  getBalance(params: GetBalance): Promise<GetBalanceResponse> {
+    return this._client.request('getbalance', params);
   }
 
   /**
    * Fetches and displays the master private key and the master public key.
    * @returns {Promise<GetMasterKeyInfoResponse>}
    */
-  async getMasterKeyInfo(): Promise<GetMasterKeyInfoResponse> {
-    return await this._client.request('getmasterkeyinfo');
+  getMasterKeyInfo(): Promise<GetMasterKeyInfoResponse> {
+    return this._client.request('getmasterkeyinfo');
   }
 
   /**
@@ -341,8 +341,8 @@ export class Wallet {
    * Only returns value if wallet was created by the 12 words import/generation.
    * @returns {Promise<GetMyWordsResponse>}
    */
-  async getMyWords(): Promise<GetMyWordsResponse> {
-    return await this._client.request('getmywords');
+  getMyWords(): Promise<GetMyWordsResponse> {
+    return this._client.request('getmywords');
   }
 
   /**
@@ -353,8 +353,8 @@ export class Wallet {
    * @param {string=} params.account DEPRECATED. The account name for the address to be linked to. If not provided, the default account \"\" is used. It can also be set to the empty string \"\" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.
    * @returns {Promise<GetNewAddressResponse>} The new raven address
    */
-  async getNewAddress(params: GetNewAddress): Promise<GetNewAddressResponse> {
-    return await this._client.request('getnewaddress', params);
+  getNewAddress(params: GetNewAddress): Promise<GetNewAddressResponse> {
+    return this._client.request('getnewaddress', params);
   }
 
   /**
@@ -363,8 +363,8 @@ export class Wallet {
    * This is for use with raw transactions, NOT normal use.
    * @returns {Promise<GetRawChangeAddressResponse>} The address
    */
-  async getRawChangeAddress(): Promise<GetRawChangeAddressResponse> {
-    return await this._client.request('getrawchangeaddress');
+  getRawChangeAddress(): Promise<GetRawChangeAddressResponse> {
+    return this._client.request('getrawchangeaddress');
   }
 
   /**
@@ -375,10 +375,10 @@ export class Wallet {
    * @param {number=} [params.minconf=1] Default = 1. Only include transactions confirmed at least this many times.
    * @returns {Promise<GetReceivedByAccountResponse>} The total amount in " + CURRENCY_UNIT + " received for this account.
    */
-  async getReceivedByAccount(
+  getReceivedByAccount(
     params: GetReceivedByAccount
   ): Promise<GetReceivedByAccountResponse> {
-    return await this._client.request('getreceivedbyaccount', params);
+    return this._client.request('getreceivedbyaccount', params);
   }
 
   /**
@@ -388,10 +388,10 @@ export class Wallet {
    * @param {number=} [params.minconf=1] Default = 1. Only include transactions confirmed at least this many times.
    * @returns {Promise<GetReceivedByAddressResponse>} The total amount in " + CURRENCY_UNIT + " received at this address.
    */
-  async getReceivedByAddress(
+  getReceivedByAddress(
     params: GetReceivedByAddress
   ): Promise<GetReceivedByAddressResponse> {
-    return await this._client.request('getreceivedbyaddress', params);
+    return this._client.request('getreceivedbyaddress', params);
   }
 
   /**
@@ -401,26 +401,26 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Default = false. Whether to include watch-only addresses in balance calculation and details[]
    * @returns {Promise<GetTransactionResponse>}
    */
-  async getTransaction(
+  getTransaction(
     params: GetTransaction
   ): Promise<GetTransactionResponse> {
-    return await this._client.request('gettransaction', params);
+    return this._client.request('gettransaction', params);
   }
 
   /**
    * Returns the server's total unconfirmed balance
    * @returns {Promise<null | any>}
    */
-  async getUnconfirmedBalance(): Promise<null | any> {
-    return await this._client.request('getunconfirmedbalance');
+  getUnconfirmedBalance(): Promise<null | any> {
+    return this._client.request('getunconfirmedbalance');
   }
 
   /**
    * Returns an object containing various wallet state info.
    * @returns {Promise<GetWalletInfoResponse>}
    */
-  async getWalletInfo(): Promise<GetWalletInfoResponse> {
-    return await this._client.request('getwalletinfo');
+  getWalletInfo(): Promise<GetWalletInfoResponse> {
+    return this._client.request('getwalletinfo');
   }
 
   /**
@@ -430,8 +430,8 @@ export class Wallet {
    * @param {Object} params.options
    * @returns {Promise<ImportMultiResponse[]>} Response is an array with the same size as the input that has the execution result
    */
-  async importMulti(params: ImportMulti): Promise<ImportMultiResponse[]> {
-    return await this._client.request('importmulti', params);
+  importMulti(params: ImportMulti): Promise<ImportMultiResponse[]> {
+    return this._client.request('importmulti', params);
   }
 
   /**
@@ -456,8 +456,8 @@ export class Wallet {
    * @param {boolean=} [params.rescan=true] Rescan the wallet for transactions
    * @returns {Promise<null>}
    */
-  async importPrivKey(params: ImportPrivKey): Promise<null> {
-    return await this._client.request('importprivkey', params);
+  importPrivKey(params: ImportPrivKey): Promise<null> {
+    return this._client.request('importprivkey', params);
   }
 
   /**
@@ -466,8 +466,8 @@ export class Wallet {
    * @param {string} params.filename The wallet file
    * @returns {Promise<null>}
    */
-  async importWallet(params: ImportWallet): Promise<null> {
-    return await this._client.request('importwallet', params);
+  importWallet(params: ImportWallet): Promise<null> {
+    return this._client.request('importwallet', params);
   }
 
   /**
@@ -492,8 +492,8 @@ export class Wallet {
    * @param {boolean=} [params.p2sh=false] Add the P2SH version of the script as well
    * @returns {Promise<null>}
    */
-  async importAddress(params: ImportAddress): Promise<null> {
-    return await this._client.request('importaddress', params);
+  importAddress(params: ImportAddress): Promise<null> {
+    return this._client.request('importaddress', params);
   }
 
   /**
@@ -503,8 +503,8 @@ export class Wallet {
    * @param {string} params.txoutproof The hex output from gettxoutproof that contains the transaction
    * @returns {Promise<null>}
    */
-  async importPrunedFunds(params: ImportPrunedFunds): Promise<null> {
-    return await this._client.request('importprunedfunds', params);
+  importPrunedFunds(params: ImportPrunedFunds): Promise<null> {
+    return this._client.request('importprunedfunds', params);
   }
 
   /**
@@ -517,8 +517,8 @@ export class Wallet {
    * @param {boolean=} [params.rescan=true] Rescan the wallet for transactions
    * @returns {Promise<null>}
    */
-  async importPubKey(params: ImportPubKey): Promise<null> {
-    return await this._client.request('importpubkey', params);
+  importPubKey(params: ImportPubKey): Promise<null> {
+    return this._client.request('importpubkey', params);
   }
 
   /**
@@ -527,8 +527,8 @@ export class Wallet {
    * @param {number=} [params.newsize=100] The new keypool size
    * @returns {Promise<null>}
    */
-  async keypoolRefill(params: KeypoolRefill): Promise<null> {
-    return await this._client.request('keypoolrefill', params);
+  keypoolRefill(params: KeypoolRefill): Promise<null> {
+    return this._client.request('keypoolrefill', params);
   }
 
   /**
@@ -539,16 +539,16 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Include balances in watch-only addresses (see 'importaddress')
    * @returns {Promise<ListAccountsResponse>}
    */
-  async listAccounts(params: ListAccounts): Promise<ListAccountsResponse> {
-    return await this._client.request('listaccounts', params);
+  listAccounts(params: ListAccounts): Promise<ListAccountsResponse> {
+    return this._client.request('listaccounts', params);
   }
 
   /**
    * Lists groups of addresses which have had their common ownership made public by common use as inputs or as the resulting change in past transactions
    * @returns {Promise<ListAddressGroupingsResponse[][][]>}
    */
-  async listAddressGroupings(): Promise<ListAddressGroupingsResponse[][][]> {
-    return await this._client.request('listaddressgroupings');
+  listAddressGroupings(): Promise<ListAddressGroupingsResponse[][][]> {
+    return this._client.request('listaddressgroupings');
   }
 
   /**
@@ -557,8 +557,8 @@ export class Wallet {
    * See the lockunspent call to lock and unlock transactions for spending.
    * @returns {Promise<ListLockUnspentResponse[]>}
    */
-  async listLockUnspent(): Promise<ListLockUnspentResponse[]> {
-    return await this._client.request('listlockunspent');
+  listLockUnspent(): Promise<ListLockUnspentResponse[]> {
+    return this._client.request('listlockunspent');
   }
 
   /**
@@ -570,10 +570,10 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Whether to include watch-only addresses (see 'importaddress').
    * @returns {Promise<ListReceivedByAccountResponse[]>}
    */
-  async listReceivedByAccount(
+  listReceivedByAccount(
     params: ListReceivedByAccount
   ): Promise<ListReceivedByAccountResponse[]> {
-    return await this._client.request('listreceivedbyaccount', params);
+    return this._client.request('listreceivedbyaccount', params);
   }
 
   /**
@@ -584,10 +584,10 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Whether to include watch-only addresses (see 'importaddress').
    * @returns {Promise<ListReceivedByAddressResponse[]>}
    */
-  async listReceivedByAddress(
+  listReceivedByAddress(
     params: ListReceivedByAddress
   ): Promise<ListReceivedByAddressResponse[]> {
-    return await this._client.request('listreceivedbyaddress', params);
+    return this._client.request('listreceivedbyaddress', params);
   }
 
   /**
@@ -603,10 +603,10 @@ export class Wallet {
    * @param {boolean=} [params.include_removed=true] Show transactions that were removed due to a reorg in the \"removed\" array (not guaranteed to work on pruned nodes)
    * @returns {Promise<ListSinceBlockResponse>}
    */
-  async listSinceBlock(
+  listSinceBlock(
     params: ListSinceBlock
   ): Promise<ListSinceBlockResponse> {
-    return await this._client.request('listsinceblock', params);
+    return this._client.request('listsinceblock', params);
   }
 
   /**
@@ -618,10 +618,10 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Include transactions to watch-only addresses (see 'importaddress')
    * @returns {Promise<ListTransactionsResponse[]>}
    */
-  async listTransactions(
+  listTransactions(
     params: ListTransactions
   ): Promise<ListTransactionsResponse[]> {
-    return await this._client.request('listtransactions', params);
+    return this._client.request('listtransactions', params);
   }
 
   /**
@@ -636,8 +636,8 @@ export class Wallet {
    * @param {Object} params.query_options JSON with query options
    * @returns {Promise<ListUnspentResponse[]>}
    */
-  async listUnspent(params: ListUnspent): Promise<ListUnspentResponse[]> {
-    return await this._client.request('listunspent', params);
+  listUnspent(params: ListUnspent): Promise<ListUnspentResponse[]> {
+    return this._client.request('listunspent', params);
   }
 
   /**
@@ -646,8 +646,8 @@ export class Wallet {
    * For full information on the wallet, use getWalletInfo
    * @returns {Promise<string[]>} Array of wallet names
    */
-  async listWallets(): Promise<string[]> {
-    return await this._client.request('listwallets');
+  listWallets(): Promise<string[]> {
+    return this._client.request('listwallets');
   }
 
   /**
@@ -665,8 +665,8 @@ export class Wallet {
    * @param {Array} params.transactions An array of objects. Each object the txid (string) vout (numeric)
    * @returns {Promise<boolean>} Whether the command was successful or not
    */
-  async lockUnspent(params: LockUnspent): Promise<boolean> {
-    return await this._client.request('lockunspent', params);
+  lockUnspent(params: LockUnspent): Promise<boolean> {
+    return this._client.request('lockunspent', params);
   }
 
   /**
@@ -680,8 +680,8 @@ export class Wallet {
    * @param {string=} params.comment An optional comment, stored in the wallet only.
    * @returns {Promise<boolean>} True if successful.
    */
-  async moveCmd(params: MoveCmd): Promise<boolean> {
-    return await this._client.request('movecmd', params);
+  moveCmd(params: MoveCmd): Promise<boolean> {
+    return this._client.request('movecmd', params);
   }
 
   /**
@@ -696,8 +696,8 @@ export class Wallet {
    * @param {string=} params.comment_to An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.
    * @returns {Promise<string>} The transaction id.
    */
-  async sendFrom(params: SendFrom): Promise<string> {
-    return await this._client.request('sendfrom', params);
+  sendFrom(params: SendFrom): Promise<string> {
+    return this._client.request('sendfrom', params);
   }
 
   /**
@@ -712,8 +712,8 @@ export class Wallet {
    * @param {string=} [params.estimate_mode=UNSET] Default = UNSET. The fee estimate mode, must be one of: "UNSET", "ECONOMICAL", "CONSERVATIVE"
    * @returns {Promise<string>} The transaction id for the send. Only 1 transaction is created regardless of the number of addresses.
    */
-  async sendMany(params: SendMany): Promise<string> {
-    return await this._client.request('sendmany', params);
+  sendMany(params: SendMany): Promise<string> {
+    return this._client.request('sendmany', params);
   }
 
   /**
@@ -728,8 +728,8 @@ export class Wallet {
    * @param {string} params.estimate_mode Default = UNSET. The fee estimate mode, must be one of: "UNSET", "ECONOMICAL", "CONSERVATIVE"
    * @returns {Promise<string>} The transaction id.
    */
-  async sendToAddress(params: SendToAddress): Promise<string> {
-    return await this._client.request('sendtoaddress', params);
+  sendToAddress(params: SendToAddress): Promise<string> {
+    return this._client.request('sendtoaddress', params);
   }
 
   /**
@@ -745,8 +745,8 @@ export class Wallet {
    * @param {string=} [params.estimate_mode=UNSET] Default = UNSET. The fee estimate mode, must be one of: UNSET, ECONOMICAL, CONSERVATIVE
    * @returns {Promise<string>} The transaction id.
    */
-  async sendFromAddress(params: SendFromAddress): Promise<string> {
-    return await this._client.request('sendfromaddress', params);
+  sendFromAddress(params: SendFromAddress): Promise<string> {
+    return this._client.request('sendfromaddress', params);
   }
 
   /**
@@ -757,8 +757,8 @@ export class Wallet {
    * @param {string} params.account The account to assign the address to.
    * @returns {Promise<null>}
    */
-  async setAccount(params: SetAccount): Promise<null> {
-    return await this._client.request('setaccount', params);
+  setAccount(params: SetAccount): Promise<null> {
+    return this._client.request('setaccount', params);
   }
 
   /**
@@ -767,8 +767,8 @@ export class Wallet {
    * @param {(string|number)} params.amount The transaction fee in " + CURRENCY_UNIT + "/kB
    * @returns {Promise<boolean>} Returns true if successful
    */
-  async setTxFee(params: SetTxFee): Promise<boolean> {
-    return await this._client.request('settxfee', params);
+  setTxFee(params: SetTxFee): Promise<boolean> {
+    return this._client.request('settxfee', params);
   }
 
   /**
@@ -778,8 +778,8 @@ export class Wallet {
    * @param {string} params.message The message to create a signature of.
    * @returns {Promise<string>} The signature of the message encoded in base 64
    */
-  async signMessage(params: SignMessage): Promise<string> {
-    return await this._client.request('signmessage', params);
+  signMessage(params: SignMessage): Promise<string> {
+    return this._client.request('signmessage', params);
   }
 
   /**
@@ -788,8 +788,8 @@ export class Wallet {
    * After calling this method, you will need to call walletpassphrase again before being able to call any methods which require the wallet to be unlocked.
    * @returns {Promise<null>}
    */
-  async walletLock(): Promise<null> {
-    return await this._client.request('walletlock');
+  walletLock(): Promise<null> {
+    return this._client.request('walletlock');
   }
 
   /**
@@ -799,8 +799,8 @@ export class Wallet {
    * @param {string} params.newpassphrase The new passphrase
    * @returns {Promise<null>}
    */
-  async walletPassphraseChange(params: WalletPassphraseChange): Promise<null> {
-    return await this._client.request('walletpassphrasechange', params);
+  walletPassphraseChange(params: WalletPassphraseChange): Promise<null> {
+    return this._client.request('walletpassphrasechange', params);
   }
 
   /**
@@ -817,8 +817,8 @@ export class Wallet {
    * @param {number} params.timeout The time to keep the decryption key in seconds.
    * @returns {Promise<null>}
    */
-  async walletPassphrase(params: WalletPassphrase): Promise<null> {
-    return await this._client.request('walletpassphrase', params);
+  walletPassphrase(params: WalletPassphrase): Promise<null> {
+    return this._client.request('walletpassphrase', params);
   }
 
   /**
@@ -827,8 +827,8 @@ export class Wallet {
    * @param {string} params.txid The hex-encoded id of the transaction you are deleting
    * @returns {Promise<null>}
    */
-  async removePrunedFunds(params: RemovePrunedFunds): Promise<null> {
-    return await this._client.request('removeprunedfunds', params);
+  removePrunedFunds(params: RemovePrunedFunds): Promise<null> {
+    return this._client.request('removeprunedfunds', params);
   }
 
   /**
@@ -838,10 +838,10 @@ export class Wallet {
    * @param {number=} params.stop_height The last block height that should be scanned
    * @returns {Promise<RescanBlockchainResponse>}
    */
-  async rescanBlockchain(
+  rescanBlockchain(
     params: RescanBlockchain
   ): Promise<RescanBlockchainResponse> {
-    return await this._client.request('rescanblockchain', params);
+    return this._client.request('rescanblockchain', params);
   }
 
   /**
@@ -851,8 +851,8 @@ export class Wallet {
    * @param {number=} params.maxtries How many iterations to try (default = 1000000).\n"
    * @returns {Promise<string[]>} Hashes of blocks generated
    */
-  async generate(params: Generate): Promise<string[]> {
-    return await this._client.request('generate', params);
+  generate(params: Generate): Promise<string[]> {
+    return this._client.request('generate', params);
   }
 }
 

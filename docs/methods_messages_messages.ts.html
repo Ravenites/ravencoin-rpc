@@ -122,18 +122,18 @@ export class Messages {
 
   /**
    * View all messages that the wallet contains
-   * @returns {Promise}
+   * @returns {Promise&lt;ViewAllMessagesResponse>}
    */
-  async viewAllMessages(): Promise&lt;ViewAllMessagesResponse> {
-    return await this._client.request('viewallmessages');
+  viewAllMessages(): Promise&lt;ViewAllMessagesResponse> {
+    return this._client.request('viewallmessages');
   }
 
   /**
    * View all message channels the wallet is subscribed to
-   * @returns {Promise}
+   * @returns {Promise&lt;ViewAllMessageChannelsResponse>}
    */
-  async viewAllMessageChannels(): Promise&lt;ViewAllMessageChannelsResponse> {
-    return await this._client.request('viewallmessagechannels');
+  viewAllMessageChannels(): Promise&lt;ViewAllMessageChannelsResponse> {
+    return this._client.request('viewallmessagechannels');
   }
 
   /**
@@ -142,10 +142,10 @@ export class Messages {
    * client.messages.subscribeToChannel({channel_name: 'MU3GOZ2FMGHJLM5TTAJDQ5SNAHHRBC!'})
    * @param params
    * @param {string} params.channel_name The channel name to subscribe to, it must end with '!' or have an '~' in the name
-   * @returns {Promise}
+   * @returns {Promise&lt;string>}
    */
-  async subscribeToChannel(params: SubscribeToChannel): Promise&lt;string> {
-    return await this._client.request('subscribetochannel', params);
+  subscribeToChannel(params: SubscribeToChannel): Promise&lt;string> {
+    return this._client.request('subscribetochannel', params);
   }
 
   /**
@@ -154,12 +154,12 @@ export class Messages {
    * client.messages.unsubscribeFromChannel({channel_name: 'MU3GOZ2FMGHJLM5TTAJDQ5SNAHHRBC!'})
    * @param params
    * @param {string} params.channel_name The channel name to unsubscribe from, must end with '!' or have an '~' in the name
-   * @returns {Promise}
+   * @returns {Promise&lt;string>}
    */
-  async unsubscribeFromChannel(
+  unsubscribeFromChannel(
     params: UnsubscribeFromChannel
   ): Promise&lt;string> {
-    return await this._client.request('unsubscribefromchannel', params);
+    return this._client.request('unsubscribefromchannel', params);
   }
 
   /**
@@ -174,37 +174,37 @@ export class Messages {
    * @param {string} params.channel Name of the channel that you want to send a message with (message channel, administrator asset), if a non administrator asset name is given, the administrator '!' will be added to it
    * @param {string} params.ipfs_hash    The IPFS hash of the message
    * @param {number=} params.expire_time UTC timestamp of when the message expires
-   * @returns {Promise} Array of a transaction id
+   * @returns {Promise&lt;string[]>} Array of a transaction id
    */
-  async sendMessage(params: SendMessage): Promise&lt;string[]> {
-    return await this._client.request('sendmessage', params);
+  sendMessage(params: SendMessage): Promise&lt;string[]> {
+    return this._client.request('sendmessage', params);
   }
 
   /**
    * View all addresses this wallet owns that have been tagged
-   * @returns {Promise}
+   * @returns {Promise&lt;ViewMyTaggedAddressesResponse>}
    */
-  async viewMyTaggedAddresses(): Promise&lt;ViewMyTaggedAddressesResponse> {
-    return await this._client.request('viewmytaggedaddresses');
+  viewMyTaggedAddresses(): Promise&lt;ViewMyTaggedAddressesResponse> {
+    return this._client.request('viewmytaggedaddresses');
   }
 
   /**
    * View all addresses this wallet owns that have been restricted
-   * @returns {Promise}
+   * @returns {Promise&lt;ViewMyRestrictedAddressesResponse>}
    */
-  async viewMyRestrictedAddresses(): Promise&lt;
+  viewMyRestrictedAddresses(): Promise&lt;
     ViewMyRestrictedAddressesResponse
   > {
-    return await this._client.request('viewmyrestrictedaddresses');
+    return this._client.request('viewmyrestrictedaddresses');
   }
 
   /**
    * Delete current database of messages
    * @param params
-   * @returns {Promise}
+   * @returns {Promise&lt;string>}
    */
-  async clearMessages(): Promise&lt;string> {
-    return await this._client.request('clearmessages');
+  clearMessages(): Promise&lt;string> {
+    return this._client.request('clearmessages');
   }
 }
 </code></pre>

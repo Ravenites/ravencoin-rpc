@@ -1,94 +1,140 @@
+/** GetNetworkHashPs */
 export type GetNetworkHashPs = {
   nblocks?: number;
   height?: number;
 };
 
+/** GetMiningInfoResponse */
 export type GetMiningInfoResponse = {
-  blocks: number; // The current block
-  currentblockweight: number; // The last block weight
-  currentblocktx: number; // The last block transaction
-  difficulty: number; // The current difficulty
-  networkhashps: number; // The network hashes per second
-  hashespersec: number; // The hashes per second of built-in miner
-  pooledtx: number; // The size of the mempool
-  chain: string; // current network name as defined in BIP70 (main, test, regtest)
-  warnings: string; // any network and blockchain warnings
-  errors?: string; // DEPRECATED. Same as warnings. Only shown when ravend is started with -deprecatedrpc=getmininginfo
+  /** The current block */
+  blocks: number;
+  /** The last block weight */
+  currentblockweight: number;
+  /** The last block transaction */
+  currentblocktx: number;
+  /** The current difficulty */
+  difficulty: number;
+  /** The network hashes per second */
+  networkhashps: number;
+  /** The hashes per second of built-in miner */
+  hashespersec: number;
+  /** The size of the mempool */
+  pooledtx: number;
+  /** current network name as defined in BIP70 (main, test, regtest) */
+  chain: string;
+  /** any network and blockchain warnings */
+  warnings: string;
+  /** DEPRECATED. Same as warnings. Only shown when ravend is started with -deprecatedrpc=getmininginfo */
+  errors?: string;
 };
 
+/** PrioritiseTransaction */
 export type PrioritiseTransaction = {
   txid: string;
   dummy?: number;
   fee_delta: number;
 };
 
+/** GetBlockTemplate */
 export type GetBlockTemplate = {
   template_request?: GetBlockTemplateTemplateRequest;
 };
 
+/** GetBlockTemplateTemplateRequest */
 type GetBlockTemplateTemplateRequest = {
   template?: string;
   capabilities?: string[];
   rules?: string[];
 };
 
+/** GetBlockTemplateResponse */
 export type GetBlockTemplateResponse = {
   capabilities?: string[];
-  version: number; // The preferred block version
-  rules: string[]; // Specific block rules that are to be enforced
+  /** The preferred block version */
+  version: number;
+  /** Specific block rules that are to be enforced */
+  rules: string[];
   vbavailable: {
     // Set of pending, supported versionbit (BIP 9) softfork deployments
     // Identifies the bit number as indicating acceptance and readiness for the named softfork rule
     [key: number]: number;
   };
-  vbrequired: number; // Bit mask of versionbits the server requires set in submissions
-  previousblockhash: string; // The hash of current highest block
-  transactions: GetBlockTemplateResponseTransaction[]; // Contents of non-coinbase transactions that should be included in the next block
+  /** Bit mask of versionbits the server requires set in submissions */
+  vbrequired: number;
+  /** The hash of current highest block */
+  previousblockhash: string;
+  /** Contents of non-coinbase transactions that should be included in the next block */
+  transactions: GetBlockTemplateResponseTransaction[];
   coinbaseaux: {
     // Data that should be included in the coinbase's scriptSig content
-    flags: string; // Key name is to be ignored, and value included in scriptSig
+    /** Key name is to be ignored, and value included in scriptSig */
+    flags: string;
   };
-  coinbasevalue: number; // Maximum allowable input to coinbase transaction, including the generation award and transaction fees (in satoshis)
+  /** Maximum allowable input to coinbase transaction, including the generation award and transaction fees (in satoshis) */
+  coinbasevalue: number;
   longpollid?: string;
-  coinbasetxn: any; // Information for coinbase transaction
-  target: string; // The hash target
-  mintime: number; // The minimum timestamp appropriate for next block time in seconds since epoch (Jan 1 1970 GMT)
+  /** Information for coinbase transaction */
+  coinbasetxn: any;
+  /** The hash target */
+  target: string;
+  /** The minimum timestamp appropriate for next block time in seconds since epoch (Jan 1 1970 GMT) */
+  mintime: number;
   // List of ways the block template may be changed
-  mutable: string[]; // A way the block template may be changed, e.g. 'time', 'transactions', 'prevblock'
-  noncerange: string; //  A range of valid nonces
-  sigoplimit: number; // Limit of sigops in blocks
-  sizelimit: number; // Limit of block size
-  weightlimit: number; // Limit of block weight
-  curtime: number; // Current timestamp in seconds since epoch (Jan 1 1970 GMT)
-  bits: string; // Compressed target of next block
-  height: number; // The height of the next block
+  /** A way the block template may be changed, e.g. 'time', 'transactions', 'prevblock' */
+  mutable: string[];
+  /**  A range of valid nonces */
+  noncerange: string;
+  /** Limit of sigops in blocks */
+  sigoplimit: number;
+  /** Limit of block size */
+  sizelimit: number;
+  /** Limit of block weight */
+  weightlimit: number;
+  /** Current timestamp in seconds since epoch (Jan 1 1970 GMT) */
+  curtime: number;
+  /** Compressed target of next block */
+  bits: string;
+  /** The height of the next block */
+  height: number;
   default_witness_commitment?: string;
   pprpcheader?: string;
   pprpcepoch?: number;
 };
 
+/** GetBlockTemplateResponseTransaction */
 type GetBlockTemplateResponseTransaction = {
-  data: string; // Transaction data encoded in hexadecimal (byte-for-byte)
-  txid: string; // Transaction id encoded in little-endian hexadecimal
-  hash: string; // Hash encoded in little-endian hexadecimal (including witness data)
-  depends: number[]; // Transactions before this one (by 1-based index in 'transactions' list) that must be present in the final block if this one is
-  fee: number; // Difference in value between transaction inputs and outputs (in satoshis); for coinbase transactions, this is a negative Number of the total collected block fees (ie, not including the block subsidy); if key is not present, fee is unknown and clients MUST NOT assume there isn't one
-  sigops: number; // Total SigOps cost, as counted for purposes of block limits; if key is not present, sigop cost is unknown and clients MUST NOT assume it is zero
-  weight: number; // Total transaction weight, as counted for purposes of block limits
-  required: boolean; // If provided and true, this transaction must be in the final block
+  /** Transaction data encoded in hexadecimal (byte-for-byte) */
+  data: string;
+  /** Transaction id encoded in little-endian hexadecimal */
+  txid: string;
+  /** Hash encoded in little-endian hexadecimal (including witness data) */
+  hash: string;
+  /** Transactions before this one (by 1-based index in 'transactions' list) that must be present in the final block if this one is */
+  depends: number[];
+  /** Difference in value between transaction inputs and outputs (in satoshis); for coinbase transactions, this is a negative Number of the total collected block fees (ie, not including the block subsidy); if key is not present, fee is unknown and clients MUST NOT assume there isn't one */
+  fee: number;
+  /** Total SigOps cost, as counted for purposes of block limits; if key is not present, sigop cost is unknown and clients MUST NOT assume it is zero */
+  sigops: number;
+  /** Total transaction weight, as counted for purposes of block limits */
+  weight: number;
+  /** If provided and true, this transaction must be in the final block */
+  required: boolean;
 };
 
+/** SubmitBlock */
 export type SubmitBlock = {
   hexdata: string;
   dummy?: string;
 };
 
+/** Pprpcsb */
 export type Pprpcsb = {
   header_hash: string;
   mix_hash: string;
   nonce: string;
 };
 
+/** GetKawpowHash */
 export type GetKawpowHash = {
   header_hash: string;
   mix_hash: string;
@@ -97,6 +143,7 @@ export type GetKawpowHash = {
   target?: string;
 };
 
+/** GetKawpowHashResponse */
 export type GetKawpowHashResponse = {
   result: boolean;
   digest: string;
@@ -105,57 +152,84 @@ export type GetKawpowHashResponse = {
   meets_target?: boolean;
 };
 
+/** SetGenerate */
 export type SetGenerate = {
   generate: boolean;
   genproclimit?: number;
 };
 
+/** GenerateToAddress */
 export type GenerateToAddress = {
   nblocks: number;
   address: string;
   maxtries?: number;
 };
 
+/** EstimateFee */
 export type EstimateFee = {
   nblocks: number;
 };
 
+/** EstimateSmartFee */
 export type EstimateSmartFee = {
   conf_target: number;
   estimate_mode?: 'CONSERVATIVE' | 'UNSET' | 'ECONOMICAL';
 };
 
+/** EstimateSmartFeeResponse */
 export type EstimateSmartFeeResponse = {
-  feerate?: number; // Estimate fee rate in " + CURRENCY_UNIT + "/kB
-  errors?: string[]; // Array of strings. Errors encountered during processing
-  blocks: number; // Block number where estimate was found
+  /** Estimate fee rate in " + CURRENCY_UNIT + "/kB */
+  feerate?: number;
+  /** Array of strings. Errors encountered during processing */
+  errors?: string[];
+  /** Block number where estimate was found */
+  blocks: number;
 };
 
+/** EstimateRawFee */
 export type EstimateRawFee = {
   conf_target: number;
   threshold?: number;
 };
 
+/** EstimateRawFeeResponse */
 export type EstimateRawFeeResponse = {
-  short?: EstimateRawFeeResponseShort; // Estimate for short time horizon
-  medium?: any; // Dstimate for medium time horizon
-  long: any; // Dstimate for long time horizon
+  /** Estimate for short time horizon */
+  short?: EstimateRawFeeResponseShort;
+  /** Dstimate for medium time horizon */
+  medium?: any;
+  /** Dstimate for long time horizon */
+  long: any;
 };
 
+/** EstimateRawFeeResponseShort */
 type EstimateRawFeeResponseShort = {
-  feerate?: number; // Estimate fee rate in " + CURRENCY_UNIT + "/kB
-  decay: number; // Exponential decay (per block) for historical moving average of confirmation data
-  scale: number; // The resolution of confirmation targets at this time horizon
-  pass?: EstimateRawFeeResponseShortPass; // Information about the lowest range of feerates to succeed in meeting the threshold
-  fail?: any; // Information about the highest range of feerates to fail to meet the threshold
-  errors?: string[]; // Array of strings. Errors encountered during processing
+  /** Estimate fee rate in " + CURRENCY_UNIT + "/kB */
+  feerate?: number;
+  /** Exponential decay (per block) for historical moving average of confirmation data */
+  decay: number;
+  /** The resolution of confirmation targets at this time horizon */
+  scale: number;
+  /** Information about the lowest range of feerates to succeed in meeting the threshold */
+  pass?: EstimateRawFeeResponseShortPass;
+  /** Information about the highest range of feerates to fail to meet the threshold */
+  fail?: any;
+  /** Array of strings. Errors encountered during processing */
+  errors?: string[];
 };
 
+/** EstimateRawFeeResponseShortPass */
 type EstimateRawFeeResponseShortPass = {
-  startrange: number; // Start of feerate range
-  endrange: number; // End of feerate range
-  withintarget: number; // Number of txs over history horizon in the feerate range that were confirmed within target
-  totalconfirmed: number; // Number of txs over history horizon in the feerate range that were confirmed at any point
-  inmempool: number; // Current number of txs in mempool in the feerate range unconfirmed for at least target blocks
-  leftmempool: number; // Number of txs over history horizon in the feerate range that left mempool unconfirmed after target
+  /** Start of feerate range */
+  startrange: number;
+  /** End of feerate range */
+  endrange: number;
+  /** Number of txs over history horizon in the feerate range that were confirmed within target */
+  withintarget: number;
+  /** Number of txs over history horizon in the feerate range that were confirmed at any point */
+  totalconfirmed: number;
+  /** Current number of txs in mempool in the feerate range unconfirmed for at least target blocks */
+  inmempool: number;
+  /** Number of txs over history horizon in the feerate range that left mempool unconfirmed after target */
+  leftmempool: number;
 };

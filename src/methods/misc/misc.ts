@@ -40,32 +40,30 @@ export class Misc {
   /**
    * Returns an object containing various state info.
    * @deprecated
-   * @returns {Promise}
+   * @returns {Promise<GetInfoResponse>}
    */
-  async getInfo(): Promise<GetInfoResponse> {
-    return await this._client.request('getinfo');
+  getInfo(): Promise<GetInfoResponse> {
+    return this._client.request('getinfo');
   }
 
   /**
    * Returns an object containing information about memory usage.
    * @param params
    * @param {string=} [params.mode='stats'] Determines what kind of information is returned. This argument is optional, the default mode is \"stats\"
-   * @returns {Promise}
+   * @returns {Promise<GetMemoryInfoResponse>}
    */
-  async getMemoryInfo(params: GetMemoryInfo): Promise<GetMemoryInfoResponse> {
-    return await this._client.request('getmemoryinfo', params);
+  getMemoryInfo(params: GetMemoryInfo): Promise<GetMemoryInfoResponse> {
+    return this._client.request('getmemoryinfo', params);
   }
 
   /**
    * Return information about the given raven address.
    * @param params
    * @param {string} params.address The raven address to validate
-   * @returns {Promise}
+   * @returns {Promise<ValidateAddressResponse>}
    */
-  async validateAddress(
-    params: ValidateAddress
-  ): Promise<ValidateAddressResponse> {
-    return await this._client.request('validateaddress', params);
+  validateAddress(params: ValidateAddress): Promise<ValidateAddressResponse> {
+    return this._client.request('validateaddress', params);
   }
 
   /**
@@ -73,12 +71,10 @@ export class Misc {
    * @param params
    * @param {number} params.nrequired The number of required signatures out of the n keys or addresses.
    * @param {string} params.keys      A json array of keys which are raven addresses or hex-encoded public keys
-   * @returns {Promise} An object with the address and redeemScript
+   * @returns {Promise<CreateMultisigResponse>} An object with the address and redeemScript
    */
-  async createMultisig(
-    params: CreateMultisig
-  ): Promise<CreateMultisigResponse> {
-    return await this._client.request('createmultisig', params);
+  createMultisig(params: CreateMultisig): Promise<CreateMultisigResponse> {
+    return this._client.request('createmultisig', params);
   }
 
   /**
@@ -87,10 +83,10 @@ export class Misc {
    * @param {string} params.address   The raven address to use for the signature.
    * @param {string} params.signature The signature provided by the signer in base 64 encoding (see signmessage).
    * @param {string} params.message   The message that was signed.
-   * @returns {Promise} If the signature is verified or not.
+   * @returns {Promise<boolean>} If the signature is verified or not.
    */
-  async verifyMessage(params: VerifyMessage): Promise<boolean> {
-    return await this._client.request('verifymessage', params);
+  verifyMessage(params: VerifyMessage): Promise<boolean> {
+    return this._client.request('verifymessage', params);
   }
 
   /**
@@ -98,12 +94,12 @@ export class Misc {
    * @param params
    * @param {string} params.privkey The private key to sign the message with.
    * @param {string} params.message The message to create a signature of.
-   * @returns {Promise} The signature of the message encoded in base 64
+   * @returns {Promise<SignMessageWithPrivKeyResponse>} The signature of the message encoded in base 64
    */
-  async signMessageWithPrivKey(
+  signMessageWithPrivKey(
     params: SignMessageWithPrivKey
   ): Promise<SignMessageWithPrivKeyResponse> {
-    return await this._client.request('signmessagewithprivkey', params);
+    return this._client.request('signmessagewithprivkey', params);
   }
 
   /**
@@ -111,12 +107,12 @@ export class Misc {
    * @param params
    * @param {Array} params.addresses                Array of base58check encoded address
    * @param {boolean=} [params.includeAssets=false] If true this will return an expanded result which includes asset deltas
-   * @returns {Promise}
+   * @returns {Promise<GetAddressMempoolResponse[]>}
    */
-  async getAddressMempool(
+  getAddressMempool(
     params: GetAddressMempool
   ): Promise<GetAddressMempoolResponse[]> {
-    return await this._client.request('getaddressmempool', params);
+    return this._client.request('getaddressmempool', params);
   }
 
   /**
@@ -125,12 +121,10 @@ export class Misc {
    * @param {Array} params.addresses            Array of base58check encoded addresses
    * @param {boolean=} [params.chainInfo=false] Include chain info with results
    * @param {string=} params.assetName          Get UTXOs for a particular asset instead of RVN ('*' for all assets).
-   * @returns {Promise}
+   * @returns {Promise<GetAddressUtxosResponse[]>}
    */
-  async getAddressUtxos(
-    params: GetAddressUtxos
-  ): Promise<GetAddressUtxosResponse[]> {
-    return await this._client.request('getaddressutxos', params);
+  getAddressUtxos(params: GetAddressUtxos): Promise<GetAddressUtxosResponse[]> {
+    return this._client.request('getaddressutxos', params);
   }
 
   /**
@@ -141,12 +135,12 @@ export class Misc {
    * @param {number} params.end        The end block height
    * @param {boolean} params.chainInfo Include chain info in results, only applies if start and end specified
    * @param {string=} params.assetName Get deltas for a particular asset instead of RVN.
-   * @returns {Promise}
+   * @returns {Promise<GetAddressDeltasResponse[]>}
    */
-  async getAddressDeltas(
+  getAddressDeltas(
     params: GetAddressDeltas
   ): Promise<GetAddressDeltasResponse[]> {
-    return await this._client.request('getaddressdeltas', params);
+    return this._client.request('getaddressdeltas', params);
   }
 
   /**
@@ -155,10 +149,10 @@ export class Misc {
    * @param {Array} params.addresses Array of base58check encoded addresses
    * @param {number=} params.start   The start block height
    * @param {number=} params.end     The end block height
-   * @returns {Promise} Array of transaction ids
+   * @returns {Promise<string[]>} Array of transaction ids
    */
-  async getAddressTxIds(params: GetAddressTxIds): Promise<string[]> {
-    return await this._client.request('getaddresstxids', params);
+  getAddressTxIds(params: GetAddressTxIds): Promise<string[]> {
+    return this._client.request('getaddresstxids', params);
   }
 
   /**
@@ -166,12 +160,12 @@ export class Misc {
    * @param params
    * @param {Array} params.addresses                Array of base58check encoded addresses
    * @param {boolean=} [params.includeAssets=false] If true this will return an expanded result which includes asset balances
-   * @returns {Promise}
+   * @returns {Promise<GetAddressBalanceResponse | GetAddressBalanceResponseWithAsset[]>}
    */
-  async getAddressBalance(
+  getAddressBalance(
     params: GetAddressBalance
   ): Promise<GetAddressBalanceResponse | GetAddressBalanceResponseWithAsset[]> {
-    return await this._client.request('getaddressbalance', [params]);
+    return this._client.request('getaddressbalance', [params]);
   }
 
   /**
@@ -179,20 +173,20 @@ export class Misc {
    * @param params
    * @param {string} txid  The hex string of the txid
    * @param {number} index The start block height
-   * @returns {Promise}
+   * @returns {Promise<GetSpentInfoResponse>}
    */
-  async getSpentInfo(params: GetSpentInfo): Promise<GetSpentInfoResponse> {
-    return await this._client.request('getspentinfo', params);
+  getSpentInfo(params: GetSpentInfo): Promise<GetSpentInfoResponse> {
+    return this._client.request('getspentinfo', params);
   }
 
   /**
    * Set the local time to given timestamp (-regtest only)
    * @param params
    * @param {number} timestamp Unix seconds-since-epoch timestamp. Pass 0 to go back to using the system time.
-   * @returns {Promise}
+   * @returns {Promise<null>}
    */
-  async setMockTime(params: SetMockTime): Promise<null> {
-    return await this._client.request('setmocktime', params);
+  setMockTime(params: SetMockTime): Promise<null> {
+    return this._client.request('setmocktime', params);
   }
 
   /**
@@ -202,10 +196,10 @@ export class Misc {
    *
    * There is no server-side difference.
    * @param params
-   * @returns {Promise}
+   * @returns {Promise<unknown>}
    */
-  async echo(params: any): Promise<any> {
-    return await this._client.request('echo', params);
+  echo(params = {}): Promise<unknown> {
+    return this._client.request('echo', params);
   }
 
   /**
@@ -215,10 +209,10 @@ export class Misc {
    *
    * There is no server-side difference.
    * @param params
-   * @returns {Promise}
+   * @returns {Promise<unknown>}
    */
-  async echojson(params: any): Promise<any> {
-    return await this._client.request('echojson', params);
+  echojson(params = {}): Promise<unknown> {
+    return this._client.request('echojson', params);
   }
 
   /**
@@ -232,9 +226,9 @@ export class Misc {
    * @param params
    * @param {Array} params.include Array of strings. Add debug logging for these categories.
    * @param {Array} params.exclude Array of strings. Remove debug logging for these categories.
-   * @returns {Promise} A list of the logging categories that are active.
+   * @returns {Promise<string>} A list of the logging categories that are active.
    */
-  async logging(params: loggingRequest): Promise<string> {
-    return await this._client.request('logging', params);
+  logging(params: loggingRequest): Promise<string> {
+    return this._client.request('logging', params);
   }
 }

@@ -40,23 +40,23 @@ export class Mining {
    * @param params
    * @param {number=} [params.nblocks=120] The number of blocks, or -1 for blocks since last difficulty change.
    * @param {number=} [params.height=1] To estimate at the time of the given height.
-   * @returns {Promise} Hashes per second estimated
+   * @returns {Promise<number>} Hashes per second estimated
    */
-  async getNetworkHashPs(params?: GetNetworkHashPs): Promise<number> {
+  getNetworkHashPs(params?: GetNetworkHashPs): Promise<number> {
     params = params || {};
     params.nblocks = params.nblocks ?? 120;
     params.height = params.height ?? 1;
-    return await this._client.request('getnetworkhashps', params);
+    return this._client.request('getnetworkhashps', params);
   }
 
   /**
    * Returns a json object containing mining-related information.
    * @example
    * client.mining.getMiningInfo()
-   * @returns {Promise}
+   * @returns {Promise<GetMiningInfoResponse>}
    */
-  async getMiningInfo(): Promise<GetMiningInfoResponse> {
-    return await this._client.request('getmininginfo');
+  getMiningInfo(): Promise<GetMiningInfoResponse> {
+    return this._client.request('getmininginfo');
   }
 
   /**
@@ -67,10 +67,10 @@ export class Mining {
    * @param {string} params.txid The transaction id.
    * @param {number=} params.dummy API-Compatibility for previous API. Must be zero or null. DEPRECATED. For forward compatibility use named arguments and omit this parameter.
    * @param {number} params.fee_delta The fee value (in satoshis) to add (or subtract, if negative). The fee is not actually paid, only the algorithm for selecting transactions into a block considers the transaction as it would have paid a higher (or lower) fee.
-   * @returns {Promise} Returns true
+   * @returns {Promise<boolean>} Returns true
    */
-  async prioritiseTransaction(params: PrioritiseTransaction): Promise<boolean> {
-    return await this._client.request('prioritisetransaction', params);
+  prioritiseTransaction(params: PrioritiseTransaction): Promise<boolean> {
+    return this._client.request('prioritisetransaction', params);
   }
 
   /**
@@ -97,10 +97,10 @@ export class Mining {
    * @param {TemplateRequest} params.template_request
    * @returns {Promise}
    */
-  async getBlockTemplate(
+  getBlockTemplate(
     params?: GetBlockTemplate
   ): Promise<GetBlockTemplateResponse> {
-    return await this._client.request('getblocktemplate', params);
+    return this._client.request('getblocktemplate', params);
   }
 
   /**
@@ -112,8 +112,8 @@ export class Mining {
    * @param {string=} params.dummy Dummy value, for compatibility with BIP22. This value is ignored.
    * @returns {Promise}
    */
-  async submitBlock(params: SubmitBlock): Promise<null | string> {
-    return await this._client.request('submitblock', params);
+  submitBlock(params: SubmitBlock): Promise<null | string> {
+    return this._client.request('submitblock', params);
   }
 
   /**
@@ -124,8 +124,8 @@ export class Mining {
    * @param {string} params.nonce The nonce of the block that hashed the valid block
    * @returns {Promise}
    */
-  async pprpcsb(params: Pprpcsb): Promise<null | string> {
-    return await this._client.request('pprpcsb', params);
+  pprpcsb(params: Pprpcsb): Promise<null | string> {
+    return this._client.request('pprpcsb', params);
   }
 
   /**
@@ -138,8 +138,8 @@ export class Mining {
    * @param {string=} params.target The target of the block that is hash is trying to meet
    * @returns {Promise}
    */
-  async getKawpowHash(params: GetKawpowHash): Promise<GetKawpowHashResponse> {
-    return await this._client.request('getkawpowhash', params);
+  getKawpowHash(params: GetKawpowHash): Promise<GetKawpowHashResponse> {
+    return this._client.request('getkawpowhash', params);
   }
 
   /**
@@ -150,10 +150,10 @@ export class Mining {
    * It can also be set with the setgenerate call.
    * @example
    * client.mining.getGenerate()
-   * @returns {Promise} If the server is set to generate coins or not
+   * @returns {Promise<boolean>} If the server is set to generate coins or not
    */
-  async getGenerate(): Promise<boolean> {
-    return await this._client.request('getgenerate');
+  getGenerate(): Promise<boolean> {
+    return this._client.request('getgenerate');
   }
 
   /**
@@ -167,11 +167,11 @@ export class Mining {
    * @param params
    * @param {boolean} params.generate Set to true to turn on generation, false to turn off.
    * @param {number=} params.genproclimit Set the processor limit for when generation is on. Can be -1 for unlimited.
-   * @returns {Promise}
+   * @returns {Promise<string>}
    */
 
-  async setGenerate(params: SetGenerate): Promise<string> {
-    return await this._client.request('setgenerate', params);
+  setGenerate(params: SetGenerate): Promise<string> {
+    return this._client.request('setgenerate', params);
   }
 
   /**
@@ -180,10 +180,10 @@ export class Mining {
    * @param {number} params.nblocks How many blocks are generated immediately.
    * @param {string} params.address The address to send the newly generated raven to.
    * @param {number=} params.maxtries How many iterations to try (default = 1000000).
-   * @returns {Promise} Array of hashes of blocks generated
+   * @returns {Promise<string[]>} Array of hashes of blocks generated
    */
-  async generateToAddress(params: GenerateToAddress): Promise<string[]> {
-    return await this._client.request('generatetoaddress', params);
+  generateToAddress(params: GenerateToAddress): Promise<string[]> {
+    return this._client.request('generatetoaddress', params);
   }
 
   /**
@@ -195,14 +195,14 @@ export class Mining {
    * @deprecated
    * @param params
    * @param {number} params.nblocks
-   * @returns {Promise} Estimated fee-per-kilobyte.
+   * @returns {Promise<number>} Estimated fee-per-kilobyte.
    *
    * A negative value is returned if not enough transactions and blocks have been observed to make an estimate.
    *
    * -1 is always returned for nblocks == 1 as it is impossible to calculate a fee that is high enough to get reliably included in the next block.
    */
-  async estimateFee(params: EstimateFee): Promise<number> {
-    return await this._client.request('estimatefee', params);
+  estimateFee(params: EstimateFee): Promise<number> {
+    return this._client.request('estimatefee', params);
   }
 
   /**
@@ -215,12 +215,12 @@ export class Mining {
    * A conservative estimate potentially returns a higher feerate and is more likely to be sufficient for the desired target, but is not as responsive to short term drops in the prevailing fee market.
    *
    * Must be one of: "UNSET", "ECONOMICAL", "CONSERVATIVE"
-   * @returns {Promise}
+   * @returns {Promise<EstimateSmartFeeResponse>}
    */
-  async estimateSmartFee(
+  estimateSmartFee(
     params: EstimateSmartFee
   ): Promise<EstimateSmartFeeResponse> {
-    return await this._client.request('estimatesmartfee', params);
+    return this._client.request('estimatesmartfee', params);
   }
 
   /**
@@ -236,11 +236,11 @@ export class Mining {
    * @param params
    * @param {number} params.conf_target  Confirmation target in blocks (1 - 1008)
    * @param {number=} [params.threshold=0.95] The proportion of transactions in a given feerate range that must have been confirmed within conf_target in order to consider those feerates as high enough and proceed to check lower buckets.  Default: 0.95
-   * @returns {Promise} Results are returned for any horizon which tracks blocks up to the confirmation target.
+   * @returns {Promise<EstimateRawFeeResponse>} Results are returned for any horizon which tracks blocks up to the confirmation target.
    */
-  async estimateRawFee(
+  estimateRawFee(
     params: EstimateRawFee
   ): Promise<EstimateRawFeeResponse> {
-    return await this._client.request('estimaterawfee', params);
+    return this._client.request('estimaterawfee', params);
   }
 }

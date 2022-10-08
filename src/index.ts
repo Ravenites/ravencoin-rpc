@@ -92,7 +92,7 @@ export default class Client implements IClient {
    * @param {(Object|Array)=} params Data required by rpc command. Typically an object or an array.
    * @returns {Promise}
    */
-  async request(method: string, params = {}): Promise<any> {
+  request(method: string, params = {}): Promise<any> {
     const data = {
       jsonrpc: '2.0',
       id: Math.random(),
@@ -100,7 +100,7 @@ export default class Client implements IClient {
       params,
     };
 
-    return await axios
+    return axios
       .post(this._url, data, this._options)
       .then(res => (res.data?.result ? res.data.result : res.data))
       .catch(err => ({

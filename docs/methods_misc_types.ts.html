@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ravenite - Ravencoin RPC methods/misc/types.ts</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Ravenite (ravencoin-rpc)</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/Ravenites/ravencoin-rpc"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Client</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li><li><a href="Wallet.html">Wallet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>methods/misc/types.ts</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/** GetInfoResponse */
+export type GetInfoResponse = {
+  /** Sarning that the getinfo command is deprecated and will be removed in 0.16 */
+  deprecation: string;
+  /**  The server version */
+  version: number;
+  /** The protocol version */
+  protocolversion: number;
+  /** The wallet version */
+  walletversion: number;
+  /** The total Ravencoin balance of the wallet */
+  balance: number;
+  /** The current number of blocks processed in the server */
+  blocks: number;
+  /** The time offset */
+  timeoffset: number;
+  /** The number of connections */
+  connections: number;
+  /** The proxy used by the server */
+  proxy: string;
+  /** The current difficulty */
+  difficulty: number;
+  /** If the server is using testnet or not */
+  testnet: boolean;
+  /** The timestamp (seconds since Unix epoch) of the oldest pre-generated key in the key pool */
+  keypoololdest: number;
+  /** How many new keys are pre-generated */
+  keypoolsize: number;
+  /** The timestamp in seconds since epoch (midnight Jan 1 1970 GMT) that the wallet is unlocked for transfers, or 0 if the wallet is locked */
+  unlocked_until: number;
+  /** The transaction fee set in " + CURRENCY_UNIT + "/kB */
+  paytxfee: number;
+  /** Minimum relay fee for transactions in " + CURRENCY_UNIT + "/kB */
+  relayfee: number;
+  /** Any error messages */
+  errors: string;
+};
+
+/** GetMemoryInfo */
+export type GetMemoryInfo = {
+  /**
+   * Determines what kind of information is returned. This argument is optional, the default mode is \"stats\".
+   * 
+   * stats - Returns general statistics about memory usage in the daemon.
+   * 
+   * mallocinfo - Returns an XML string describing low-level heap state (only available if compiled with glibc 2.10+).
+   */
+  mode: 'stats' | 'mallocinfo';
+};
+
+/** GetMemoryInfoResponse */
+export type GetMemoryInfoResponse = {
+  /** Information about locked memory manager */
+  locked: GetMemoryInfoResponseLocked;
+};
+
+/** GetMemoryInfoResponseLocked */
+type GetMemoryInfoResponseLocked = {
+  /** Number of bytes used */
+  used: number;
+  /** Number of bytes available in current arenas */
+  free: number;
+  /** Total number of bytes managed */
+  total: number;
+  /** Amount of bytes that succeeded locking. If this number is smaller than total, locking pages failed at some point and key data could be swapped to disk. */
+  locked: number;
+  /** Number allocated chunks */
+  chunks_used: number;
+  /** Number unused chunks */
+  chunks_free: number;
+};
+
+/** ValidateAddress */
+export type ValidateAddress = {
+  address: string;
+};
+
+/** ValidateAddressResponse */
+export type ValidateAddressResponse = {
+  /** If the address is valid or not. If not, this is the only property returned. */
+  isvalid: boolean;
+  /** The raven address validated */
+  address: string;
+  /** The hex encoded scriptPubKey generated by the address */
+  scriptPubKey: string;
+  /** If the address is yours or not */
+  ismin: boolean;
+  /** If the address is watchonly */
+  iswatchonly: boolean;
+  /** If the key is a script */
+  isscript: boolean;
+  /** The output script type. Possible types: nonstandard, pubkey, pubkeyhash, scripthash, multisig, nulldata, witness_v0_keyhash, witness_v0_scripthash */
+  script?: string;
+  /** The redeemscript for the p2sh address */
+  hex?: string;
+  /** Array of addresses associated with the known redeemscript */
+  addresses?: string[];
+  /** Number of signatures required to spend multisig output */
+  sigsrequired?: number;
+  /** The hex value of the raw public key */
+  pubkey: string;
+  /** If the address is compressed */
+  iscompressed: boolean;
+  /** DEPRECATED. The account associated with the address, \"\" is the default account */
+  account: string;
+  /** The creation time of the key if available in seconds since epoch (Jan 1 1970 GMT) */
+  timestamp: number;
+  /** The HD keypath if the key is HD and available */
+  hdkeypath?: string;
+  /** The Hash160 of the HD master pubkey */
+  hdmasterkeyid?: string;
+};
+
+/** CreateMultisig */
+export type CreateMultisig = {
+  nrequired: number;
+  keys: string[];
+};
+
+/** CreateMultisigResponse */
+export type CreateMultisigResponse = {
+  /** The value of the new multisig address. */
+  address: string;
+  /** The string value of the hex-encoded redemption script. */
+  redeemScript: string;
+};
+
+/** VerifyMessage */
+export type VerifyMessage = {
+  address: string;
+  signature: string;
+  message: string;
+};
+
+/** SignMessageWithPrivKey */
+export type SignMessageWithPrivKey = {
+  privkey: string;
+  message: string;
+};
+
+/** SignMessageWithPrivKeyResponse */
+export type SignMessageWithPrivKeyResponse = {
+  /** The signature of the message encoded in base 64 */
+  signature: string;
+};
+
+/** GetAddressMempool */
+export type GetAddressMempool = {
+  /** Array of base58check encoded address */
+  addresses: string[];
+  includeAssets?: boolean;
+};
+
+/** GetAddressMempoolResponse */
+export type GetAddressMempoolResponse = {
+  /** The base58check encoded address */
+  address: string;
+  /** The name of the associated asset (RVN for Ravencoin) */
+  assetName: string;
+  /** The related txid */
+  txid: string;
+  /** The related input or output index */
+  index: number;
+  /** The difference of satoshis */
+  satoshis: number;
+  /** The time the transaction entered the mempool (seconds) */
+  timestamp: number;
+  /** The previous txid (if spending) */
+  prevtxid: string;
+  /** The previous transaction output index (if spending) */
+  prevout: string;
+};
+
+/** GetAddressUtxos */
+export type GetAddressUtxos = {
+  addresses: string[];
+  chainInfo?: boolean;
+  assetName?: string;
+};
+/** GetAddressUtxosResponse */
+export type GetAddressUtxosResponse = {
+  /** The address base58check encoded */
+  address: string;
+  /** The asset associated with the UTXOs (RVN for Ravencoin) */
+  assetName: string;
+  /** The output txid */
+  txid: string;
+  /** The block height */
+  height: number;
+  /** The output index */
+  outputIndex: number;
+  /** The script hex encoded */
+  script: string;
+  /** The number of satoshis of the output */
+  satoshis: number;
+};
+
+/** GetAddressDeltas */
+export type GetAddressDeltas = {
+  addresses: string[];
+  start: number;
+  end: number;
+  chainInfo: boolean;
+  assetName?: string;
+};
+
+/** GetAddressDeltasResponse */
+export type GetAddressDeltasResponse = {
+  /** The asset associated with the delta (RVN for Ravencoin) */
+  assetName: string;
+  /** The difference of satoshis */
+  satoshis: number;
+  /** The related txid */
+  txid: string;
+  /** The related input or output index */
+  index: number;
+  /** The block height */
+  height: number;
+  /** The base58check encoded address */
+  address: string;
+};
+
+/** GetAddressTxIds */
+export type GetAddressTxIds = {
+  addresses: string[];
+  start?: number;
+  end?: number;
+};
+
+/** GetAddressBalance */
+export type GetAddressBalance = {
+  addresses: string[];
+  includeAssets?: boolean;
+};
+
+/** GetAddressBalanceResponse */
+export type GetAddressBalanceResponse = {
+  /** The current balance in satoshis */
+  balance: string;
+  /** The total number of satoshis received (including change) */
+  received: string;
+};
+
+/** GetAddressBalanceResponseWithAsset */
+export type GetAddressBalanceResponseWithAsset = GetAddressBalanceResponse &amp; {
+  /** The asset associated with the balance (RVN for Ravencoin) */
+  assetName: string;
+};
+
+/** GetSpentInfo */
+export type GetSpentInfo = {
+  txid: string;
+  index: number;
+};
+
+/** GetSpentInfoResponse */
+export type GetSpentInfoResponse = {
+  /** The transaction id */
+  txid: string;
+  /** The spending input index */
+  index: number;
+};
+
+/** SetMockTime */
+export type SetMockTime = {
+  timestamp: number;
+};
+
+/** loggingRequest */
+export type loggingRequest = {
+  include: string[];
+  exclude: string[];
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

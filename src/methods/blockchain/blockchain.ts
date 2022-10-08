@@ -57,19 +57,20 @@ export class Blockchain {
 
   /**
    * Removes all transaction from the mempool
-   * @returns {Promise} Mempool cleared
+   * @returns {Promise<string>} Mempool cleared
    */
-  async clearMempool(): Promise<string> {
-    return await this._client.request('clearmempool');
+ clearMempool(): Promise<string> {
+    return this._client.request('clearmempool');
   }
 
   /**
    * Returns an object containing various state info regarding blockchain processing.
-   * @param params
-   * @returns {Promise}
+   * @returns {Promise<GetBlockchainInfoResponse>}
+   * @example
+   * client.blockchain.getBlockchainInfo()
    */
-  async getBlockchainInfo(): Promise<GetBlockchainInfoResponse> {
-    return await this._client.request('getblockchaininfo');
+ getBlockchainInfo(): Promise<GetBlockchainInfoResponse> {
+    return this._client.request('getblockchaininfo');
   }
 
   /**
@@ -77,28 +78,28 @@ export class Blockchain {
    * @param params
    * @param {number=} params.nblocks Size of the window in number of blocks (default: one month).
    * @param {string=} params.blockhash The hash of the block that ends the window.
-   * @returns {Promise}
+   * @returns {Promise<GetChainTxStatsResponse>}
    */
-  async getChainTxStats(
+ getChainTxStats(
     params: GetChainTxStats
   ): Promise<GetChainTxStatsResponse> {
-    return await this._client.request('getchaintxstats', params);
+    return this._client.request('getchaintxstats', params);
   }
 
   /**
    * Returns the hash of the best (tip) block in the longest blockchain.
-   * @returns {Promise} The block hash hex encoded
+   * @returns {Promise<string>} The block hash hex encoded
    */
-  async getBestBlockHash(): Promise<string> {
-    return await this._client.request('getbestblockhash');
+ getBestBlockHash(): Promise<string> {
+    return this._client.request('getbestblockhash');
   }
 
   /**
    * Returns the number of blocks in the longest blockchain.
-   * @returns {Promise} The current block count
+   * @returns {Promise<number>} The current block count
    */
-  async getBlockCount(): Promise<number> {
-    return await this._client.request('getblockcount');
+ getBlockCount(): Promise<number> {
+    return this._client.request('getblockcount');
   }
 
   /**
@@ -110,34 +111,34 @@ export class Blockchain {
    * @param params
    * @param {string} params.blockhash The block hash
    * @param {number=} [params.verbosity=1] Default = 1. 0 for hex encoded data, 1 for a json object, and 2 for json object with transaction data
-   * @returns {Promise}
+   * @returns {Promise<GetBlockVerbosity0 | GetBlockVerbosity1 | GetBlockVerbosity2>}
    */
-  async getBlock(
+ getBlock(
     params: GetBlock
   ): Promise<GetBlockVerbosity0 | GetBlockVerbosity1 | GetBlockVerbosity2> {
-    return await this._client.request('getblock', params);
+    return this._client.request('getblock', params);
   }
 
   /**
    * Decode block by the blockhex
    * @param params
    * @param {string} params.blockhex The block hex
-   * @returns {Promise}
+   * @returns {Promisee<DecodeBlockResponse>}
    */
-  async decodeBlock(params: DecodeBlock): Promise<DecodeBlockResponse> {
-    return await this._client.request('decodeblock', params);
+ decodeBlock(params: DecodeBlock): Promise<DecodeBlockResponse> {
+    return this._client.request('decodeblock', params);
   }
 
   /**
    * Get Block Deltas
    * @param params
    * @param {string} params.blockhash The block hash
-   * @returns {Promise}
+   * @returns {Promise<GetBlockDeltasResponse>}
    */
-  async getBlockDeltas(
+ getBlockDeltas(
     params: GetBlockDeltas
   ): Promise<GetBlockDeltasResponse> {
-    return await this._client.request('getblockdeltas', params);
+    return this._client.request('getblockdeltas', params);
   }
 
   /**
@@ -153,22 +154,22 @@ export class Blockchain {
    * @param {number} params.high The newer block timestamp
    * @param {number} params.low The older block timestamp
    * @param {OptionsRequest} params.options
-   * @returns {Promise}
+   * @returns {Promise<GetBlockHashesResponse | GetBlockHashesResponseLogicalTimes>}
    */
-  async getBlockHashes(
+ getBlockHashes(
     params: GetBlockHashes
   ): Promise<GetBlockHashesResponse | GetBlockHashesResponseLogicalTimes> {
-    return await this._client.request('getblockhashes', params);
+    return this._client.request('getblockhashes', params);
   }
 
   /**
    * Returns hash of block in best-block-chain at height provided.
    * @param params
    * @param {number} params.height The height index
-   * @returns {Promise} The block hash
+   * @returns {Promise<string>} The block hash
    */
-  async getBlockHash(params: GetBlockHash): Promise<string> {
-    return await this._client.request('getblockhash', params);
+ getBlockHash(params: GetBlockHash): Promise<string> {
+    return this._client.request('getblockhash', params);
   }
 
   /**
@@ -178,28 +179,28 @@ export class Blockchain {
    * @param params
    * @param {string} params.hash The block hash
    * @param {boolean=} [params.verbose=true] Default = true. True for a json object, false for the hex encoded data
-   * @returns {Promise}
+   * @returns {Promise<GetBlockHeaderResponseFalse | GetBlockHeaderResponseTrue>}
    */
-  async getBlockHeader(
+ getBlockHeader(
     params: GetBlockHeader
   ): Promise<GetBlockHeaderResponseFalse | GetBlockHeaderResponseTrue> {
-    return await this._client.request('getblockheader', params);
+    return this._client.request('getblockheader', params);
   }
 
   /**
    * Return information about all known tips in the block tree, including the main chain as well as orphaned branches.   * @param params
-   * @returns {Promise}
+   * @returns {Promise<GetChainTipsResponse[]>}
    */
-  async getChainTips(): Promise<GetChainTipsResponse[]> {
-    return await this._client.request('getchaintips');
+ getChainTips(): Promise<GetChainTipsResponse[]> {
+    return this._client.request('getchaintips');
   }
 
   /**
    * Returns the proof-of-work difficulty as a multiple of the minimum difficulty.
-   * @returns {Promise} The proof-of-work difficulty as a multiple of the minimum difficulty.
+   * @returns {Promise<number>} The proof-of-work difficulty as a multiple of the minimum difficulty.
    */
-  async getDifficulty(): Promise<number> {
-    return await this._client.request('getdifficulty');
+ getDifficulty(): Promise<number> {
+    return this._client.request('getdifficulty');
   }
 
   /**
@@ -207,15 +208,15 @@ export class Blockchain {
    * @param params
    * @param {string} params.txid The transaction id (must be in mempool)
    * @param {boolean=} [params.verbose=false] Default = false. True for a json object, false for array of transaction ids
-   * @returns {Promise} Array of transactions or ids of an in-mempool ancestor transactions
+   * @returns {Promise<GetMempoolAncestorsResponseVerboseFalse[] | GetMempoolAncestorsResponseVerboseTrue>} Array of transactions or ids of an in-mempool ancestor transactions
    */
-  async getMempoolAncestors(
+ getMempoolAncestors(
     params: GetMempoolAncestors
   ): Promise<
     | GetMempoolAncestorsResponseVerboseFalse[]
     | GetMempoolAncestorsResponseVerboseTrue
   > {
-    return await this._client.request('getmempoolancestors', params);
+    return this._client.request('getmempoolancestors', params);
   }
 
   /**
@@ -223,33 +224,33 @@ export class Blockchain {
    * @param params
    * @param {string} params.txid The transaction id (must be in mempool)
    * @param {boolean=} [params.verbose=false] Default = false. True for a json object, false for array of transaction ids
-   * @returns {Promise}
+   * @returns {Promise<GetMempoolDescendantsResponseVerboseFalse[] | GetMempoolDescendantsResponseVerboseTrue>}
    */
-  async getMempoolDescendants(
+ getMempoolDescendants(
     params: GetMempoolDescendants
   ): Promise<
     | GetMempoolDescendantsResponseVerboseFalse[]
     | GetMempoolDescendantsResponseVerboseTrue
   > {
-    return await this._client.request('getmempooldescendants', params);
+    return this._client.request('getmempooldescendants', params);
   }
 
   /**
    * Returns mempool data for given transaction
    * @param params
    * @param {string} params.txid The transaction id (must be in mempool)
-   * @returns {Promise}
+   * @returns {Promise<string[]>}
    */
-  async getMempoolEntry(params: GetMempoolEntry): Promise<any> {
-    return await this._client.request('getmempoolentry', params);
+ getMempoolEntry(params: GetMempoolEntry): Promise<string[]> {
+    return this._client.request('getmempoolentry', params);
   }
 
   /**
    * Returns details on the active state of the TX memory pool.
-   * @returns {Promise}
+   * @returns {Promise<GetMempoolInfoResponse>}
    */
-  async getMempoolInfo(): Promise<GetMempoolInfoResponse> {
-    return await this._client.request('getmempoolinfo');
+ getMempoolInfo(): Promise<GetMempoolInfoResponse> {
+    return this._client.request('getmempoolinfo');
   }
 
   /**
@@ -258,14 +259,14 @@ export class Blockchain {
    * Hint: use getmempoolentry to fetch a specific transaction from the mempool.
    * @param params
    * @param {boolean=} params.verbose Default = false. True for a json object, false for array of transaction ids
-   * @returns {Promise}
+   * @returns {Promise<GetRawMempoolResponseVerboseFalse | GetRawMempoolResponseVerboseTrue>}
    */
-  async getRawMempool(
+ getRawMempool(
     params: GetRawMempool
   ): Promise<
     GetRawMempoolResponseVerboseFalse | GetRawMempoolResponseVerboseTrue
   > {
-    return await this._client.request('getrawmempool', params);
+    return this._client.request('getrawmempool', params);
   }
 
   /**
@@ -276,36 +277,36 @@ export class Blockchain {
    * @param {boolean=} params.include_mempool Whether to include the mempool. Default: true. Note that an unspent output that is spent in the mempool won't appear.
    * @returns {Promise}
    */
-  async GetTxOut(params: GetTxOut): Promise<GetTxOutResponse> {
-    return await this._client.request('gettxout', params);
+ GetTxOut(params: GetTxOut): Promise<GetTxOutResponse> {
+    return this._client.request('gettxout', params);
   }
 
   /**
    * Returns statistics about the unspent transaction output set.
    *
    * Note this call may take some time.
-   * @returns {Promise}
+   * @returns {Promise<GetTxOutResponse>}
    */
-  async getTxOutSetInfo(): Promise<GetTxOutResponse> {
-    return await this._client.request('gettxoutsetinfo');
+ getTxOutSetInfo(): Promise<GetTxOutResponse> {
+    return this._client.request('gettxoutsetinfo');
   }
 
   /**
    * Prune the blockchain
    * @param params
    * @param {number} params.height The block height to prune up to. May be set to a discrete height, or a unix timestamp to prune blocks whose block time is at least 2 hours older than the provided timestamp.
-   * @returns {Promise} Height of the last block pruned.
+   * @returns {Promise<number>} Height of the last block pruned.
    */
-  async pruneBlockchain(params: PruneBlockchain): Promise<number> {
-    return await this._client.request('pruneblockchain', params);
+ pruneBlockchain(params: PruneBlockchain): Promise<number> {
+    return this._client.request('pruneblockchain', params);
   }
 
   /**
    * Dumps the mempool to disk.
-   * @returns {Promise}
+   * @returns {Promise<null>}
    */
-  async saveMempool(): Promise<null> {
-    return await this._client.request('savemempool');
+ saveMempool(): Promise<null> {
+    return this._client.request('savemempool');
   }
 
   /**
@@ -313,10 +314,10 @@ export class Blockchain {
    * @param params
    * @param {number=} params.checklevel 0-4, default=" + strprintf("%d", nCheckLevel) + ") How thorough the block verification is.
    * @param {number=} params.nblocks Default = " + strprintf("%d", nCheckDepth) + ", 0=all) The number of blocks to check.
-   * @returns {Promise} Verified or not
+   * @returns {Promise<boolean>} Verified or not
    */
-  async verifyChain(params: VerifyChain): Promise<boolean> {
-    return await this._client.request('verifychain', params);
+ verifyChain(params: VerifyChain): Promise<boolean> {
+    return this._client.request('verifychain', params);
   }
 
   /**
@@ -327,20 +328,20 @@ export class Blockchain {
    * The effects of preciousblock are not retained across restarts
    * @param params
    * @param {string} params.blockhash The hash of the block to mark as precious
-   * @returns {Promise}
+   * @returns {Promise<null>}
    */
-  async preciousBlock(params: PreciousBlock): Promise<null> {
-    return await this._client.request('preciousblock', params);
+ preciousBlock(params: PreciousBlock): Promise<null> {
+    return this._client.request('preciousblock', params);
   }
 
   /**
    * Permanently marks a block as invalid, as if it violated a consensus rule.
    * @param params
    * @param {string} params.blockhash The hash of the block to mark as invalid
-   * @returns {Promise}
+   * @returns {Promise<null>}
    */
-  async invalidateBlock(params: InvalidateBlock): Promise<null> {
-    return await this._client.request('invalidateblock', params);
+ invalidateBlock(params: InvalidateBlock): Promise<null> {
+    return this._client.request('invalidateblock', params);
   }
 
   /**
@@ -349,10 +350,10 @@ export class Blockchain {
    * This can be used to undo the effects of invalidateblock.
    * @param params
    * @param {string} params.blockhash The hash of the block to reconsider
-   * @returns {Promise}
+   * @returns {Promise<null>}
    */
-  async reconsiderBlock(params: ReconsiderBlock): Promise<null> {
-    return await this._client.request('reconsiderblock', params);
+ reconsiderBlock(params: ReconsiderBlock): Promise<null> {
+    return this._client.request('reconsiderblock', params);
   }
 
   /**
@@ -361,12 +362,12 @@ export class Blockchain {
    * Returns the current block on timeout or exit.
    * @param params
    * @param {number=} [params.timeout=0] Default = 0. Time in milliseconds to wait for a response. 0 indicates no timeout.
-   * @returns {Promise}
+   * @returns {Promise<WaitForNewBlockResponse>}
    */
-  async waitForNewBlock(
+ waitForNewBlock(
     params: WaitForNewBlock
   ): Promise<WaitForNewBlockResponse> {
-    return await this._client.request('waitfornewblock', params);
+    return this._client.request('waitfornewblock', params);
   }
 
   /**
@@ -376,10 +377,10 @@ export class Blockchain {
    * @param params
    * @param {string} params.blockhash Block hash to wait for.
    * @param {number=} [params.timeout=0] Default = 0. Time in milliseconds to wait for a response. 0 indicates no timeout.
-   * @returns {Promise}
+   * @returns {Promise<WaitForBlockResponse>}
    */
-  async waitForBlock(params: WaitForBlock): Promise<WaitForBlockResponse> {
-    return await this._client.request('waitforblock', params);
+ waitForBlock(params: WaitForBlock): Promise<WaitForBlockResponse> {
+    return this._client.request('waitforblock', params);
   }
 
   /**
@@ -389,11 +390,11 @@ export class Blockchain {
    * @param params
    * @param {number} params.height Block height to wait for (int)
    * @param {number=} [params.timeout=0] Default = 0. Time in milliseconds to wait for a response. 0 indicates no timeout.
-   * @returns {Promise}
+   * @returns {Promise<WaitForBlockHeightResponse>}
    */
-  async waitForBlockHeight(
+ waitForBlockHeight(
     params: WaitForBlockHeight
   ): Promise<WaitForBlockHeightResponse> {
-    return await this._client.request('waitforblockheight', params);
+    return this._client.request('waitforblockheight', params);
   }
 }
