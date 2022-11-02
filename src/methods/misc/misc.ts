@@ -124,7 +124,11 @@ export class Misc {
    * @returns {Promise<GetAddressUtxosResponse[]>}
    */
   getAddressUtxos(params: GetAddressUtxos): Promise<GetAddressUtxosResponse[]> {
-    return this._client.request('getaddressutxos', params);
+    let parsed =
+      Object.keys(params).length === 1 && params.addresses.length
+        ? Object.values(params).flat()
+        : params;
+    return this._client.request('getaddressutxos', parsed);
   }
 
   /**

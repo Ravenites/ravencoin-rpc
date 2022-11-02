@@ -192,26 +192,34 @@ export default class Client implements IClient {
    * @param {(Object|Array)=} params Data required by rpc command. Typically an object or an array.
    * @returns {Promise}
    */
-  request(method: string, params = {}): Promise&lt;any> {
-    const data = {
+  request(method: string, params: any = {}): Promise&lt;any> {
+    const data: any = {
       jsonrpc: '2.0',
       id: Math.random(),
       method,
       params,
     };
 
+    console.log('data', data)
+
     return axios
       .post(this._url, data, this._options)
-      .then(res => (res.data?.result ? res.data.result : res.data))
-      .catch(err => ({
-        code: err.response?.status || 500,
-        data: err.response.config.data,
-        message:
-          err.response?.data?.error?.message ||
-          'Unknown request failure. Please review: rpc command, arguments and connection.',
-        name: err.response.statusText,
-        status: err.response?.status || 500,
-      }));
+      .then(res => {
+        console.log('res', res)
+        return (res.data?.result ? res.data.result : res.data)
+      })
+      .catch(err => {
+        console.log('err', err)
+        return ({
+          code: err.response?.status || 500,
+          data: err.response.config.data,
+          message:
+            err.response?.data?.error?.message ||
+            'Unknown request failure. Please review: rpc command, arguments and connection.',
+          name: err.response.statusText,
+          status: err.response?.status || 500,
+        })
+      });
   }
 }
 
