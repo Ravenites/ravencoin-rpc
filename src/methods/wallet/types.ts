@@ -74,7 +74,7 @@ export type BackupWallet = { destination: string };
 export type BumpFee = { txid: string; options: BumpFeeOptions };
 
 /** BumpFeeOptions */
-type BumpFeeOptions = {
+export type BumpFeeOptions = {
   /** Confirmation target (in blocks) */
   confTarget?: number; 
   /**
@@ -351,7 +351,7 @@ type ImportMultiRequests = {
 };
 
 /** ImportMultiOptions */
-type ImportMultiOptions = {
+export type ImportMultiOptions = {
   /** Default = true. Stating if should rescan the blockchain after all imports */
   rescan?: boolean; 
 };
@@ -578,7 +578,7 @@ export type ListUnspent = {
 };
 
 /** ListUnspentQueryOptions */
-type ListUnspentQueryOptions = {
+export type ListUnspentQueryOptions = {
   /** Default = 0. Minimum value of each UTXO in " + CURRENCY_UNIT + " */
   minimumAmount: string | number; 
   /** Default = unlimited. Maximum value of each UTXO in " + CURRENCY_UNIT + " */

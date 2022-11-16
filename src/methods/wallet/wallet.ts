@@ -7,6 +7,7 @@ import {
   AddWitnessAddressResponse,
   BackupWallet,
   BumpFee,
+  BumpFeeOptions,
   BumpFeeResponse,
   DumpPrivKey,
   DumpPrivKeyResponse,
@@ -14,6 +15,7 @@ import {
   DumpWalletResponse,
   EncryptWallet,
   FundRawTransaction,
+  FundRawTransactionOptions,
   FundRawTransactionResponse,
   Generate,
   GetAccount,
@@ -38,6 +40,7 @@ import {
   GetWalletInfoResponse,
   ImportAddress,
   ImportMulti,
+  ImportMultiOptions,
   ImportMultiResponse,
   ImportPrivKey,
   ImportPrunedFunds,
@@ -105,7 +108,7 @@ export class Wallet {
    * Only pay-to-pubkey, multisig, and P2SH versions thereof are currently supported for watch-only
    * @param params
    * @param {string} params.hexstring The hex string of the raw transaction
-   * @param {Object=} params.options
+   * @param {FundRawTransactionOptions=} params.options
    * @returns {Promise<FundRawTransactionResponse>}
    */
   fundRawTransaction(
@@ -214,7 +217,7 @@ export class Wallet {
    * At a minimum, the new fee rate must be high enough to pay an additional new relay fee (incrementalfee returned by getnetworkinfo) to enter the node's mempool.
    * @param params
    * @param {string} params.txid The txid to be bumped
-   * @param {Object=} params.options
+   * @param {BumpFeeOptions=} params.options
    * @returns {Promise<null | BumpFeeResponse>}
    */
   bumpFee(params: BumpFee): Promise<null | BumpFeeResponse> {
@@ -427,7 +430,7 @@ export class Wallet {
    * Import addresses/scripts (with private or public keys, redeem script (P2SH)), rescanning all addresses in one-shot-only (rescan can be disabled via options).
    * @param params
    * @param {Array} params.requests Data to be imported
-   * @param {Object} params.options
+   * @param {ImportMultiOptions=} params.options
    * @returns {Promise<ImportMultiResponse[]>} Response is an array with the same size as the input that has the execution result
    */
   importMulti(params: ImportMulti): Promise<ImportMultiResponse[]> {
@@ -633,7 +636,7 @@ export class Wallet {
    * @param {number=} [params.maxconf=9999999] The maximum confirmations to filter
    * @param {Array} params.addresses An array of raven addresses to filter
    * @param {boolean=} [params.include_unsafe=true] Include outputs that are not safe to spend. See description of \"safe\" attribute below.
-   * @param {Object} params.query_options JSON with query options
+   * @param {ListUnspentQueryOptions=} params.query_options JSON with query options
    * @returns {Promise<ListUnspentResponse[]>}
    */
   listUnspent(params: ListUnspent): Promise<ListUnspentResponse[]> {
