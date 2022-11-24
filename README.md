@@ -1,4 +1,6 @@
-# Ravencoin RPC
+![Ravencoin RPC Banner](https://github.com/Ravenites/ravencoin-rpc/raw/main/media/repo-banner.png)
+
+# Ravenite - Ravencoin RPC
 
 <a href="https://ravenites.github.io/ravencoin-rpc/Client.html" target="_blank">Documentation Website</a>
 
