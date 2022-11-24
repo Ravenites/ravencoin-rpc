@@ -95,7 +95,7 @@ type Input = {
 
 /** Outputs */
 type Outputs = {
-  /** 
+  /**
    * The destination raven address. Each output must have a different address.
    * The RVN amount
    * e.g. key => 'mjaX9GvK94RuHDHNBnhnyGGKXK1WKjq2Vs': 0.001

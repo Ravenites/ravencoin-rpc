@@ -238,9 +238,7 @@ export class Mining {
    * @param {number=} [params.threshold=0.95] The proportion of transactions in a given feerate range that must have been confirmed within conf_target in order to consider those feerates as high enough and proceed to check lower buckets.  Default: 0.95
    * @returns {Promise<EstimateRawFeeResponse>} Results are returned for any horizon which tracks blocks up to the confirmation target.
    */
-  estimateRawFee(
-    params: EstimateRawFee
-  ): Promise<EstimateRawFeeResponse> {
+  estimateRawFee(params: EstimateRawFee): Promise<EstimateRawFeeResponse> {
     return this._client.request('estimaterawfee', params);
   }
 }

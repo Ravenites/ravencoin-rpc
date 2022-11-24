@@ -40,9 +40,9 @@ export type GetInfoResponse = {
 export type GetMemoryInfo = {
   /**
    * Determines what kind of information is returned. This argument is optional, the default mode is \"stats\".
-   * 
+   *
    * stats - Returns general statistics about memory usage in the daemon.
-   * 
+   *
    * mallocinfo - Returns an XML string describing low-level heap state (only available if compiled with glibc 2.10+).
    */
   mode: 'stats' | 'mallocinfo';
