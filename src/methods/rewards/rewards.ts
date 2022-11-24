@@ -34,9 +34,7 @@ export class Rewards {
    * @param {number} params.block_height The block height at which the snapshot will be take
    * @returns {Promise} Object - { request_status: 'Added' }
    */
-  requestSnapshot(
-    params: RequestSnapshot
-  ): Promise<RequestSnapshotResponse> {
+  requestSnapshot(params: RequestSnapshot): Promise<RequestSnapshotResponse> {
     return this._client.request('requestsnapshot', params);
   }
 

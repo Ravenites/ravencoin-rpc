@@ -56,9 +56,7 @@ export class Messages {
    * @param {string} params.channel_name The channel name to unsubscribe from, must end with '!' or have an '~' in the name
    * @returns {Promise<string>}
    */
-  unsubscribeFromChannel(
-    params: UnsubscribeFromChannel
-  ): Promise<string> {
+  unsubscribeFromChannel(params: UnsubscribeFromChannel): Promise<string> {
     return this._client.request('unsubscribefromchannel', params);
   }
 
@@ -92,9 +90,7 @@ export class Messages {
    * View all addresses this wallet owns that have been restricted
    * @returns {Promise<ViewMyRestrictedAddressesResponse>}
    */
-  viewMyRestrictedAddresses(): Promise<
-    ViewMyRestrictedAddressesResponse
-  > {
+  viewMyRestrictedAddresses(): Promise<ViewMyRestrictedAddressesResponse> {
     return this._client.request('viewmyrestrictedaddresses');
   }
 

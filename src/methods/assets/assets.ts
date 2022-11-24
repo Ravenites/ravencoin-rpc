@@ -145,9 +145,7 @@ export class Assets {
    * @param {number=}  [params.start=0]         Results skip over the first _start_ assets found (if negative it skips back from the end)
    * @returns {Promise<any>} TODO: Get return data
    */
-  listAssetBalancesByAddress(
-    params: ListAssetBalanceByAddress
-  ): Promise<any> {
+  listAssetBalancesByAddress(params: ListAssetBalanceByAddress): Promise<any> {
     if (!params.count) {
       params.count = 50000;
     }
@@ -207,9 +205,7 @@ export class Assets {
    * @param {string=} [params.asset_change_address=''] The transaction Asset change will be sent to this address
    * @returns {Promise<string | string[]>} txid
    */
-  transferFromAddress(
-    params: TransferFromAddress
-  ): Promise<string | string[]> {
+  transferFromAddress(params: TransferFromAddress): Promise<string | string[]> {
     return this._client.request('transferfromaddress', params);
   }
 
@@ -284,9 +280,7 @@ export class Assets {
    * @param {string=} [params.start=0]       Results skip over the first _start_ assets found (if negative it skips back from the end)
    * @returns {Promise<string[] | ListAssetsResponse[]>} List of assets
    */
-  listAssets(
-    params?: ListAssets
-  ): Promise<string[] | ListAssetsResponse[]> {
+  listAssets(params?: ListAssets): Promise<string[] | ListAssetsResponse[]> {
     params = params || {};
     if ((params.verbose || params.count || params.start) && !params.asset) {
       params.asset = '*';
@@ -322,9 +316,7 @@ export class Assets {
    * @param {number=} params.expire_time         UTC timestamp of when the message expires
    * @returns {Promise<string | string[]>} txid or array of txid
    */
-  transferQualifier(
-    params: TransferQualifier
-  ): Promise<string | string[]> {
+  transferQualifier(params: TransferQualifier): Promise<string | string[]> {
     return this._client.request('transferqualifier', params);
   }
 
@@ -395,9 +387,7 @@ export class Assets {
    * @param {string}  [params.new_ipfs='']           Whether to update the current ipfs hash or txid once RIP5 is active
    * @returns {Promise<string>} txid
    */
-  reissueRestrictedAsset(
-    params: ReissueRestrictedAsset
-  ): Promise<string> {
+  reissueRestrictedAsset(params: ReissueRestrictedAsset): Promise<string> {
     return this._client.request('reissuerestrictedasset', params);
   }
 
@@ -473,9 +463,7 @@ export class Assets {
    * @param {string=} params.asset_data     The asset data (ipfs or a hash) to be applied to the transfer of the owner token
    * @returns {Promise<string>} txid
    */
-  unfreezeRestrictedAsset(
-    params: UnfreezeRestrictedAsset
-  ): Promise<string> {
+  unfreezeRestrictedAsset(params: UnfreezeRestrictedAsset): Promise<string> {
     return this._client.request('unfreezerestrictedasset', params);
   }
 
@@ -510,9 +498,7 @@ export class Assets {
    * @param {string} params.address The address to list restrictions for
    * @returns {Promise<string[]>} Array of asset names
    */
-  listAddressRestrictions(
-    params: ListAddressRestrictions
-  ): Promise<string[]> {
+  listAddressRestrictions(params: ListAddressRestrictions): Promise<string[]> {
     return this._client.request('listaddressrestrictions', params);
   }
 
@@ -558,9 +544,7 @@ export class Assets {
    * @param {string} params.restricted_name The restricted asset to search
    * @returns {Promise<boolean>} boolean - If the address is frozen
    */
-  checkAddressRestriction(
-    params: CheckAddressRestriction
-  ): Promise<boolean> {
+  checkAddressRestriction(params: CheckAddressRestriction): Promise<boolean> {
     return this._client.request('checkaddressrestriction', params);
   }
 
@@ -572,9 +556,7 @@ export class Assets {
    * @param {string} params.restricted_name The restricted asset to search
    * @returns {Promise<boolean>} boolean - If the restricted asset is frozen globally
    */
-  checkGlobalRestriction(
-    params: CheckGlobalRestriction
-  ): Promise<boolean> {
+  checkGlobalRestriction(params: CheckGlobalRestriction): Promise<boolean> {
     return this._client.request('checkglobalrestriction', params);
   }
 

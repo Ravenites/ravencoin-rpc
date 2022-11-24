@@ -100,17 +100,17 @@ export default class Client implements IClient {
       params,
     };
 
-    console.log('data', data)
+    console.log('data', data);
 
     return axios
       .post(this._url, data, this._options)
       .then(res => {
-        console.log('res', res)
-        return (res.data?.result ? res.data.result : res.data)
+        console.log('res', res);
+        return res.data?.result ? res.data.result : res.data;
       })
       .catch(err => {
-        console.log('err', err)
-        return ({
+        console.log('err', err);
+        return {
           code: err.response?.status || 500,
           data: err.response.config.data,
           message:
@@ -118,7 +118,7 @@ export default class Client implements IClient {
             'Unknown request failure. Please review: rpc command, arguments and connection.',
           name: err.response.statusText,
           status: err.response?.status || 500,
-        })
+        };
       });
   }
 }

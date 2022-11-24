@@ -64,7 +64,7 @@ export type Ping = {
   result?: null | unknown;
   error?: null | unknown;
   id?: number;
-}
+};
 
 /** AddNode */
 export type AddNode = {

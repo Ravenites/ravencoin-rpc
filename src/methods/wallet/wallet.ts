@@ -404,9 +404,7 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Default = false. Whether to include watch-only addresses in balance calculation and details[]
    * @returns {Promise<GetTransactionResponse>}
    */
-  getTransaction(
-    params: GetTransaction
-  ): Promise<GetTransactionResponse> {
+  getTransaction(params: GetTransaction): Promise<GetTransactionResponse> {
     return this._client.request('gettransaction', params);
   }
 
@@ -606,9 +604,7 @@ export class Wallet {
    * @param {boolean=} [params.include_removed=true] Show transactions that were removed due to a reorg in the \"removed\" array (not guaranteed to work on pruned nodes)
    * @returns {Promise<ListSinceBlockResponse>}
    */
-  listSinceBlock(
-    params: ListSinceBlock
-  ): Promise<ListSinceBlockResponse> {
+  listSinceBlock(params: ListSinceBlock): Promise<ListSinceBlockResponse> {
     return this._client.request('listsinceblock', params);
   }
 
