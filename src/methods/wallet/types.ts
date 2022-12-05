@@ -671,7 +671,7 @@ export type SendToAddress = {
   comment_to?: string;
   subtractfeefromamount?: boolean;
   conf_target?: number;
-  estimate_mode: 'UNSET' | 'ECONOMICAL' | 'CONSERVATIVE';
+  estimate_mode?: 'UNSET' | 'ECONOMICAL' | 'CONSERVATIVE';
 };
 
 /** SendFromAddress */

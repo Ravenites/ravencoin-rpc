@@ -7,6 +7,7 @@ import {
   AddWitnessAddressResponse,
   BackupWallet,
   BumpFee,
+  // @ts-ignore
   BumpFeeOptions,
   BumpFeeResponse,
   DumpPrivKey,
@@ -15,6 +16,7 @@ import {
   DumpWalletResponse,
   EncryptWallet,
   FundRawTransaction,
+  // @ts-ignore
   FundRawTransactionOptions,
   FundRawTransactionResponse,
   Generate,
@@ -40,6 +42,7 @@ import {
   GetWalletInfoResponse,
   ImportAddress,
   ImportMulti,
+  // @ts-ignore
   ImportMultiOptions,
   ImportMultiResponse,
   ImportPrivKey,
