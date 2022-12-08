@@ -81,7 +81,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Client</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li><li><a href="Wallet.html">Wallet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Methods</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li><li><a href="Wallet.html">Wallet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
                 
             </nav>
         </div>
@@ -98,8 +98,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-/** FundRawTransaction */
+            <pre class="prettyprint source linenums"><code>/** FundRawTransaction */
 export type FundRawTransaction = {
   hexstring: string;
   options?: FundRawTransactionOptions;
@@ -108,15 +107,15 @@ export type FundRawTransaction = {
 /** FundRawTransactionOptions */
 export type FundRawTransactionOptions = {
   /** Default pool address. The raven address to receive the change */
-  changeAddress?: string; 
+  changeAddress?: string;
   /** Default random. The index of the change output */
-  changePosition?: number; 
+  changePosition?: number;
   /** Default false. Also select inputs which are watch only */
-  includeWatching?: boolean; 
+  includeWatching?: boolean;
   /** Default false. Lock selected unspent outputs */
-  lockUnspents?: boolean; 
+  lockUnspents?: boolean;
   /** Default not set: makes wallet determine the fee) Set a specific fee rate in " + CURRENCY_UNIT + "/kB */
-  feeRate?: number; 
+  feeRate?: number;
   /** A json array of integers.
    * The fee will be equally deducted from the amount of each specified output.
    * The outputs are specified by their zero-based index, before any change output is added.
@@ -124,14 +123,14 @@ export type FundRawTransactionOptions = {
    * If no outputs are specified here, the sender pays the fee.
    * [vout_index,...]
    */
-  subtractFeeFromOutputs: number[]; 
+  subtractFeeFromOutputs: number[];
   /** Marks this transaction as BIP125 replaceable. */
   /** Allows this transaction to be replaced by a transaction with higher fees */
-  replaceable?: boolean; 
+  replaceable?: boolean;
   /** Confirmation target (in blocks) */
-  conf_target?: number; 
+  conf_target?: number;
   /** Default = 'UNSET'. The fee estimate mode, must be one of: */
-  estimate_mode: 'UNSET' | 'ECONOMICAL' | 'CONSERVATIVE'; 
+  estimate_mode: 'UNSET' | 'ECONOMICAL' | 'CONSERVATIVE';
 };
 
 /** FundRawTransactionResponse */
@@ -176,12 +175,12 @@ export type BumpFee = { txid: string; options: BumpFeeOptions };
 /** BumpFeeOptions */
 export type BumpFeeOptions = {
   /** Confirmation target (in blocks) */
-  confTarget?: number; 
+  confTarget?: number;
   /**
    * Total fee (NOT feerate) To pay, in satoshis.
    * In rare cases, the actual fee paid might be slightly higher than the specified totalFee if the tx change output has to be removed because it is too close to the dust threshold.
    * */
-  totalFee?: number; 
+  totalFee?: number;
   /**
    * Default = true. Whether the new transaction should still be
    * marked bip-125 replaceable. If true, the sequence numbers in the transaction will
@@ -190,21 +189,21 @@ export type BumpFeeOptions = {
    * so the new transaction will not be explicitly bip-125 replaceable (though it may
    * still be replaceable in practice, for example if it has unconfirmed ancestors which are replaceable).
    */
-  replaceable?: boolean; 
+  replaceable?: boolean;
   /** Default = UNSET. The fee estimate mode, must be one of: */
-  estimate_mode?: 'UNSET' | 'ECONOMICAL' | 'CONSERVATIVE'; 
+  estimate_mode?: 'UNSET' | 'ECONOMICAL' | 'CONSERVATIVE';
 };
 
 /** BumpFeeResponse */
 export type BumpFeeResponse = {
   /** The id of the new transaction */
-  txid: string; 
+  txid: string;
   /** Fee of the replaced transaction */
-  origfee: number; 
+  origfee: number;
   /** Fee of the new transaction */
-  fee: number; 
+  fee: number;
   /** Json array of strings. Errors encountered during processing (may be empty) */
-  errors: string[]; 
+  errors: string[];
 };
 
 /** DumpPrivKey */
@@ -213,7 +212,7 @@ export type DumpPrivKey = { address: string };
 /** DumpPrivKeyResponse */
 export type DumpPrivKeyResponse = {
   /** The private key */
-  key: string; 
+  key: string;
 };
 
 /** DumpWallet */
@@ -233,7 +232,7 @@ export type GetAccountAddress = { account: string };
 /** GetAccountAddressResponse */
 export type GetAccountAddressResponse = {
   /** The account raven address */
-  address: string; 
+  address: string;
 };
 
 /** GetAccount */
@@ -267,23 +266,23 @@ export type GetBalanceResponse = {
 /** GetMasterKeyInfoResponse */
 export type GetMasterKeyInfoResponse = {
   /** Extended master private key, */
-  bip32_root_private: string; 
+  bip32_root_private: string;
   /** Extended master public key, */
-  bip32_root_public: string; 
+  bip32_root_public: string;
   /** The derivation path to the account public/private keys */
-  account_derivation_path: string; 
+  account_derivation_path: string;
   /** Extended account private key, */
-  account_extended_private_key: string; 
+  account_extended_private_key: string;
   /** Extended account public key, */
-  account_extended_public_key: string; 
+  account_extended_public_key: string;
 };
 
 /** GetMyWordsResponse */
 export type GetMyWordsResponse = {
   /** A string of words separated by spaces */
-  word_list: string; 
+  word_list: string;
   /** Only show if passphrase was used when creating the wallet */
-  passphrase?: string; 
+  passphrase?: string;
 };
 
 /** GetNewAddress */
@@ -292,13 +291,13 @@ export type GetNewAddress = { account?: string };
 /** GetNewAddressResponse */
 export type GetNewAddressResponse = {
   /** The new raven address */
-  address: string; 
+  address: string;
 };
 
 /** GetRawChangeAddressResponse */
 export type GetRawChangeAddressResponse = {
   /** The address */
-  address: string; 
+  address: string;
 };
 
 /** GetReceivedByAccount */
@@ -307,7 +306,7 @@ export type GetReceivedByAccount = { account: string; minconf?: number };
 /** GetReceivedByAccountResponse */
 export type GetReceivedByAccountResponse = {
   /** The total amount in " + CURRENCY_UNIT + " received for this account. */
-  amount: number; 
+  amount: number;
 };
 
 /** GetReceivedByAddress */
@@ -316,7 +315,7 @@ export type GetReceivedByAddress = { address: string; minconf?: number };
 /** GetReceivedByAddressResponse */
 export type GetReceivedByAddressResponse = {
   /** The total amount in " + CURRENCY_UNIT + " received at this address. */
-  amount: number; 
+  amount: number;
 };
 
 /** GetTransaction */
@@ -325,96 +324,96 @@ export type GetTransaction = { txid: string; include_watchonly?: boolean };
 /** GetTransactionResponse */
 export type GetTransactionResponse = {
   /** The transaction amount in " + CURRENCY_UNIT + " */
-  amount: number; 
+  amount: number;
   /** The amount of the fee in " + CURRENCY_UNIT + ". This is negative and only available for the 'send' category of transactions. */
-  fee: number; 
+  fee: number;
   /** The number of confirmations */
-  confirmations: number; 
+  confirmations: number;
   /** The block hash */
-  blockhash: number; 
+  blockhash: number;
   /** The index of the transaction in the block that includes it */
-  blockindex: number; 
+  blockindex: number;
   /** The time in seconds since epoch (1 Jan 1970 GMT) */
-  blocktime: number; 
+  blocktime: number;
   /** The transaction id. */
-  txid: number; 
+  txid: number;
   /** The transaction time in seconds since epoch (1 Jan 1970 GMT) */
-  time: number; 
+  time: number;
   /** The time received in seconds since epoch (1 Jan 1970 GMT) */
-  timereceived: number; 
+  timereceived: number;
   /** Whether this transaction could be replaced due to BIP125 (replace-by-fee); */
-  'bip125-replaceable': 'yes' | 'no' | 'unknown'; 
+  'bip125-replaceable': 'yes' | 'no' | 'unknown';
   /** May be unknown for unconfirmed transactions not in the mempool */
-  details?: GetTransactionResponseDetails[]; 
+  details?: GetTransactionResponseDetails[];
   asset_details: GetTransactionResponseAssetDetails[];
   /** Raw data for transaction */
-  hex: string; 
+  hex: string;
 };
 
 /** GetTransactionResponseDetails */
 type GetTransactionResponseDetails = {
   /** DEPRECATED. The account name involved in the transaction, can be \"\" for the default account. */
-  account?: string; 
+  account?: string;
   /** The raven address involved in the transaction */
-  address: string; 
+  address: string;
   /** The category, either 'send' or 'receive' */
-  category: string; 
+  category: string;
   /** The amount in " + CURRENCY_UNIT + " */
-  amount: number; 
+  amount: number;
   /** A comment for the address/transaction, if any */
-  label: string; 
+  label: string;
   /** The vout value */
-  vout: number; 
+  vout: number;
   /** The amount of the fee in " + CURRENCY_UNIT + ". This is negative and only available for the 'send' category of transactions. */
-  fee: number; 
+  fee: number;
   /** 'true' if the transaction has been abandoned (inputs are respendable). Only available for the 'send' category of transactions. */
-  abandoned: boolean; 
+  abandoned: boolean;
 };
 
 /** GetTransactionResponseAssetDetails */
 type GetTransactionResponseAssetDetails = {
   /** The type of asset transaction */
-  asset_type: 'new_asset' | 'transfer_asset' | 'reissue_asset'; 
+  asset_type: 'new_asset' | 'transfer_asset' | 'reissue_asset';
   /** The name of the asset */
-  asset_name: string; 
+  asset_name: string;
   /** The amount in " + CURRENCY_UNIT + " */
-  amount: number; 
+  amount: number;
   /** The raven address involved in the transaction */
-  address: string; 
+  address: string;
   /** The vout value */
-  vout: number; 
+  vout: number;
   /** The category, either 'send' or 'receive' */
-  category: 'send' | 'receive'; 
+  category: 'send' | 'receive';
 };
 
 /** GetWalletInfoResponse */
 export type GetWalletInfoResponse = {
   /** The wallet name */
-  walletname: string; 
+  walletname: string;
   /** The wallet version */
-  walletversion: number; 
+  walletversion: number;
   /** The total confirmed balance of the wallet in " + CURRENCY_UNIT + " */
-  balance: number; 
+  balance: number;
   /** The total unconfirmed balance of the wallet in " + CURRENCY_UNIT + " */
-  unconfirmed_balance: number; 
+  unconfirmed_balance: number;
   /** The total immature balance of the wallet in " + CURRENCY_UNIT + " */
-  immature_balance: number; 
+  immature_balance: number;
   /** The total number of transactions in the wallet */
-  txcount: number; 
+  txcount: number;
   /** The timestamp (seconds since Unix epoch) of the oldest pre-generated key in the key pool */
-  keypoololdest: number; 
+  keypoololdest: number;
   /** How many new keys are pre-generated (only counts external keys) */
-  keypoolsize: number; 
+  keypoolsize: number;
   /** How many new keys are pre-generated for internal use (used for change outputs, only appears if the wallet is using this feature, otherwise external keys are used) */
-  keypoolsize_hd_internal: number; 
+  keypoolsize_hd_internal: number;
   /** The timestamp in seconds since epoch (midnight Jan 1 1970 GMT) That the wallet is unlocked for transfers, or 0 if the wallet is locked */
-  unlocked_until: number; 
+  unlocked_until: number;
   /** The transaction fee configuration, set in " + CURRENCY_UNIT + "/kB */
-  paytxfee: number; 
+  paytxfee: number;
   /** The Hash160 of the HD seed (only present when HD is enabled) */
-  hdseedid?: string; 
+  hdseedid?: string;
   /** Alias for hdseedid retained for backwards-compatibility. Will be removed in V0.18. */
-  hdmasterkeyid?: string; 
+  hdmasterkeyid?: string;
 };
 
 /** ImportMulti */
@@ -426,7 +425,7 @@ export type ImportMulti = {
 /** ImportMultiRequests */
 type ImportMultiRequests = {
   /** { \"address\":\"&lt;address>\" } Type of scriptPubKey (string for script, json for address) */
-  scriptPubKey: string; 
+  scriptPubKey: string;
   /**
    * Creation time of the key in seconds since epoch (Jan 1 1970 GMT),
    * or the string \"now\" to substitute the current synced blockchain time. The timestamp of the oldest
@@ -435,25 +434,25 @@ type ImportMultiRequests = {
    * 0 can be specified to scan the entire blockchain. Blocks up to 2 hours before the earliest key
    * creation time of all keys being imported by the importmulti call will be scanned.
    */
-  timestamp: number; 
+  timestamp: number;
   /** Allowed only if the scriptPubKey is a P2SH address or a P2SH scriptPubKey */
-  redeemscript?: string; 
+  redeemscript?: string;
   /** Array of strings giving pubkeys that must occur in the output or redeemscript */
-  pubkeys?: string[]; 
+  pubkeys?: string[];
   /** Array of strings giving private keys whose corresponding public keys must occur in the output or redeemscript */
-  keys?: string[]; 
+  keys?: string[];
   /** Default = false. Stating whether matching outputs should be treated as not incoming payments */
-  internal?: boolean; 
+  internal?: boolean;
   /** Default = false. Stating whether matching outputs should be considered watched even when they're not spendable, only allowed if keys are empty */
-  watchonly?: boolean; 
+  watchonly?: boolean;
   /** Label to assign to the address (aka account name, for now), only allowed with internal=false */
-  label?: string; 
+  label?: string;
 };
 
 /** ImportMultiOptions */
 export type ImportMultiOptions = {
   /** Default = true. Stating if should rescan the blockchain after all imports */
-  rescan?: boolean; 
+  rescan?: boolean;
 };
 
 /** ImportMultiResponse */
@@ -498,21 +497,21 @@ export type ListAccounts = { minconf?: number; include_watchonly?: boolean };
 /** ListAccountsResponse */
 export type ListAccountsResponse = {
   /** The property name is the account name, and the value is the total balance for the account. */
-  [key: string]: number; 
+  [key: string]: number;
 };
 
 /** ListAddressGroupingsResponse */
 export type ListAddressGroupingsResponse = {
   /** The raven address and the amount in " + CURRENCY_UNIT + " OR DEPRECATED. The account */
-  [key: string]: number | string; 
+  [key: string]: number | string;
 };
 
 /** ListLockUnspentResponse */
 export type ListLockUnspentResponse = {
   /** The transaction id locked */
-  txid: string; 
+  txid: string;
   /** The vout value */
-  vout: number; 
+  vout: number;
 };
 
 /** ListReceivedByAccount */
@@ -525,15 +524,15 @@ export type ListReceivedByAccount = {
 /** ListReceivedByAccountResponse */
 export type ListReceivedByAccountResponse = {
   /** Only returned if imported addresses were involved in transaction */
-  involvesWatchonly: boolean; 
+  involvesWatchonly: boolean;
   /** The account name of the receiving account */
-  account: string; 
+  account: string;
   /** The total amount received by addresses with this account */
-  amount: number; 
+  amount: number;
   /** The number of confirmations of the most recent transaction included */
-  confirmations: number; 
+  confirmations: number;
   /** A comment for the address/transaction, if any */
-  label: string; 
+  label: string;
 };
 
 /** ListReceivedByAddress */
@@ -546,19 +545,19 @@ export type ListReceivedByAddress = {
 /** ListReceivedByAddressResponse */
 export type ListReceivedByAddressResponse = {
   /** Only returned if imported addresses were involved in transaction */
-  involvesWatchonly: boolean; 
+  involvesWatchonly: boolean;
   /** The receiving address */
-  address: string; 
+  address: string;
   /** DEPRECATED. The account of the receiving address. The default account is \"\". */
-  account?: string; 
+  account?: string;
   /** The total amount in " + CURRENCY_UNIT + " received by the address */
-  amount: number; 
+  amount: number;
   /** The number of confirmations of the most recent transaction included */
-  confirmations: number; 
+  confirmations: number;
   /** A comment for the address/transaction, if any */
-  label: string; 
+  label: string;
   /** Array of transaction ids received with the address */
-  txids: string[]; 
+  txids: string[];
 };
 
 /** ListSinceBlock */
@@ -573,49 +572,49 @@ export type ListSinceBlock = {
 export type ListSinceBlockResponse = {
   transactions: ListSinceBlockResponseTransaction[];
   /** &lt;structure is the same as \"transactions\" above, only present if include_removed=true>. Note: transactions that were readded in the active chain will appear as-is in this array, and may thus have a positive confirmation count. */
-  removed: ListSinceBlockResponseTransaction[]; 
+  removed: ListSinceBlockResponseTransaction[];
   /** The hash of the block (target_confirmations-1) from the best block on the main chain. This is typically used to feed back into listsinceblock the next time you call it. So you would generally use a target_confirmations of say 6, so you will be continually re-notified of transactions until they've reached 6 confirmations plus any new ones */
-  lastblock: string; 
+  lastblock: string;
 };
 
 /** ListSinceBlockResponseTransaction */
 type ListSinceBlockResponseTransaction = {
   /** DEPRECATED. The account name associated with the transaction. Will be \"\" for the default account. */
-  account?: string; 
+  account?: string;
   /** The raven address of the transaction. Not present for move transactions (category = move). */
-  address: string; 
+  address: string;
   /** The transaction category. 'send' has negative amounts, 'receive' has positive amounts. */
-  category: string; 
+  category: string;
   /** The amount in " + CURRENCY_UNIT + ". This is negative for the 'send' category, and for the 'move' category for moves outbound. It is positive for the 'receive' category, and for the 'move' category for inbound funds. */
-  amount: number; 
+  amount: number;
   /** The vout value */
-  vout: number; 
+  vout: number;
   /** The amount of the fee in " + CURRENCY_UNIT + ". This is negative and only available for the 'send' category of transactions. */
-  fee: number; 
+  fee: number;
   /** The number of confirmations for the transaction. Available for 'send' and 'receive' category of transactions. When it's &lt; 0, it means the transaction conflicted that many blocks ago. */
-  confirmations: number; 
+  confirmations: number;
   /** The block hash containing the transaction. Available for 'send' and 'receive' category of transactions. */
-  blockhash: number; 
+  blockhash: number;
   /** The index of the transaction in the block that includes it. Available for 'send' and 'receive' category of transactions. */
-  blockindex: number; 
+  blockindex: number;
   /** The block time in seconds since epoch (1 Jan 1970 GMT). */
-  blocktime: number; 
+  blocktime: number;
   /** The transaction id. Available for 'send' and 'receive' category of transactions. */
-  txid: string; 
+  txid: string;
   /** The transaction time in seconds since epoch (Jan 1 1970 GMT). */
-  time: number; 
+  time: number;
   /** The time received in seconds since epoch (Jan 1 1970 GMT). Available for 'send' and 'receive' category of transactions. */
-  timereceived: number; 
+  timereceived: number;
   /** Whether this transaction could be replaced due to BIP125 (replace-by-fee); may be unknown for unconfirmed transactions not in the mempool */
-  'bip125-replaceable': 'yes' | 'no' | 'unknown'; 
+  'bip125-replaceable': 'yes' | 'no' | 'unknown';
   /** 'true' if the transaction has been abandoned (inputs are respendable). Only available for the 'send' category of transactions. */
-  abandoned: boolean; 
+  abandoned: boolean;
   /** If a comment is associated with the transaction. */
-  comment: string; 
+  comment: string;
   /** A comment for the address/transaction, if any */
-  label: string; 
+  label: string;
   /** If a comment to is associated with the transaction. */
-  to: string; 
+  to: string;
 };
 
 /** ListTransactions */
@@ -629,43 +628,43 @@ export type ListTransactions = {
 /** ListTransactionsResponse */
 export type ListTransactionsResponse = {
   /** DEPRECATED. The account name associated with the transaction. It will be \"\" for the default account. */
-  account?: string; 
+  account?: string;
   /** The raven address of the transaction. Not present for move transactions (category = move). */
-  address: string; 
+  address: string;
   /** The transaction category. 'move' is a local (off blockchain) Transaction between accounts, and not associated with an address, transaction id or block. 'send' and 'receive' transactions are associated with an address, transaction id and block details */
-  category: string; 
+  category: string;
   /** The amount in " + CURRENCY_UNIT + ". This is negative for the 'send' category, and for the 'move' category for moves outbound. It is positive for the 'receive' category, and for the 'move' category for inbound funds. */
-  amount: number; 
+  amount: number;
   /** A comment for the address/transaction, if any */
-  label: string; 
+  label: string;
   /** The vout value */
-  vout: number; 
+  vout: number;
   /** The amount of the fee in " + CURRENCY_UNIT + ". This is negative and only available for the 'send' category of transactions. */
-  fee: number; 
+  fee: number;
   /** The number of confirmations for the transaction. Available for 'send' and 'receive' category of transactions. Negative confirmations indicate the transaction conflicts with the block chain */
-  confirmations: number; 
+  confirmations: number;
   /** Whether we consider the outputs of this unconfirmed transaction safe to spend. */
-  trusted: boolean; 
+  trusted: boolean;
   /** The block hash containing the transaction. Available for 'send' and 'receive' category of transactions. */
-  blockhash: number; 
+  blockhash: number;
   /** The index of the transaction in the block that includes it. Available for 'send' and 'receive' category of transactions. */
-  blockindex: number; 
+  blockindex: number;
   /** The block time in seconds since epoch (1 Jan 1970 GMT). */
-  blocktime: number; 
+  blocktime: number;
   /** The transaction id. Available for 'send' and 'receive' category of transactions. */
-  txid: number; 
+  txid: number;
   /** The transaction time in seconds since epoch (midnight Jan 1 1970 GMT). */
-  time: number; 
+  time: number;
   /** The time received in seconds since epoch (midnight Jan 1 1970 GMT). Available for 'send' and 'receive' category of transactions. */
-  timereceived: number; 
+  timereceived: number;
   /** If a comment is associated with the transaction. */
-  comment: string; 
+  comment: string;
   /** DEPRECATED. For the 'move' category of transactions, the account the funds came from (for receiving funds, positive amounts), or went to (for sending funds, negative amounts). */
-  otheraccount?: string; 
+  otheraccount?: string;
   /** Whether this transaction could be replaced due to BIP125 (replace-by-fee); may be unknown for unconfirmed transactions not in the mempool */
-  'bip125-replaceable': 'yes' | 'no' | 'unknown'; 
+  'bip125-replaceable': 'yes' | 'no' | 'unknown';
   /** 'true' if the transaction has been abandoned (inputs are respendable). Only available for the 'send' category of transactions. */
-  abandoned: boolean; 
+  abandoned: boolean;
 };
 
 /** ListUnspent */
@@ -680,39 +679,39 @@ export type ListUnspent = {
 /** ListUnspentQueryOptions */
 export type ListUnspentQueryOptions = {
   /** Default = 0. Minimum value of each UTXO in " + CURRENCY_UNIT + " */
-  minimumAmount: string | number; 
+  minimumAmount: string | number;
   /** Default = unlimited. Maximum value of each UTXO in " + CURRENCY_UNIT + " */
-  maximumAmount: string | number; 
+  maximumAmount: string | number;
   /** Default = unlimited. Maximum number of UTXOs */
-  maximumCount: string | number; 
+  maximumCount: string | number;
   /** Default = unlimited. Minimum sum value of all UTXOs in " + CURRENCY_UNIT + " */
-  minimumSumAmount: string | number; 
+  minimumSumAmount: string | number;
 };
 
 /** ListUnspentResponse */
 export type ListUnspentResponse = {
   /** The transaction id */
-  txid: string; 
+  txid: string;
   /** The vout value */
-  vout: number; 
+  vout: number;
   /** The raven address */
-  address: string; 
+  address: string;
   /** DEPRECATED. The associated account, or \"\" for the default account */
-  account?: string; 
+  account?: string;
   /** The script key */
-  scriptPubKey: string; 
+  scriptPubKey: string;
   /** The transaction output amount in " + CURRENCY_UNIT + " */
-  amount: number; 
+  amount: number;
   /** The number of confirmations */
-  confirmations: number; 
+  confirmations: number;
   /** The redeemScript if scriptPubKey is P2SH */
-  redeemScript: string; 
+  redeemScript: string;
   /** Whether we have the private keys to spend this output */
-  spendable: boolean; 
+  spendable: boolean;
   /** Whether we know how to spend this output, ignoring the lack of keys */
-  solvable: boolean; 
+  solvable: boolean;
   /** Whether this output is considered safe to spend. Unconfirmed transactions from outside keys and unconfirmed replacement transactions are considered unsafe and are not eligible for spending by fundrawtransaction and sendtoaddress. */
-  safe: boolean; 
+  safe: boolean;
 };
 
 /** LockUnspent */
@@ -724,9 +723,9 @@ export type LockUnspent = {
 /** LockUnspentTransaction */
 type LockUnspentTransaction = {
   /** The transaction id */
-  txid: string; 
+  txid: string;
   /** The output number */
-  vout: number; 
+  vout: number;
 };
 
 /** MoveCmd */
@@ -772,7 +771,7 @@ export type SendToAddress = {
   comment_to?: string;
   subtractfeefromamount?: boolean;
   conf_target?: number;
-  estimate_mode: 'UNSET' | 'ECONOMICAL' | 'CONSERVATIVE';
+  estimate_mode?: 'UNSET' | 'ECONOMICAL' | 'CONSERVATIVE';
 };
 
 /** SendFromAddress */
@@ -814,9 +813,9 @@ export type RescanBlockchain = { start_height?: number; stop_height?: number };
 /** RescanBlockchainResponse */
 export type RescanBlockchainResponse = {
   /** The block height where the rescan has started. If omitted, rescan started from the genesis block. */
-  start_height: number; 
+  start_height: number;
   /** The height of the last rescanned block. If omitted, rescan stopped at the chain tip. */
-  stop_height: number; 
+  stop_height: number;
 };
 
 /** Generate */

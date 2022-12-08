@@ -40,7 +40,7 @@ import {
 
 /**
  * @class Assets
- * @subcategory Client
+ * @subcategory Methods
  */
 export class Assets {
   private _client: IClient;

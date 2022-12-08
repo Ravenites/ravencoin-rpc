@@ -18,7 +18,7 @@ import {
 
 /**
  * @class Rewards
- * @subcategory Client
+ * @subcategory Methods
  */
 export class Rewards {
   private _client: IClient;

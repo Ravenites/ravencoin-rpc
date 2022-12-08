@@ -46,7 +46,7 @@ import {
 
 /**
  * @class Blockchain
- * @subcategory Client
+ * @subcategory Methods
  */
 export class Blockchain {
   private _client: any;

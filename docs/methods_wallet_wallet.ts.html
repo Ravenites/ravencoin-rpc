@@ -81,7 +81,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Client</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li><li><a href="Wallet.html">Wallet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Methods</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li><li><a href="Wallet.html">Wallet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
                 
             </nav>
         </div>
@@ -107,6 +107,7 @@ import {
   AddWitnessAddressResponse,
   BackupWallet,
   BumpFee,
+  // @ts-ignore
   BumpFeeOptions,
   BumpFeeResponse,
   DumpPrivKey,
@@ -115,6 +116,7 @@ import {
   DumpWalletResponse,
   EncryptWallet,
   FundRawTransaction,
+  // @ts-ignore
   FundRawTransactionOptions,
   FundRawTransactionResponse,
   Generate,
@@ -140,6 +142,7 @@ import {
   GetWalletInfoResponse,
   ImportAddress,
   ImportMulti,
+  // @ts-ignore
   ImportMultiOptions,
   ImportMultiResponse,
   ImportPrivKey,
@@ -179,7 +182,7 @@ import {
 
 /**
  * @class Wallet
- * @subcategory Client
+ * @subcategory Methods
  */
 export class Wallet {
   private _client: IClient;
@@ -426,7 +429,7 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Also include balance in watch-only addresses (see 'importaddress')
    * @returns {Promise&lt;GetBalanceResponse>} The total amount in " + CURRENCY_UNIT + " received for this account.
    */
-  getBalance(params: GetBalance): Promise&lt;GetBalanceResponse> {
+  getBalance(params: GetBalance = {}): Promise&lt;GetBalanceResponse> {
     return this._client.request('getbalance', params);
   }
 
@@ -504,9 +507,7 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Default = false. Whether to include watch-only addresses in balance calculation and details[]
    * @returns {Promise&lt;GetTransactionResponse>}
    */
-  getTransaction(
-    params: GetTransaction
-  ): Promise&lt;GetTransactionResponse> {
+  getTransaction(params: GetTransaction): Promise&lt;GetTransactionResponse> {
     return this._client.request('gettransaction', params);
   }
 
@@ -706,9 +707,7 @@ export class Wallet {
    * @param {boolean=} [params.include_removed=true] Show transactions that were removed due to a reorg in the \"removed\" array (not guaranteed to work on pruned nodes)
    * @returns {Promise&lt;ListSinceBlockResponse>}
    */
-  listSinceBlock(
-    params: ListSinceBlock
-  ): Promise&lt;ListSinceBlockResponse> {
+  listSinceBlock(params: ListSinceBlock): Promise&lt;ListSinceBlockResponse> {
     return this._client.request('listsinceblock', params);
   }
 

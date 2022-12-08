@@ -82,7 +82,7 @@ import {
 
 /**
  * @class Wallet
- * @subcategory Client
+ * @subcategory Methods
  */
 export class Wallet {
   private _client: IClient;
@@ -329,7 +329,7 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Also include balance in watch-only addresses (see 'importaddress')
    * @returns {Promise<GetBalanceResponse>} The total amount in " + CURRENCY_UNIT + " received for this account.
    */
-  getBalance(params: GetBalance): Promise<GetBalanceResponse> {
+  getBalance(params: GetBalance = {}): Promise<GetBalanceResponse> {
     return this._client.request('getbalance', params);
   }
 

@@ -57,6 +57,11 @@ export default class Client implements IClient {
   public rewards: Rewards;
   /** @type {Wallet} */
   public wallet: Wallet;
+  /**
+   * Combination of all methods for ease of access
+   * @type {any}
+   */
+  public methods: any;
   private _url: string;
   private _options: Options;
 
@@ -84,6 +89,17 @@ export default class Client implements IClient {
     this.rawTransactions = new RawTransactions(this);
     this.rewards = new Rewards(this);
     this.wallet = new Wallet(this);
+    this.methods = {
+      ...this.assets,
+      ...this.blockchain,
+      ...this.messages,
+      ...this.mining,
+      ...this.misc,
+      ...this.net,
+      ...this.rawTransactions,
+      ...this.rewards,
+      ...this.wallet,
+    };
   }
 
   /**
@@ -100,16 +116,12 @@ export default class Client implements IClient {
       params,
     };
 
-    console.log('data', data);
-
     return axios
       .post(this._url, data, this._options)
       .then(res => {
-        console.log('res', res);
         return res.data?.result ? res.data.result : res.data;
       })
       .catch(err => {
-        console.log('err', err);
         return {
           code: err.response?.status || 500,
           data: err.response.config.data,
