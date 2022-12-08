@@ -57,11 +57,6 @@ export default class Client implements IClient {
   public rewards: Rewards;
   /** @type {Wallet} */
   public wallet: Wallet;
-  /**
-   * Combination of all methods for ease of access
-   * @type {any}
-   */
-  public methods: any;
   private _url: string;
   private _options: Options;
 
@@ -89,17 +84,6 @@ export default class Client implements IClient {
     this.rawTransactions = new RawTransactions(this);
     this.rewards = new Rewards(this);
     this.wallet = new Wallet(this);
-    this.methods = Object.assign(
-      this.assets,
-      this.blockchain,
-      this.messages,
-      this.mining,
-      this.misc,
-      this.net,
-      this.rawTransactions,
-      this.rewards,
-      this.wallet
-    );
   }
 
   /**
