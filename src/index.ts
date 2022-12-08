@@ -1,4 +1,3 @@
-import structuredClone from '@ungap/structured-clone';
 // import { Options, BatchedCall } from './iface';
 
 // import { callspec } from './callspec';
@@ -90,17 +89,17 @@ export default class Client implements IClient {
     this.rawTransactions = new RawTransactions(this);
     this.rewards = new Rewards(this);
     this.wallet = new Wallet(this);
-    this.methods = {
-      ...structuredClone(this.assets),
-      ...structuredClone(this.blockchain),
-      ...structuredClone(this.messages),
-      ...structuredClone(this.mining),
-      ...structuredClone(this.misc),
-      ...structuredClone(this.net),
-      ...structuredClone(this.rawTransactions),
-      ...structuredClone(this.rewards),
-      ...structuredClone(this.wallet),
-    };
+    this.methods = Object.assign(
+      this.assets,
+      this.blockchain,
+      this.messages,
+      this.mining,
+      this.misc,
+      this.net,
+      this.rawTransactions,
+      this.rewards,
+      this.wallet
+    );
   }
 
   /**
