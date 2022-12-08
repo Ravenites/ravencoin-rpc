@@ -154,7 +154,7 @@ export type GetBlockVerbosity1 = {
 };
 
 /** GetBlockVerbosity2 */
-export type GetBlockVerbosity2 = GetBlockVerbosity1 & {
+export type GetBlockVerbosity2 = Omit<GetBlockVerbosity1, 'tx'> & {
   /** The transactions in the format of the getrawtransaction RPC. Different from verbosity = 1 \"tx\" result. */
   tx: any[];
 };
