@@ -15,7 +15,7 @@ import {
 
 /**
  * @class Net
- * @subcategory Client
+ * @subcategory Methods
  */
 export class Net {
   private _client: IClient;

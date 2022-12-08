@@ -23,7 +23,7 @@ import {
 
 /**
  * @class RawTransactions
- * @subcategory Client
+ * @subcategory Methods
  */
 export class RawTransactions {
   private _client: IClient;

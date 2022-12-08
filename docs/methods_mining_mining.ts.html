@@ -81,7 +81,7 @@
             
             <nav>
                 
-                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Client</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li><li><a href="Wallet.html">Wallet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Classes / Methods</h3><ul><li><a href="Assets.html">Assets</a></li><li><a href="Blockchain.html">Blockchain</a></li><li><a href="Messages.html">Messages</a></li><li><a href="Mining.html">Mining</a></li><li><a href="Misc.html">Misc</a></li><li><a href="Net.html">Net</a></li><li><a href="RawTransactions.html">RawTransactions</a></li><li><a href="Rewards.html">Rewards</a></li><li><a href="Wallet.html">Wallet</a></li></ul><h3>Global</h3><ul><li><a href="global.html#request">request</a></li></ul></div><div class="category"><h2>Client</h2><h3>Classes</h3><ul><li><a href="Client.html">Client</a></li></ul></div>
                 
             </nav>
         </div>
@@ -120,7 +120,7 @@ import {
 
 /**
  * @class Mining
- * @subcategory Client
+ * @subcategory Methods
  */
 export class Mining {
   private _client: IClient;
@@ -338,9 +338,7 @@ export class Mining {
    * @param {number=} [params.threshold=0.95] The proportion of transactions in a given feerate range that must have been confirmed within conf_target in order to consider those feerates as high enough and proceed to check lower buckets.  Default: 0.95
    * @returns {Promise&lt;EstimateRawFeeResponse>} Results are returned for any horizon which tracks blocks up to the confirmation target.
    */
-  estimateRawFee(
-    params: EstimateRawFee
-  ): Promise&lt;EstimateRawFeeResponse> {
+  estimateRawFee(params: EstimateRawFee): Promise&lt;EstimateRawFeeResponse> {
     return this._client.request('estimaterawfee', params);
   }
 }

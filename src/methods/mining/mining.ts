@@ -20,7 +20,7 @@ import {
 
 /**
  * @class Mining
- * @subcategory Client
+ * @subcategory Methods
  */
 export class Mining {
   private _client: IClient;

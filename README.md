@@ -31,7 +31,7 @@ const client = new Client({
   password: 'password',
 });
 
-client.assets.listAssets().then(assets => {
+client.methods.listAssets().then(assets => {
   console.log('assets', assets);
 });
 ```

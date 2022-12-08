@@ -28,7 +28,7 @@ import {
 
 /**
  * @class Misc
- * @subcategory Client
+ * @subcategory Methods
  */
 export class Misc {
   private _client: IClient;

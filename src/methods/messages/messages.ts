@@ -11,7 +11,7 @@ import {
 
 /**
  * @class Messages
- * @subcategory Client
+ * @subcategory Methods
  */
 export class Messages {
   private _client: IClient;
