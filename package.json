@@ -1,5 +1,5 @@
 {
-  "version": "1.5.1",
+  "version": "1.5.2",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -65,9 +65,11 @@
   "dependencies": {
     "@types/node": "^17.0.23",
     "async": "^3.2.3",
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "jsdon": "^0.1.15"
   },
   "resolutions": {
+    "jest": "25.3.0",
     "jsdom": "^16.5.0",
     "node-notifier": "^8.0.1",
     "pug": "^3.0.1"
