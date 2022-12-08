@@ -90,15 +90,15 @@ export default class Client implements IClient {
     this.rewards = new Rewards(this);
     this.wallet = new Wallet(this);
     this.methods = {
-      ...this.assets,
-      ...this.blockchain,
-      ...this.messages,
-      ...this.mining,
-      ...this.misc,
-      ...this.net,
-      ...this.rawTransactions,
-      ...this.rewards,
-      ...this.wallet,
+      ...structuredClone(this.assets),
+      ...structuredClone(this.blockchain),
+      ...structuredClone(this.messages),
+      ...structuredClone(this.mining),
+      ...structuredClone(this.misc),
+      ...structuredClone(this.net),
+      ...structuredClone(this.rawTransactions),
+      ...structuredClone(this.rewards),
+      ...structuredClone(this.wallet),
     };
   }
 
