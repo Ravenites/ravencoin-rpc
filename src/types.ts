@@ -16,3 +16,11 @@ export type Options = {
   };
   [k: string]: any; // httpOptions
 };
+
+export type RpcError = {
+  code: mumber;
+  data: any;
+  message: string;
+  name: string;
+  status: number;
+};

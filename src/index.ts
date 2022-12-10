@@ -13,8 +13,21 @@ import {
   Rewards,
   Wallet,
 } from './methods';
-import { Config, IClient, Options } from './types';
+import { Config, IClient, Options, RpcError } from './types';
 import axios from 'axios';
+
+axios.defaults.validateStatus = status => {
+  return status >= 200 && status < 400;
+};
+
+axios.interceptors.response.use(
+  response => {
+    return response;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
 
 /**
  * Create a RPC Client to connect to a Ravencoin node.
@@ -92,7 +105,7 @@ export default class Client implements IClient {
    * @param {(Object|Array)=} params Data required by rpc command. Typically an object or an array.
    * @returns {Promise}
    */
-  request(method: string, params: any = {}): Promise<any> {
+  request(method: string, params: any = {}): Promise<any | RpcError> {
     const data: any = {
       jsonrpc: '2.0',
       id: Math.random(),
