@@ -327,7 +327,7 @@ export type DecodeRawTransactionResponse = {
   /** The transaction id */
   txi: string;
   /** The transaction hash (differs from txid for witness transactions) */
-  has: string;
+  hash: string;
   /** The transaction size */
   size: number;
   /** The virtual transaction size (differs from size for witness transactions) */
