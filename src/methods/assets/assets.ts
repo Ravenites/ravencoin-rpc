@@ -146,6 +146,9 @@ export class Assets {
    * @returns {Promise<any>} TODO: Get return data
    */
   listAssetBalancesByAddress(params: ListAssetBalanceByAddress): Promise<any> {
+    if (!params.onlytotal) {
+      params.onlytotal = false;
+    }
     if (!params.count) {
       params.count = 50000;
     }
@@ -181,6 +184,9 @@ export class Assets {
    * @returns {Promise<any>} TODO: Get return type
    */
   listAddressesByAsset(params: ListAddressesByAsset): Promise<any> {
+    if (!params.onlytotal) {
+      params.onlytotal = false;
+    }
     if (!params.count) {
       params.count = 50000;
     }
