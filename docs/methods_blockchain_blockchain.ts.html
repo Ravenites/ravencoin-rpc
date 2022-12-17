@@ -180,7 +180,7 @@ export class Blockchain {
    * @param {string=} params.blockhash The hash of the block that ends the window.
    * @returns {Promise&lt;GetChainTxStatsResponse>}
    */
-  getChainTxStats(params: GetChainTxStats): Promise&lt;GetChainTxStatsResponse> {
+  getChainTxStats(params: GetChainTxStats = {}): Promise&lt;GetChainTxStatsResponse> {
     return this._client.request('getchaintxstats', params);
   }
 
@@ -358,7 +358,7 @@ export class Blockchain {
    * @returns {Promise&lt;GetRawMempoolResponseVerboseFalse | GetRawMempoolResponseVerboseTrue>}
    */
   getRawMempool(
-    params: GetRawMempool
+    params: GetRawMempool = {}
   ): Promise&lt;
     GetRawMempoolResponseVerboseFalse | GetRawMempoolResponseVerboseTrue
   > {
