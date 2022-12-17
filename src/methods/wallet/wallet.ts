@@ -747,8 +747,33 @@ export class Wallet {
    * @param {string=} [params.estimate_mode=UNSET] Default = UNSET. The fee estimate mode, must be one of: UNSET, ECONOMICAL, CONSERVATIVE
    * @returns {Promise<string>} The transaction id.
    */
-  sendFromAddress(params: SendFromAddress): Promise<string> {
-    return this._client.request('sendfromaddress', params);
+  sendFromAddress({
+    from_address,
+    to_address,
+    amount,
+    comment,
+    comment_to,
+    subtractfeefromamount,
+    conf_target,
+    estimate_mode,
+  }: SendFromAddress): Promise<string> {
+    const data = [
+      from_address,
+      to_address,
+      amount,
+      comment || '',
+      comment_to || '',
+      subtractfeefromamount || false,
+    ];
+
+    if (conf_target) {
+      data.push(conf_target);
+      if (estimate_mode) {
+        data.push(estimate_mode);
+      }
+    }
+
+    return this._client.request('sendfromaddress', data);
   }
 
   /**

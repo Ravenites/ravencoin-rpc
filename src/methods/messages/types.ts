@@ -34,7 +34,7 @@ export type UnsubscribeFromChannel = {
 
 /** SendMessage */
 export type SendMessage = {
-  channel: string;
+  channel_name: string;
   ipfs_hash: string;
   expire_time?: number;
 };
