@@ -169,13 +169,21 @@ export class Messages {
       expire_time: 60
     })
    * @param params
-   * @param {string} params.channel Name of the channel that you want to send a message with (message channel, administrator asset), if a non administrator asset name is given, the administrator '!' will be added to it
+   * @param {string} params.channel_name Name of the channel that you want to send a message with (message channel, administrator asset), if a non administrator asset name is given, the administrator '!' will be added to it
    * @param {string} params.ipfs_hash    The IPFS hash of the message
    * @param {number=} params.expire_time UTC timestamp of when the message expires
    * @returns {Promise&lt;string[]>} Array of a transaction id
    */
-  sendMessage(params: SendMessage): Promise&lt;string[]> {
-    return this._client.request('sendmessage', params);
+  sendMessage({
+    channel_name,
+    ipfs_hash,
+    expire_time,
+  }: SendMessage): Promise&lt;string[]> {
+    const data: (string | number)[] = [channel_name, ipfs_hash];
+    if (expire_time) {
+      data.push(expire_time);
+    }
+    return this._client.request('sendmessage', data);
   }
 
   /**
