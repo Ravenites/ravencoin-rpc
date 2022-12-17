@@ -678,7 +678,7 @@ export type SendToAddress = {
 export type SendFromAddress = {
   from_address: string;
   to_address: string;
-  amount: string | number;
+  amount: number | string;
   comment?: string;
   comment_to?: string;
   subtractfeefromamount?: boolean;
