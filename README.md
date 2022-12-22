@@ -22,6 +22,26 @@ yarn add @ravenite/ravencoin-rpc
 
 ### Usage
 
+You can either write manually requests to your RPC connection via the `request` method, or you can use the built-in methods provided by the client class.
+
+#### Manually
+
+```javascript
+import Client from '@ravenite/ravencoin-rpc';
+
+const client = new Client({
+  url: 'http://127.0.0.1:9050',
+  username: 'username',
+  password: 'password',
+});
+
+client.request('getchaintips').then(response => {
+  console.log('response', response);
+});
+```
+
+#### Built-in Methods
+
 ```javascript
 import Client from '@ravenite/ravencoin-rpc';
 
@@ -46,156 +66,4 @@ Code released under [the MIT license](./LICENSE.md).
 
 ### Development
 
-Tested method parameters
-
-#### Assets
-
-- [x] issue
-- [x] issueUnique
-- [x] listMyAssets
-- [x] listAssetBalancesByAddress
-- [x] getAssetData
-- [x] listAddressesByAsset
-- [x] transferFromAddress
-- [x] transferFromAddresses
-- [x] transfer
-- [x] reissue
-- [x] listAssets
-- [x] getCacheInfo
-- [x] transferQualifier
-- [x] issueRestrictedAsset
-- [x] issueQualifierAsset
-- [x] reissueRestrictedAsset
-- [ ] addTagToAddress
-- [ ] removeTagFromAddress
-- [ ] freezeAddress
-- [ ] unfreezeAddress
-- [ ] freezerestrictedasset
-- [ ] unfreezeRestrictedAsset
-- [x] listAddressesForTag
-- [x] listTagsForAddress
-- [x] listAddressRestrictions
-- [x] listGlobalRestrictions
-- [ ] getVerifierString
-- [x] checkAddressTag
-- [x] checkAddressRestriction
-- [x] checkGlobalRestriction
-- [ ] isValidVerifierString
-- [ ] getSnapshot
-- [ ] purgeSnapshot
-
-#### Blockchain
-
-- [ ] clearMempool
-- [x] getBlockchainInfo
-- [ ] getChainTxStats
-- [ ] getBestBlockHash
-- [ ] getBlockCount
-- [ ] getBlock
-- [ ] decodeBlock
-- [ ] getBlockDeltas
-- [ ] getBlockHashes
-- [ ] getBlockHash
-- [ ] getBlockHeader
-- [ ] getChainTips
-- [ ] getDifficulty
-- [ ] getMempoolAncestors
-- [ ] getMempoolDescendants
-- [ ] getMempoolEntry
-- [ ] getMempoolInfo
-- [ ] getRawMempool
-- [ ] GetTxOut
-- [ ] getTxOutSetInfo
-- [ ] pruneBlockchain
-- [ ] saveMempool
-- [ ] verifyChain
-- [ ] preciousBlock
-- [ ] invalidateBlock
-- [ ] reconsiderBlock
-- [ ] waitForNewBlock
-- [ ] waitForBlock
-- [ ] waitForBlockHeight
-
-#### Messages
-
-- [x] viewAllMessages
-- [x] viewAllMessageChannels
-- [x] subscribeToChannel
-- [x] unsubscribeFromChannel
-- [x] sendMessage
-- [x] viewMyTaggedAddresses
-- [x] viewMyRestrictedAddresses
-- [x] clearMessages
-
-#### Mining
-
-- [x] getNetworkHashPs
-- [x] getMiningInfo
-- [x] prioritiseTransaction
-- [x] getBlockTemplate
-- [ ] submitBlock
-- [ ] pprpcsb
-- [ ] getKawpowHash
-- [x] getGenerate
-- [x] setGenerate
-- [ ] generateToAddress
-- [ ] estimateFee
-- [ ] estimateSmartFee
-- [ ] estimateRawFee
-
-#### Misc
-
-- [ ] getInfo
-- [ ] getMemoryInfo
-- [ ] validateAddress
-- [ ] createMultisig
-- [ ] verifyMessage
-- [ ] signMessageWithPrivKey
-- [ ] getAddressMempool
-- [ ] getAddressUtxos
-- [ ] getAddressDeltas
-- [ ] getAddressTxIds
-- [ ] getAddressBalance
-- [ ] getSpentInfo
-- [ ] setMockTime
-- [x] echo
-- [ ] echojson
-- [ ] logging
-
-#### Net
-
-- [x] getConnectionCount
-- [x] ping
-- [x] getPeerInfo
-- [x] addNode
-- [x] disconnectNode
-- [x] getAddedNodeInfo
-- [x] getNetTotals
-- [x] getNetworkInfo
-- [x] setBan
-- [x] listBanned
-- [x] clearBanned
-- [x] setNetworkActive
-- [x] testGetAssetData
-
-#### Raw Transactions
-
-- [ ] getRawTransaction
-- [ ] createRawTransaction
-- [ ] decodeRawTransaction
-- [ ] decodeScript
-- [ ] sendRawTransaction
-- [ ] combineRawTransaction
-- [ ] signRawTransaction
-- [ ] testMempoolAccept
-- [ ] getTxOutProof
-- [ ] verifyTxOutProof
-
-#### Rewards
-
-- [ ] requestSnapshot
-- [ ] getSnapshotRequest
-- [ ] listSnapshotRequests
-- [ ] cancelSnapshotRequest
-- [ ] distributeReward
-- [ ] getDistributeStatus
+Some RPC commands within Ravencore have known bugs. You may experience them as a result. If you find that the issue comes from this library, please create an Issue so that it can be resolved quickly.

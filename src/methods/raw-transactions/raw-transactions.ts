@@ -48,10 +48,12 @@ export class RawTransactions {
    * @param {boolean=} [params.verbose=false] If false, return a string, otherwise return a json object
    * @returns {Promise<string | GetRawTransactionResponse>} The serialized, hex-encoded data for 'txid' or verbose txid
    */
-  getRawTransaction(
-    params: GetRawTransaction
-  ): Promise<string | GetRawTransactionResponse> {
-    return this._client.request('getrawtransaction', params);
+  getRawTransaction({
+    txid,
+    verbose,
+  }: GetRawTransaction): Promise<string | GetRawTransactionResponse> {
+    const data = [txid, verbose ?? false];
+    return this._client.request('getrawtransaction', data);
   }
 
   /**
@@ -113,8 +115,13 @@ export class RawTransactions {
    * @param {number=} [params.locktime=0]
    * @returns {Promise<string>} transaction - hex string of the transaction
    */
-  createRawTransaction(params: CreateRawTransaction): Promise<string> {
-    return this._client.request('createrawtransaction', params);
+  createRawTransaction({
+    inputs,
+    outputs,
+    locktime,
+  }: CreateRawTransaction): Promise<string> {
+    const data = [inputs, outputs, locktime ?? 0];
+    return this._client.request('createrawtransaction', data);
   }
 
   /**
@@ -123,10 +130,10 @@ export class RawTransactions {
    * @param {string} hexstring The transaction hex string
    * @returns {Promise<DecodeRawTransactionResponse>} Parsed transaction
    */
-  decodeRawTransaction(
-    params: DecodeRawTransaction
-  ): Promise<DecodeRawTransactionResponse> {
-    return this._client.request('decoderawtransaction', params);
+  decodeRawTransaction({
+    hexstring,
+  }: DecodeRawTransaction): Promise<DecodeRawTransactionResponse> {
+    return this._client.request('decoderawtransaction', [hexstring]);
   }
 
   /**
@@ -135,8 +142,8 @@ export class RawTransactions {
    * @param {string} params.hexstring // the hex encoded script
    * @returns {Promise<DecodeScriptResponse>}
    */
-  decodeScript(params: DecodeScript): Promise<DecodeScriptResponse> {
-    return this._client.request('decodescript', params);
+  decodeScript({ hexstring }: DecodeScript): Promise<DecodeScriptResponse> {
+    return this._client.request('decodescript', [hexstring]);
   }
 
   /**
@@ -148,8 +155,12 @@ export class RawTransactions {
    * @param {boolean=} [params.allowhighfees=false]  Allow high fees
    * @returns {Promise<string>} The transaction hash in hex
    */
-  sendRawTransaction(params: SendRawTransaction): Promise<string> {
-    return this._client.request('sendrawtransaction', params);
+  sendRawTransaction({
+    hexstring,
+    allowhighfees,
+  }: SendRawTransaction): Promise<string> {
+    const data = [hexstring, allowhighfees ?? false];
+    return this._client.request('sendrawtransaction', data);
   }
 
   /**
@@ -160,8 +171,8 @@ export class RawTransactions {
    * @param {Array} params.txs A json array of hex strings of partially signed transactions
    * @returns {Promise<string>} The hex-encoded raw transaction with signature(s)
    */
-  combineRawTransaction(params: CombineRawTransaction): Promise<string> {
-    return this._client.request('combinerawtransaction', params);
+  combineRawTransaction({ txs }: CombineRawTransaction): Promise<string> {
+    return this._client.request('combinerawtransaction', [txs]);
   }
 
   /**
@@ -177,10 +188,19 @@ export class RawTransactions {
    * @param {string=} params.sighashtype 'ALL' | 'NONE' | 'SINGLE' | 'ALL|ANYONECANPAY' | 'NONE|ANYONECANPAY' | 'SINGLE|ANYONECANPAY'. Default = ALL. The signature hash type
    * @returns {Promise<SignRawTransactionResponse>}
    */
-  signRawTransaction(
-    params: SignRawTransaction
-  ): Promise<SignRawTransactionResponse> {
-    return this._client.request('signrawtransaction', params);
+  signRawTransaction({
+    hexstring,
+    prevtxs,
+    privkeys,
+    sighashtype,
+  }: SignRawTransaction): Promise<SignRawTransactionResponse> {
+    const data = [
+      hexstring,
+      prevtxs ?? null,
+      privkeys ?? null,
+      sighashtype ?? 'SIGHASH_ALL',
+    ];
+    return this._client.request('signrawtransaction', data);
   }
 
   /**
@@ -194,10 +214,12 @@ export class RawTransactions {
    * @param {boolean=} [parasm.allowhighfees=false] Default = false. Allow high fees.
    * @returns {Promise<TestMempoolAcceptResponse>} The result of the mempool acceptance test for each raw transaction in the input array. Length is exactly one for now.
    */
-  testMempoolAccept(
-    params: TestMempoolAccept
-  ): Promise<TestMempoolAcceptResponse> {
-    return this._client.request('testmempoolaccept', params);
+  testMempoolAccept({
+    rawtxs,
+    allowhighfees,
+  }: TestMempoolAccept): Promise<TestMempoolAcceptResponse> {
+    const data = [rawtxs, allowhighfees ?? false];
+    return this._client.request('testmempoolaccept', data);
   }
 
   /**
@@ -209,8 +231,15 @@ export class RawTransactions {
    * @param {string=} params.blockhash If specified, looks for txid in the block with this hash
    * @returns {Promise<GetTxOutProofResponse>} A string that is a serialized, hex-encoded data for the proof.
    */
-  getTxOutProof(params: GetTxOutProof): Promise<GetTxOutProofResponse> {
-    return this._client.request('gettxoutproof', params);
+  getTxOutProof({
+    txids,
+    blockhash,
+  }: GetTxOutProof): Promise<GetTxOutProofResponse> {
+    const data: (string | string[])[] = [txids];
+    if (blockhash) {
+      data.push(blockhash);
+    }
+    return this._client.request('gettxoutproof', data);
   }
 
   /**
@@ -219,9 +248,9 @@ export class RawTransactions {
    * @param {string} params.proof The hex-encoded proof generated by gettxoutproof
    * @returns {Promise<VerifyTxOutProofResponse>} Array of the txid(s) which the proof commits to, or empty array if the proof is invalid
    */
-  verifyTxOutProof(
-    params: VerifyTxOutProof
-  ): Promise<VerifyTxOutProofResponse> {
-    return this._client.request('verifytxoutproof', params);
+  verifyTxOutProof({
+    proof,
+  }: VerifyTxOutProof): Promise<VerifyTxOutProofResponse> {
+    return this._client.request('verifytxoutproof', [proof]);
   }
 }

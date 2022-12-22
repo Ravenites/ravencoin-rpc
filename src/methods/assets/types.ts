@@ -56,7 +56,7 @@ export type ListAddressesByAsset = {
 
 export type TransferFromAddress = {
   asset_name: string;
-  from_address: string;
+  from_addresses: string;
   qty: number;
   to_address: string;
   message?: string;

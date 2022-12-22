@@ -42,11 +42,11 @@ export class Mining {
    * @param {number=} [params.height=1] To estimate at the time of the given height.
    * @returns {Promise<number>} Hashes per second estimated
    */
-  getNetworkHashPs(params?: GetNetworkHashPs): Promise<number> {
-    params = params || {};
-    params.nblocks = params.nblocks ?? 120;
-    params.height = params.height ?? 1;
-    return this._client.request('getnetworkhashps', params);
+  getNetworkHashPs({ nblocks, height }: GetNetworkHashPs = {}): Promise<
+    number
+  > {
+    const data = [nblocks ?? 120, height ?? 1];
+    return this._client.request('getnetworkhashps', data);
   }
 
   /**
@@ -69,8 +69,13 @@ export class Mining {
    * @param {number} params.fee_delta The fee value (in satoshis) to add (or subtract, if negative). The fee is not actually paid, only the algorithm for selecting transactions into a block considers the transaction as it would have paid a higher (or lower) fee.
    * @returns {Promise<boolean>} Returns true
    */
-  prioritiseTransaction(params: PrioritiseTransaction): Promise<boolean> {
-    return this._client.request('prioritisetransaction', params);
+  prioritiseTransaction({
+    txid,
+    dummy,
+    fee_delta,
+  }: PrioritiseTransaction): Promise<boolean> {
+    const data = [txid, dummy ?? null, fee_delta];
+    return this._client.request('prioritisetransaction', data);
   }
 
   /**
@@ -97,10 +102,10 @@ export class Mining {
    * @param {TemplateRequest} params.template_request
    * @returns {Promise}
    */
-  getBlockTemplate(
-    params?: GetBlockTemplate
-  ): Promise<GetBlockTemplateResponse> {
-    return this._client.request('getblocktemplate', params);
+  getBlockTemplate({ template_request }: GetBlockTemplate = {}): Promise<
+    GetBlockTemplateResponse
+  > {
+    return this._client.request('getblocktemplate', [template_request]);
   }
 
   /**
@@ -112,8 +117,8 @@ export class Mining {
    * @param {string=} params.dummy Dummy value, for compatibility with BIP22. This value is ignored.
    * @returns {Promise}
    */
-  submitBlock(params: SubmitBlock): Promise<null | string> {
-    return this._client.request('submitblock', params);
+  submitBlock({ hexdata }: SubmitBlock): Promise<null | string> {
+    return this._client.request('submitblock', [hexdata]);
   }
 
   /**
@@ -124,8 +129,9 @@ export class Mining {
    * @param {string} params.nonce The nonce of the block that hashed the valid block
    * @returns {Promise}
    */
-  pprpcsb(params: Pprpcsb): Promise<null | string> {
-    return this._client.request('pprpcsb', params);
+  pprpcsb({ header_hash, mix_hash, nonce }: Pprpcsb): Promise<null | string> {
+    const data = [header_hash, mix_hash, nonce];
+    return this._client.request('pprpcsb', data);
   }
 
   /**
@@ -138,8 +144,18 @@ export class Mining {
    * @param {string=} params.target The target of the block that is hash is trying to meet
    * @returns {Promise}
    */
-  getKawpowHash(params: GetKawpowHash): Promise<GetKawpowHashResponse> {
-    return this._client.request('getkawpowhash', params);
+  getKawpowHash({
+    header_hash,
+    mix_hash,
+    nonce,
+    height,
+    target,
+  }: GetKawpowHash): Promise<GetKawpowHashResponse> {
+    const data = [header_hash, mix_hash, nonce, height];
+    if (target) {
+      data.push(target);
+    }
+    return this._client.request('getkawpowhash', []);
   }
 
   /**
@@ -170,8 +186,12 @@ export class Mining {
    * @returns {Promise<string>}
    */
 
-  setGenerate(params: SetGenerate): Promise<string> {
-    return this._client.request('setgenerate', params);
+  setGenerate({ generate, genproclimit }: SetGenerate): Promise<string> {
+    const data: (boolean | number)[] = [generate];
+    if (genproclimit) {
+      data.push(genproclimit);
+    }
+    return this._client.request('setgenerate', data);
   }
 
   /**
@@ -182,8 +202,16 @@ export class Mining {
    * @param {number=} params.maxtries How many iterations to try (default = 1000000).
    * @returns {Promise<string[]>} Array of hashes of blocks generated
    */
-  generateToAddress(params: GenerateToAddress): Promise<string[]> {
-    return this._client.request('generatetoaddress', params);
+  generateToAddress({
+    nblocks,
+    address,
+    maxtries,
+  }: GenerateToAddress): Promise<string[]> {
+    const data = [nblocks, address];
+    if (maxtries) {
+      data.push(maxtries);
+    }
+    return this._client.request('generatetoaddress', data);
   }
 
   /**
@@ -201,8 +229,8 @@ export class Mining {
    *
    * -1 is always returned for nblocks == 1 as it is impossible to calculate a fee that is high enough to get reliably included in the next block.
    */
-  estimateFee(params: EstimateFee): Promise<number> {
-    return this._client.request('estimatefee', params);
+  estimateFee({ nblocks }: EstimateFee): Promise<number> {
+    return this._client.request('estimatefee', [nblocks]);
   }
 
   /**
@@ -217,10 +245,12 @@ export class Mining {
    * Must be one of: "UNSET", "ECONOMICAL", "CONSERVATIVE"
    * @returns {Promise<EstimateSmartFeeResponse>}
    */
-  estimateSmartFee(
-    params: EstimateSmartFee
-  ): Promise<EstimateSmartFeeResponse> {
-    return this._client.request('estimatesmartfee', params);
+  estimateSmartFee({
+    conf_target,
+    estimate_mode,
+  }: EstimateSmartFee): Promise<EstimateSmartFeeResponse> {
+    const data = [conf_target, estimate_mode ?? 'CONSERVATIVE'];
+    return this._client.request('estimatesmartfee', data);
   }
 
   /**
@@ -238,7 +268,11 @@ export class Mining {
    * @param {number=} [params.threshold=0.95] The proportion of transactions in a given feerate range that must have been confirmed within conf_target in order to consider those feerates as high enough and proceed to check lower buckets.  Default: 0.95
    * @returns {Promise<EstimateRawFeeResponse>} Results are returned for any horizon which tracks blocks up to the confirmation target.
    */
-  estimateRawFee(params: EstimateRawFee): Promise<EstimateRawFeeResponse> {
-    return this._client.request('estimaterawfee', params);
+  estimateRawFee({
+    conf_target,
+    threshold,
+  }: EstimateRawFee): Promise<EstimateRawFeeResponse> {
+    const data = [conf_target, threshold ?? 0.95];
+    return this._client.request('estimaterawfee', data);
   }
 }

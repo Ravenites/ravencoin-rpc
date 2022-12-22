@@ -38,6 +38,8 @@ import {
   UnfreezeRestrictedAsset,
 } from './types';
 
+const INT_MAX = 2147483647;
+
 /**
  * @class Assets
  * @subcategory Methods
@@ -72,8 +74,30 @@ export class Assets {
    * @param {string=} [params.ipfs_hash]         Required if has_ipfs is true. An ipfs hash or a txid hash once RIP5 is activate
    * @returns {Promise} txid
    */
-  issue(params: Issue): Promise<string> {
-    return this._client.request('issue', params);
+  issue({
+    asset_name,
+    qty,
+    to_address,
+    change_address,
+    units,
+    reissuable,
+    has_ipfs,
+    ipfs_hash,
+  }: Issue): Promise<string> {
+    const data = [
+      asset_name,
+      qty ?? 1,
+      to_address ?? '',
+      change_address ?? '',
+      units ?? 0,
+      reissuable ?? true,
+      has_ipfs ?? false,
+      ipfs_hash,
+    ];
+    if (has_ipfs && ipfs_hash) {
+      data.push(ipfs_hash);
+    }
+    return this._client.request('issue', data);
   }
 
   /**
@@ -96,8 +120,21 @@ export class Assets {
    * @param {string=} [params.change_address=''] Address the the rvn change will be sent to, if it is empty, change address will be generated for you
    * @returns {Promise} txid
    */
-  issueUnique(params: IssueUnique): Promise<string> {
-    return this._client.request('issueunique', params);
+  issueUnique({
+    root_name,
+    asset_tags,
+    ipfs_hashes,
+    to_address,
+    change_address,
+  }: IssueUnique): Promise<string> {
+    const data = [
+      root_name,
+      asset_tags,
+      ipfs_hashes ?? null,
+      to_address ?? '',
+      change_address ?? '',
+    ];
+    return this._client.request('issueunique', data);
   }
 
   /**
@@ -112,26 +149,21 @@ export class Assets {
    * @param {number=}  [params.confs=0]       Results are skipped if they don't have this number of confirmations
    * @returns {Promise<any>} TODO: Get return data
    */
-  listMyAssets(params?: ListMyAssets): Promise<any> {
-    params = params || {};
-    const count = typeof params.count === 'number';
-    const start = typeof params.start === 'number';
-    const confs = typeof params.confs === 'number';
-    if ((params.verbose || !!count || !!start || !!confs) && !params.asset) {
-      params.asset = '*';
-    }
-    if ((!!count || !!start || !!confs) && !params.verbose) {
-      params.verbose = false;
-    }
-    if ((!!start || !!confs) && !count) {
-      params.count = 999999999;
-    }
-    if (!!confs && !start) {
-      throw new Error(
-        'Confs parameter is required when using the Start parameter'
-      );
-    }
-    return this._client.request('listmyassets', params);
+  listMyAssets({
+    asset,
+    verbose,
+    count,
+    start,
+    confs,
+  }: ListMyAssets = {}): Promise<any> {
+    const data = [
+      asset ?? '*',
+      verbose ?? false,
+      count ?? INT_MAX,
+      start ?? 0,
+      confs ?? 0,
+    ];
+    return this._client.request('listmyassets', data);
   }
 
   /**
@@ -145,17 +177,14 @@ export class Assets {
    * @param {number=}  [params.start=0]         Results skip over the first _start_ assets found (if negative it skips back from the end)
    * @returns {Promise<any>} TODO: Get return data
    */
-  listAssetBalancesByAddress(params: ListAssetBalanceByAddress): Promise<any> {
-    if (!params.onlytotal) {
-      params.onlytotal = false;
-    }
-    if (!params.count) {
-      params.count = 50000;
-    }
-    if (!params.start) {
-      params.start = 0;
-    }
-    return this._client.request('listassetbalancesbyaddress', params);
+  listAssetBalancesByAddress({
+    address,
+    onlytotal,
+    count,
+    start,
+  }: ListAssetBalanceByAddress): Promise<any> {
+    const data = [address, onlytotal ?? false, count ?? 50000, start ?? 0];
+    return this._client.request('listassetbalancesbyaddress', data);
   }
 
   /**
@@ -166,8 +195,8 @@ export class Assets {
    * @param {string} params.asset_name The name of the asset
    * @returns {Promise<GetAssetDataResponse>} Asset data
    */
-  getAssetData(params: GetAssetData): Promise<GetAssetDataResponse> {
-    return this._client.request('getassetdata', params);
+  getAssetData({ asset_name }: GetAssetData): Promise<GetAssetDataResponse> {
+    return this._client.request('getassetdata', [asset_name]);
   }
 
   /**
@@ -183,17 +212,14 @@ export class Assets {
    * @param {string=} [params.start=0]         Results skip over the first _start_ assets found (if negative it skips back from the end)
    * @returns {Promise<any>} TODO: Get return type
    */
-  listAddressesByAsset(params: ListAddressesByAsset): Promise<any> {
-    if (!params.onlytotal) {
-      params.onlytotal = false;
-    }
-    if (!params.count) {
-      params.count = 50000;
-    }
-    if (!params.start) {
-      params.start = 0;
-    }
-    return this._client.request('listaddressesbyasset', params);
+  listAddressesByAsset({
+    asset_name,
+    onlytotal,
+    count,
+    start,
+  }: ListAddressesByAsset): Promise<any> {
+    const data = [asset_name, onlytotal ?? false, count ?? 50000, start ?? 0];
+    return this._client.request('listaddressesbyasset', data);
   }
 
   /**
@@ -202,7 +228,7 @@ export class Assets {
    * client.assets.transferFromAddress({ asset_name: 'FE271D55A604409E8C48', from_address: 'n1VH67GpxMxgsEAPWNhGKcnZVdNSZpMXHZ', qty: 1, to_address: 'mwc5mCPAMWG2cVbvxG3dSqxKbxeLR1UMtu' });
    * @param params
    * @param {string}  params.asset_name                Name of asset
-   * @param {string}  params.from_address              Address that the asset will be transferred from
+   * @param {string}  params.from_addresses              Address that the asset will be transferred from
    * @param {number}  params.qty                       Number of assets you want to send to the address
    * @param {string}  params.to_address                Address to send the asset to
    * @param {string=} params.message                   Once RIP5 is voted in ipfs hash or txid hash to send along with the transfer
@@ -211,8 +237,27 @@ export class Assets {
    * @param {string=} [params.asset_change_address=''] The transaction Asset change will be sent to this address
    * @returns {Promise<string | string[]>} txid
    */
-  transferFromAddress(params: TransferFromAddress): Promise<string | string[]> {
-    return this._client.request('transferfromaddress', params);
+  transferFromAddress({
+    asset_name,
+    from_addresses,
+    qty,
+    to_address,
+    message,
+    expire_time,
+    rvn_change_address,
+    asset_change_address,
+  }: TransferFromAddress): Promise<string | string[]> {
+    const data = [
+      asset_name,
+      from_addresses,
+      qty,
+      to_address,
+      message ?? '',
+      expire_time ?? 0,
+      rvn_change_address ?? '',
+      asset_change_address ?? '',
+    ];
+    return this._client.request('transferfromaddress', data);
   }
 
   /**
@@ -230,10 +275,27 @@ export class Assets {
    * @param {string=} [params.asset_change_address=''] The transactions Asset change will be sent to this address
    * @returns {Promise<string | string[]>} txid or array of txid
    */
-  transferFromAddresses(
-    params: TransferFromAddresses
-  ): Promise<string | string[]> {
-    return this._client.request('transferfromaddresses', params);
+  transferFromAddresses({
+    asset_name,
+    from_addresses,
+    qty,
+    to_address,
+    message,
+    expire_time,
+    rvn_change_address,
+    asset_change_address,
+  }: TransferFromAddresses): Promise<string | string[]> {
+    const data = [
+      asset_name,
+      from_addresses,
+      qty,
+      to_address,
+      message ?? '',
+      expire_time ?? 0,
+      rvn_change_address ?? '',
+      asset_change_address ?? '',
+    ];
+    return this._client.request('transferfromaddresses', data);
   }
 
   /**
@@ -250,8 +312,25 @@ export class Assets {
    * @param {string=} [params.asset_change_address=''] The transactions Asset change will be sent to this address
    * @returns {Promise<string | string[]>} txid or array of txid
    */
-  transfer(params: Transfer): Promise<string | string[]> {
-    return this._client.request('transfer', params);
+  transfer({
+    asset_name,
+    qty,
+    to_address,
+    message,
+    expire_time,
+    change_address,
+    asset_change_address,
+  }: Transfer): Promise<string | string[]> {
+    const data = [
+      asset_name,
+      qty,
+      to_address,
+      message ?? '',
+      expire_time ?? 0,
+      change_address ?? '',
+      asset_change_address ?? '',
+    ];
+    return this._client.request('transfer', data);
   }
 
   /**
@@ -272,8 +351,27 @@ export class Assets {
    * @param {string=}  [params.new_ipfs='']     Whether to update the current ipfs hash or txid once RIP5 is active
    * @returns {Promise<string>} txid
    */
-  reissue(params: Reissue): Promise<string> {
-    return this._client.request('reissue', params);
+  reissue({
+    asset_name,
+    qty,
+    to_address,
+    change_address,
+    reissuable,
+    new_units,
+    new_ipfs,
+  }: Reissue): Promise<string> {
+    const data = [
+      asset_name,
+      qty,
+      to_address,
+      change_address ?? '',
+      reissuable ?? true,
+      new_units ?? 1,
+    ];
+    if (new_ipfs) {
+      data.push(new_ipfs);
+    }
+    return this._client.request('reissue', data);
   }
 
   /**
@@ -286,20 +384,11 @@ export class Assets {
    * @param {string=} [params.start=0]       Results skip over the first _start_ assets found (if negative it skips back from the end)
    * @returns {Promise<string[] | ListAssetsResponse[]>} List of assets
    */
-  listAssets(params?: ListAssets): Promise<string[] | ListAssetsResponse[]> {
-    params = params || {};
-    if ((params.verbose || params.count || params.start) && !params.asset) {
-      params.asset = '*';
-    }
-    if ((params.count || params.start) && !params.verbose) {
-      params.verbose = false;
-    }
-    if (params.start && !params.count) {
-      throw new Error(
-        'Count parameter is required when using the Start parameter'
-      );
-    }
-    return this._client.request('listassets', params);
+  listAssets({ asset, verbose, count, start }: ListAssets = {}): Promise<
+    string[] | ListAssetsResponse[]
+  > {
+    const data = [asset ?? '*', verbose ?? false, count ?? INT_MAX, start ?? 0];
+    return this._client.request('listassets', data);
   }
   /**
    * Returns an array of a single cache object
@@ -322,8 +411,23 @@ export class Assets {
    * @param {number=} params.expire_time         UTC timestamp of when the message expires
    * @returns {Promise<string | string[]>} txid or array of txid
    */
-  transferQualifier(params: TransferQualifier): Promise<string | string[]> {
-    return this._client.request('transferqualifier', params);
+  transferQualifier({
+    qualifier_name,
+    qty,
+    to_address,
+    change_address,
+    message,
+    expire_time,
+  }: TransferQualifier): Promise<string | string[]> {
+    const data = [
+      qualifier_name,
+      qty,
+      to_address,
+      change_address ?? '',
+      message ?? '',
+      expire_time ?? 0,
+    ];
+    return this._client.request('transferqualifier', data);
   }
 
   /**
@@ -346,8 +450,31 @@ export class Assets {
    * @param {string}  params.ipfs_hash           Required if has_ipfs is true. An ipfs hash or a txid hash once RIP5 is activated
    * @returns {Promise<string>} txid
    */
-  issueRestrictedAsset(params: IssueRestrictedAsset): Promise<string> {
-    return this._client.request('issuerestrictedasset', params);
+  issueRestrictedAsset({
+    asset_name,
+    qty,
+    verifier,
+    to_address,
+    change_address,
+    units,
+    reissuable,
+    has_ipfs,
+    ipfs_hash,
+  }: IssueRestrictedAsset): Promise<string> {
+    const data = [
+      asset_name,
+      qty,
+      verifier,
+      to_address,
+      change_address ?? '',
+      units ?? 0,
+      reissuable ?? true,
+      has_ipfs ?? false,
+    ];
+    if (has_ipfs && ipfs_hash) {
+      data.push(ipfs_hash);
+    }
+    return this._client.request('issuerestrictedasset', data);
   }
 
   /**
@@ -373,8 +500,25 @@ export class Assets {
    * @param {string=} params.ipfs_hash           Required if has_ipfs is true. An ipfs hash or a txid hash once RIP5 is activated
    * @returns {Promise<string>} txid
    */
-  issueQualifierAsset(params: IssueQualifierAsset): Promise<string> {
-    return this._client.request('issuequalifierasset', params);
+  issueQualifierAsset({
+    asset_name,
+    qty,
+    to_address,
+    change_address,
+    has_ipfs,
+    ipfs_hash,
+  }: IssueQualifierAsset): Promise<string> {
+    const data = [
+      asset_name,
+      qty,
+      to_address ?? '',
+      change_address ?? '',
+      has_ipfs ?? false,
+    ];
+    if (has_ipfs && ipfs_hash) {
+      data.push(ipfs_hash);
+    }
+    return this._client.request('issuequalifierasset', data);
   }
 
   /**
@@ -393,8 +537,31 @@ export class Assets {
    * @param {string}  [params.new_ipfs='']           Whether to update the current ipfs hash or txid once RIP5 is active
    * @returns {Promise<string>} txid
    */
-  reissueRestrictedAsset(params: ReissueRestrictedAsset): Promise<string> {
-    return this._client.request('reissuerestrictedasset', params);
+  reissueRestrictedAsset({
+    asset_name,
+    qty,
+    to_address,
+    change_verifier,
+    new_verifier,
+    change_address,
+    new_units,
+    reissuable,
+    new_ipfs,
+  }: ReissueRestrictedAsset): Promise<string> {
+    const data = [
+      asset_name,
+      qty,
+      to_address,
+      change_verifier ?? false,
+      new_verifier ?? '',
+      change_address ?? '',
+      new_units ?? -1,
+      reissuable ?? true,
+    ];
+    if (new_ipfs) {
+      data.push(new_ipfs);
+    }
+    return this._client.request('reissuerestrictedasset', data);
   }
 
   /**
@@ -406,8 +573,17 @@ export class Assets {
    * @param {string=} param.asset_data     The asset data (ipfs or a hash) to be applied to the transfer of the qualifier token
    * @returns {Promise<string>} txid
    */
-  addTagToAddress(params: AddTagToAddress): Promise<string> {
-    return this._client.request('addtagtoaddress', params);
+  addTagToAddress({
+    tag_name,
+    to_address,
+    change_address,
+    asset_data,
+  }: AddTagToAddress): Promise<string> {
+    const data = [tag_name, to_address, change_address ?? ''];
+    if (asset_data) {
+      data.push(asset_data);
+    }
+    return this._client.request('addtagtoaddress', data);
   }
 
   /**
@@ -419,8 +595,17 @@ export class Assets {
    * @param {string=} param.asset_data     The asset data (ipfs or a hash) to be applied to the transfer of the qualifier token
    * @returns {Promise<string>} txid
    */
-  removeTagFromAddress(params: RemoveTagFromAddress): Promise<string> {
-    return this._client.request('removetagfromaddress', params);
+  removeTagFromAddress({
+    tag_name,
+    to_address,
+    change_address,
+    asset_data,
+  }: RemoveTagFromAddress): Promise<string> {
+    const data = [tag_name, to_address, change_address ?? ''];
+    if (asset_data) {
+      data.push(asset_data);
+    }
+    return this._client.request('removetagfromaddress', data);
   }
 
   /**
@@ -432,8 +617,17 @@ export class Assets {
    * @param {string=} params.asset_data     The asset data (ipfs or a hash) to be applied to the transfer of the owner token
    * @returns {Promise<string>} txid
    */
-  freezeAddress(params: FreezeAddress): Promise<string> {
-    return this._client.request('freezeaddress', params);
+  freezeAddress({
+    asset_name,
+    address,
+    change_address,
+    asset_data,
+  }: FreezeAddress): Promise<string> {
+    const data = [asset_name, address, change_address ?? ''];
+    if (asset_data) {
+      data.push(asset_data);
+    }
+    return this._client.request('freezeaddress', data);
   }
 
   /**
@@ -445,8 +639,17 @@ export class Assets {
    * @param {string=} params.asset_data     The asset data (ipfs or a hash) to be applied to the transfer of the owner token
    * @returns {Promise<string>} txid
    */
-  unfreezeAddress(params: UnfreezeAddress): Promise<string> {
-    return this._client.request('unfreezeaddress', params);
+  unfreezeAddress({
+    asset_name,
+    address,
+    change_address,
+    asset_data,
+  }: UnfreezeAddress): Promise<string> {
+    const data = [asset_name, address, change_address ?? ''];
+    if (asset_data) {
+      data.push(asset_data);
+    }
+    return this._client.request('unfreezeaddress', data);
   }
 
   /**
@@ -457,8 +660,16 @@ export class Assets {
    * @param {string=} params.asset_data     The asset data (ipfs or a hash) to be applied to the transfer of the owner token
    * @returns {Promise<string>} txid
    */
-  freezeRestrictedAsset(params: FreezeRestrictedAsset): Promise<string> {
-    return this._client.request('freezerestrictedasset', params);
+  freezeRestrictedAsset({
+    asset_name,
+    change_address,
+    asset_data,
+  }: FreezeRestrictedAsset): Promise<string> {
+    const data = [asset_name, change_address ?? ''];
+    if (asset_data) {
+      data.push(asset_data);
+    }
+    return this._client.request('freezerestrictedasset', data);
   }
 
   /**
@@ -469,8 +680,16 @@ export class Assets {
    * @param {string=} params.asset_data     The asset data (ipfs or a hash) to be applied to the transfer of the owner token
    * @returns {Promise<string>} txid
    */
-  unfreezeRestrictedAsset(params: UnfreezeRestrictedAsset): Promise<string> {
-    return this._client.request('unfreezerestrictedasset', params);
+  unfreezeRestrictedAsset({
+    asset_name,
+    change_address,
+    asset_data,
+  }: UnfreezeRestrictedAsset): Promise<string> {
+    const data = [asset_name, change_address ?? ''];
+    if (asset_data) {
+      data.push(asset_data);
+    }
+    return this._client.request('unfreezerestrictedasset', data);
   }
 
   /**
@@ -481,8 +700,8 @@ export class Assets {
    * @param {string} params.tag_name The tag asset name to search for
    * @returns {Promise<any[]>} TODO: Get Address type
    */
-  listAddressesForTag(params: ListAddressesForTag): Promise<any[]> {
-    return this._client.request('listaddressesfortag', params);
+  listAddressesForTag({ tag_name }: ListAddressesForTag): Promise<any[]> {
+    return this._client.request('listaddressesfortag', [tag_name]);
   }
 
   /**
@@ -493,8 +712,8 @@ export class Assets {
    * @param {string} params.address The address to list tags for
    * @returns {Promise<string[]>} Array of tag names
    */
-  listTagsForAddress(params: ListTagsForAddress): Promise<string[]> {
-    return this._client.request('listtagsforaddress', params);
+  listTagsForAddress({ address }: ListTagsForAddress): Promise<string[]> {
+    return this._client.request('listtagsforaddress', [address]);
   }
 
   /**
@@ -504,8 +723,10 @@ export class Assets {
    * @param {string} params.address The address to list restrictions for
    * @returns {Promise<string[]>} Array of asset names
    */
-  listAddressRestrictions(params: ListAddressRestrictions): Promise<string[]> {
-    return this._client.request('listaddressrestrictions', params);
+  listAddressRestrictions({
+    address,
+  }: ListAddressRestrictions): Promise<string[]> {
+    return this._client.request('listaddressrestrictions', [address]);
   }
 
   /**
@@ -524,8 +745,8 @@ export class Assets {
    * @param {string} param.restricted_name The asset_name
    * @returns {Promise<string>} The verifier for the asset
    */
-  getVerifierString(params: GetVerifierString): Promise<string> {
-    return this._client.request('getverifierstring', params);
+  getVerifierString({ restricted_name }: GetVerifierString): Promise<string> {
+    return this._client.request('getverifierstring', [restricted_name]);
   }
 
   /**
@@ -537,8 +758,9 @@ export class Assets {
    * @param {string} params.tag_name The tag to search
    * @returns {Promise<boolean>} boolean - If the address has the tag
    */
-  checkAddressTag(params: CheckAddressTag): Promise<boolean> {
-    return this._client.request('checkaddresstag', params);
+  checkAddressTag({ address, tag_name }: CheckAddressTag): Promise<boolean> {
+    const data = [address, tag_name];
+    return this._client.request('checkaddresstag', data);
   }
 
   /**
@@ -550,8 +772,12 @@ export class Assets {
    * @param {string} params.restricted_name The restricted asset to search
    * @returns {Promise<boolean>} boolean - If the address is frozen
    */
-  checkAddressRestriction(params: CheckAddressRestriction): Promise<boolean> {
-    return this._client.request('checkaddressrestriction', params);
+  checkAddressRestriction({
+    address,
+    restricted_name,
+  }: CheckAddressRestriction): Promise<boolean> {
+    const data = [address, restricted_name];
+    return this._client.request('checkaddressrestriction', data);
   }
 
   /**
@@ -562,8 +788,10 @@ export class Assets {
    * @param {string} params.restricted_name The restricted asset to search
    * @returns {Promise<boolean>} boolean - If the restricted asset is frozen globally
    */
-  checkGlobalRestriction(params: CheckGlobalRestriction): Promise<boolean> {
-    return this._client.request('checkglobalrestriction', params);
+  checkGlobalRestriction({
+    restricted_name,
+  }: CheckGlobalRestriction): Promise<boolean> {
+    return this._client.request('checkglobalrestriction', [restricted_name]);
   }
 
   /**
@@ -572,8 +800,10 @@ export class Assets {
    * @param {string} params.verifier_string The verifier string to check
    * @returns {Promise<string>} If the verifier string is valid, and the reason
    */
-  isValidVerifierString(params: IsValidVerifierString): Promise<string> {
-    return this._client.request('isvalidverifierstring', params);
+  isValidVerifierString({
+    verifier_string,
+  }: IsValidVerifierString): Promise<string> {
+    return this._client.request('isvalidverifierstring', [verifier_string]);
   }
 
   /**
@@ -583,8 +813,12 @@ export class Assets {
    * @param {number} params.block_height The block height of the snapshot
    * @returns {Promise<GetSnapshotResponse>} name, height, owners: [{ address, amount_owned }]
    */
-  getSnapshot(params: GetSnapshot): Promise<GetSnapshotResponse> {
-    return this._client.request('getsnapshot', params);
+  getSnapshot({
+    asset_name,
+    block_height,
+  }: GetSnapshot): Promise<GetSnapshotResponse> {
+    const data = [asset_name, block_height];
+    return this._client.request('getsnapshot', data);
   }
 
   /**
@@ -594,7 +828,11 @@ export class Assets {
    * @param {number} params.block_height The block height of the snapshot
    * @returns {Promise<PurgeSnapshotResponse>} name, height
    */
-  purgeSnapshot(params: PurgeSnapshot): Promise<PurgeSnapshotResponse> {
-    return this._client.request('purgesnapshot', params);
+  purgeSnapshot({
+    asset_name,
+    block_height,
+  }: PurgeSnapshot): Promise<PurgeSnapshotResponse> {
+    const data = [asset_name, block_height];
+    return this._client.request('purgesnapshot', data);
   }
 }

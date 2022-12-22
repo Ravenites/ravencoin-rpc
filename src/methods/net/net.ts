@@ -63,8 +63,9 @@ export class Net {
    * @param {string} params.command 'add' to add a node to the list, 'remove' to remove a node from the list, 'onetry' to try a connection to the node once
    * @returns {Promise<null>}
    */
-  addNode(params: AddNode): Promise<null> {
-    return this._client.request('addnode', params);
+  addNode({ node, command }: AddNode): Promise<null> {
+    const data = [node, command];
+    return this._client.request('addnode', data);
   }
 
   /**
@@ -78,8 +79,9 @@ export class Net {
    * @param {number=} params.nodeid The node ID (see getpeerinfo for node IDs)
    * @returns {Promise<null>}
    */
-  disconnectNode(params: DisconnectNode): Promise<null> {
-    return this._client.request('disconnectnode', params);
+  disconnectNode({ address, nodeid }: DisconnectNode = {}): Promise<null> {
+    const data = [address ?? null, nodeid ?? null];
+    return this._client.request('disconnectnode', data);
   }
 
   /**
@@ -88,10 +90,10 @@ export class Net {
    * @param {string=} params.node If provided, return information about this specific node, otherwise all nodes are returned.
    * @returns {Promise<GetAddedNodeInfoResponse[]>}
    */
-  getAddedNodeInfo(
-    params: GetAddedNodeInfo
-  ): Promise<GetAddedNodeInfoResponse[]> {
-    return this._client.request('getaddednodeinfo', params);
+  getAddedNodeInfo({
+    node,
+  }: GetAddedNodeInfo): Promise<GetAddedNodeInfoResponse[]> {
+    return this._client.request('getaddednodeinfo', [node ?? null]);
   }
 
   /**
@@ -119,8 +121,9 @@ export class Net {
    * @param {boolean=} params.absolute If set, the bantime must be an absolute timestamp in seconds since epoch (Jan 1 1970 GMT)
    * @returns {Promise<null>}
    */
-  setBan(params: SetBan): Promise<null> {
-    return this._client.request('setban', params);
+  setBan({ subnet, command, bantime, absolute }: SetBan): Promise<null> {
+    const data = [subnet, command, bantime ?? null, absolute ?? false];
+    return this._client.request('setban', data);
   }
 
   /**
@@ -146,8 +149,8 @@ export class Net {
    * @param {boolean} param.state True to enable networking, false to disable
    * @returns {Promise<boolean>}
    */
-  setNetworkActive(params: SetNetworkActive): Promise<boolean> {
-    return this._client.request('setnetworkactive', params);
+  setNetworkActive({ state }: SetNetworkActive): Promise<boolean> {
+    return this._client.request('setnetworkactive', [state]);
   }
 
   /**
