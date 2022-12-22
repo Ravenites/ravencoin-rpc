@@ -218,7 +218,7 @@ export type GetBlockDeltasResponse = {
 
 /** GetBlockHashes */
 export type GetBlockHashes = {
-  height: number;
+  high: number;
   low: number;
   options: GetBlockHashesOptions;
 };

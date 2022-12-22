@@ -376,7 +376,7 @@ export type ImportWallet = { filename: string };
 
 /** ImportAddress */
 export type ImportAddress = {
-  address: string;
+  script: string;
   label?: string;
   rescan?: boolean;
   p2sh?: boolean;
@@ -633,7 +633,7 @@ export type MoveCmd = {
   fromaccount: string;
   toaccount: string;
   amount: number;
-  minconf?: number;
+  dummy?: number;
   comment?: string;
 };
 

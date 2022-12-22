@@ -127,6 +127,21 @@ npm install @ravenite/ravencoin-rpc
 yarn add @ravenite/ravencoin-rpc
 </code></pre>
 <h3>Usage</h3>
+<p>You can either write manually requests to your RPC connection via the <code>request</code> method, or you can use the built-in methods provided by the client class.</p>
+<h4>Manually</h4>
+<pre class="prettyprint source lang-javascript"><code>import Client from '@ravenite/ravencoin-rpc';
+
+const client = new Client({
+  url: 'http://127.0.0.1:9050',
+  username: 'username',
+  password: 'password',
+});
+
+client.request('getchaintips').then(response => {
+  console.log('response', response);
+});
+</code></pre>
+<h4>Built-in Methods</h4>
 <pre class="prettyprint source lang-javascript"><code>import Client from '@ravenite/ravencoin-rpc';
 
 const client = new Client({
@@ -144,159 +159,7 @@ client.methods.listAssets().then(assets => {
 <h2>License</h2>
 <p>Code released under <a href="./LICENSE.md">the MIT license</a>.</p>
 <h3>Development</h3>
-<p>Tested method parameters</p>
-<h4>Assets</h4>
-<ul>
-<li>[x] issue</li>
-<li>[x] issueUnique</li>
-<li>[x] listMyAssets</li>
-<li>[x] listAssetBalancesByAddress</li>
-<li>[x] getAssetData</li>
-<li>[x] listAddressesByAsset</li>
-<li>[x] transferFromAddress</li>
-<li>[x] transferFromAddresses</li>
-<li>[x] transfer</li>
-<li>[x] reissue</li>
-<li>[x] listAssets</li>
-<li>[x] getCacheInfo</li>
-<li>[x] transferQualifier</li>
-<li>[x] issueRestrictedAsset</li>
-<li>[x] issueQualifierAsset</li>
-<li>[x] reissueRestrictedAsset</li>
-<li>[ ] addTagToAddress</li>
-<li>[ ] removeTagFromAddress</li>
-<li>[ ] freezeAddress</li>
-<li>[ ] unfreezeAddress</li>
-<li>[ ] freezerestrictedasset</li>
-<li>[ ] unfreezeRestrictedAsset</li>
-<li>[x] listAddressesForTag</li>
-<li>[x] listTagsForAddress</li>
-<li>[x] listAddressRestrictions</li>
-<li>[x] listGlobalRestrictions</li>
-<li>[ ] getVerifierString</li>
-<li>[x] checkAddressTag</li>
-<li>[x] checkAddressRestriction</li>
-<li>[x] checkGlobalRestriction</li>
-<li>[ ] isValidVerifierString</li>
-<li>[ ] getSnapshot</li>
-<li>[ ] purgeSnapshot</li>
-</ul>
-<h4>Blockchain</h4>
-<ul>
-<li>[ ] clearMempool</li>
-<li>[x] getBlockchainInfo</li>
-<li>[ ] getChainTxStats</li>
-<li>[ ] getBestBlockHash</li>
-<li>[ ] getBlockCount</li>
-<li>[ ] getBlock</li>
-<li>[ ] decodeBlock</li>
-<li>[ ] getBlockDeltas</li>
-<li>[ ] getBlockHashes</li>
-<li>[ ] getBlockHash</li>
-<li>[ ] getBlockHeader</li>
-<li>[ ] getChainTips</li>
-<li>[ ] getDifficulty</li>
-<li>[ ] getMempoolAncestors</li>
-<li>[ ] getMempoolDescendants</li>
-<li>[ ] getMempoolEntry</li>
-<li>[ ] getMempoolInfo</li>
-<li>[ ] getRawMempool</li>
-<li>[ ] GetTxOut</li>
-<li>[ ] getTxOutSetInfo</li>
-<li>[ ] pruneBlockchain</li>
-<li>[ ] saveMempool</li>
-<li>[ ] verifyChain</li>
-<li>[ ] preciousBlock</li>
-<li>[ ] invalidateBlock</li>
-<li>[ ] reconsiderBlock</li>
-<li>[ ] waitForNewBlock</li>
-<li>[ ] waitForBlock</li>
-<li>[ ] waitForBlockHeight</li>
-</ul>
-<h4>Messages</h4>
-<ul>
-<li>[x] viewAllMessages</li>
-<li>[x] viewAllMessageChannels</li>
-<li>[x] subscribeToChannel</li>
-<li>[x] unsubscribeFromChannel</li>
-<li>[x] sendMessage</li>
-<li>[x] viewMyTaggedAddresses</li>
-<li>[x] viewMyRestrictedAddresses</li>
-<li>[x] clearMessages</li>
-</ul>
-<h4>Mining</h4>
-<ul>
-<li>[x] getNetworkHashPs</li>
-<li>[x] getMiningInfo</li>
-<li>[x] prioritiseTransaction</li>
-<li>[x] getBlockTemplate</li>
-<li>[ ] submitBlock</li>
-<li>[ ] pprpcsb</li>
-<li>[ ] getKawpowHash</li>
-<li>[x] getGenerate</li>
-<li>[x] setGenerate</li>
-<li>[ ] generateToAddress</li>
-<li>[ ] estimateFee</li>
-<li>[ ] estimateSmartFee</li>
-<li>[ ] estimateRawFee</li>
-</ul>
-<h4>Misc</h4>
-<ul>
-<li>[ ] getInfo</li>
-<li>[ ] getMemoryInfo</li>
-<li>[ ] validateAddress</li>
-<li>[ ] createMultisig</li>
-<li>[ ] verifyMessage</li>
-<li>[ ] signMessageWithPrivKey</li>
-<li>[ ] getAddressMempool</li>
-<li>[ ] getAddressUtxos</li>
-<li>[ ] getAddressDeltas</li>
-<li>[ ] getAddressTxIds</li>
-<li>[ ] getAddressBalance</li>
-<li>[ ] getSpentInfo</li>
-<li>[ ] setMockTime</li>
-<li>[x] echo</li>
-<li>[ ] echojson</li>
-<li>[ ] logging</li>
-</ul>
-<h4>Net</h4>
-<ul>
-<li>[x] getConnectionCount</li>
-<li>[x] ping</li>
-<li>[x] getPeerInfo</li>
-<li>[x] addNode</li>
-<li>[x] disconnectNode</li>
-<li>[x] getAddedNodeInfo</li>
-<li>[x] getNetTotals</li>
-<li>[x] getNetworkInfo</li>
-<li>[x] setBan</li>
-<li>[x] listBanned</li>
-<li>[x] clearBanned</li>
-<li>[x] setNetworkActive</li>
-<li>[x] testGetAssetData</li>
-</ul>
-<h4>Raw Transactions</h4>
-<ul>
-<li>[ ] getRawTransaction</li>
-<li>[ ] createRawTransaction</li>
-<li>[ ] decodeRawTransaction</li>
-<li>[ ] decodeScript</li>
-<li>[ ] sendRawTransaction</li>
-<li>[ ] combineRawTransaction</li>
-<li>[ ] signRawTransaction</li>
-<li>[ ] testMempoolAccept</li>
-<li>[ ] getTxOutProof</li>
-<li>[ ] verifyTxOutProof</li>
-</ul>
-<h4>Rewards</h4>
-<ul>
-<li>[ ] requestSnapshot</li>
-<li>[ ] getSnapshotRequest</li>
-<li>[ ] listSnapshotRequests</li>
-<li>[ ] cancelSnapshotRequest</li>
-<li>[ ] distributeReward</li>
-<li>[ ] getDistributeStatus</li>
-</ul></article>
+<p>Some RPC commands within Ravencore have known bugs. You may experience them as a result. If you find that the issue comes from this library, please create an Issue so that it can be resolved quickly.</p></article>
     </section>
 
 

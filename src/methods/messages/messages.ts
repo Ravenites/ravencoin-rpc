@@ -44,8 +44,8 @@ export class Messages {
    * @param {string} params.channel_name The channel name to subscribe to, it must end with '!' or have an '~' in the name
    * @returns {Promise<string>}
    */
-  subscribeToChannel(params: SubscribeToChannel): Promise<string> {
-    return this._client.request('subscribetochannel', params);
+  subscribeToChannel({ channel_name }: SubscribeToChannel): Promise<string> {
+    return this._client.request('subscribetochannel', [channel_name]);
   }
 
   /**
@@ -56,8 +56,10 @@ export class Messages {
    * @param {string} params.channel_name The channel name to unsubscribe from, must end with '!' or have an '~' in the name
    * @returns {Promise<string>}
    */
-  unsubscribeFromChannel(params: UnsubscribeFromChannel): Promise<string> {
-    return this._client.request('unsubscribefromchannel', params);
+  unsubscribeFromChannel({
+    channel_name,
+  }: UnsubscribeFromChannel): Promise<string> {
+    return this._client.request('unsubscribefromchannel', [channel_name]);
   }
 
   /**
@@ -104,7 +106,6 @@ export class Messages {
 
   /**
    * Delete current database of messages
-   * @param params
    * @returns {Promise<string>}
    */
   clearMessages(): Promise<string> {

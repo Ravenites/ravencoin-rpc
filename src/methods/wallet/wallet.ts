@@ -43,6 +43,8 @@ import {
   ImportAddress,
   ImportMulti,
   // @ts-ignore
+  ImportMultiRequests,
+  // @ts-ignore
   ImportMultiOptions,
   ImportMultiResponse,
   ImportPrivKey,
@@ -72,6 +74,8 @@ import {
   SendFrom,
   SendFromAddress,
   SendMany,
+  // @ts-ignore
+  SendManyAmounts,
   SendToAddress,
   SetAccount,
   SetTxFee,
@@ -114,10 +118,15 @@ export class Wallet {
    * @param {FundRawTransactionOptions=} params.options
    * @returns {Promise<FundRawTransactionResponse>}
    */
-  fundRawTransaction(
-    params: FundRawTransaction
-  ): Promise<FundRawTransactionResponse> {
-    return this._client.request('fundrawtransaction', params);
+  fundRawTransaction({
+    hexstring,
+    options,
+  }: FundRawTransaction): Promise<FundRawTransactionResponse> {
+    const data: (string | FundRawTransactionOptions)[] = [hexstring];
+    if (options) {
+      data.push(options);
+    }
+    return this._client.request('fundrawtransaction', data);
   }
 
   /**
@@ -146,8 +155,8 @@ export class Wallet {
    * @param {string} params.txid The transaction id.
    * @returns {Promise<null>}
    */
-  abandonTransaction(params: AbandonTransaction): Promise<null> {
-    return this._client.request('abandontransaction', params);
+  abandonTransaction({ txid }: AbandonTransaction): Promise<null> {
+    return this._client.request('abandontransaction', [txid]);
   }
 
   /**
@@ -170,10 +179,16 @@ export class Wallet {
    * @param {string=} params.account DEPRECATED. An account to assign the addresses to.
    * @returns {Promise<AddMultisigAddressResponse>}
    */
-  addMultisigAddress(
-    params: AddMultisigAddress
-  ): Promise<AddMultisigAddressResponse> {
-    return this._client.request('addmultisigaddress', params);
+  addMultisigAddress({
+    nrequired,
+    keys,
+    account,
+  }: AddMultisigAddress): Promise<AddMultisigAddressResponse> {
+    const data: (number | string[] | string)[] = [nrequired, keys];
+    if (account) {
+      data.push(account);
+    }
+    return this._client.request('addmultisigaddress', data);
   }
 
   /**
@@ -181,13 +196,13 @@ export class Wallet {
    *
    * It returns the witness script.
    * @param params
-   * @param {string} addresss An address known to the wallet
+   * @param {string} address An address known to the wallet
    * @returns {Promise<AddWitnessAddressResponse>} The value of the new address (P2SH of witness script).
    */
-  addWitnessAddress(
-    params: AddWitnessAddress
-  ): Promise<AddWitnessAddressResponse> {
-    return this._client.request('addwitnessaddress', params);
+  addWitnessAddress({
+    address,
+  }: AddWitnessAddress): Promise<AddWitnessAddressResponse> {
+    return this._client.request('addwitnessaddress', [address]);
   }
 
   /**
@@ -196,8 +211,8 @@ export class Wallet {
    * @param {string} params.destination The destination directory or file
    * @returns {Promise<null>}
    */
-  backupWallet(params: BackupWallet): Promise<null> {
-    return this._client.request('backupwallet', params);
+  backupWallet({ destination }: BackupWallet): Promise<null> {
+    return this._client.request('backupwallet', [destination]);
   }
 
   /**
@@ -218,6 +233,7 @@ export class Wallet {
    * Alternatively, the user can specify totalFee, or use RPC settxfee to set a higher fee rate.
    *
    * At a minimum, the new fee rate must be high enough to pay an additional new relay fee (incrementalfee returned by getnetworkinfo) to enter the node's mempool.
+   * @deprecated
    * @param params
    * @param {string} params.txid The txid to be bumped
    * @param {BumpFeeOptions=} params.options
@@ -235,8 +251,8 @@ export class Wallet {
    * @param {string} params.address The raven address for the private key
    * @returns {Promise<DumpPrivKeyResponse>} The private key
    */
-  dumpPrivKey(params: DumpPrivKey): Promise<DumpPrivKeyResponse> {
-    return this._client.request('dumpprivkey', params);
+  dumpPrivKey({ address }: DumpPrivKey): Promise<DumpPrivKeyResponse> {
+    return this._client.request('dumpprivkey', [address]);
   }
 
   /**
@@ -245,8 +261,8 @@ export class Wallet {
    * @param {string} params.filename The filename with path (either absolute or relative to ravend)
    * @returns {Promise<DumpWalletResponse>} The filename with full absolute path
    */
-  dumpWallet(params: DumpWallet): Promise<DumpWalletResponse> {
-    return this._client.request('dumpwallet', params);
+  dumpWallet({ filename }: DumpWallet): Promise<DumpWalletResponse> {
+    return this._client.request('dumpwallet', [filename]);
   }
 
   /**
@@ -263,8 +279,8 @@ export class Wallet {
    * @param {string} params.passphrase The pass phrase to encrypt the wallet with. It must be at least 1 character, but should be long.
    * @returns {Promise<string>} Wallet encrypted; Raven server stopping, restart to run with encrypted wallet. The keypool has been flushed and a new HD seed was generated (if you are using HD). You need to make a new backup.
    */
-  encryptWallet(params: EncryptWallet): Promise<string> {
-    return this._client.request('encryptwallet', params);
+  encryptWallet({ passphrase }: EncryptWallet): Promise<string> {
+    return this._client.request('encryptwallet', [passphrase]);
   }
 
   /**
@@ -274,10 +290,10 @@ export class Wallet {
    * @param {string} params.account The account name for the address. It can also be set to the empty string \"\" to represent the default account. The account does not need to exist, it will be created and a new address created  if there is no account by the given name.
    * @returns {Promise<GetAccountAddressResponse>} The account raven address
    */
-  getAccountAddress(
-    params: GetAccountAddress
-  ): Promise<GetAccountAddressResponse> {
-    return this._client.request('getaccountaddress', params);
+  getAccountAddress({
+    account,
+  }: GetAccountAddress): Promise<GetAccountAddressResponse> {
+    return this._client.request('getaccountaddress', [account]);
   }
 
   /**
@@ -287,8 +303,8 @@ export class Wallet {
    * @param {string} params.address The raven address for account lookup.
    * @returns {Promise<GetAccountResponse>} The account address
    */
-  getAccount(params: GetAccount): Promise<GetAccountResponse> {
-    return this._client.request('getaccount', params);
+  getAccount({ address }: GetAccount): Promise<GetAccountResponse> {
+    return this._client.request('getaccount', [address]);
   }
 
   /**
@@ -298,10 +314,10 @@ export class Wallet {
    * @param {string} params.account The account name.
    * @returns {Promise<GetAddressesByAccountResponse>} A raven address associated with the given account
    */
-  getAddressesByAccount(
-    params: GetAddressesByAccount
-  ): Promise<GetAddressesByAccountResponse> {
-    return this._client.request('getaddressesbyaccount', params);
+  getAddressesByAccount({
+    account,
+  }: GetAddressesByAccount): Promise<GetAddressesByAccountResponse> {
+    return this._client.request('getaddressesbyaccount', [account]);
   }
 
   /**
@@ -329,8 +345,11 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Also include balance in watch-only addresses (see 'importaddress')
    * @returns {Promise<GetBalanceResponse>} The total amount in " + CURRENCY_UNIT + " received for this account.
    */
-  getBalance(params: GetBalance = {}): Promise<GetBalanceResponse> {
-    return this._client.request('getbalance', params);
+  getBalance({ account, minconf, include_watchonly }: GetBalance = {}): Promise<
+    GetBalanceResponse
+  > {
+    const data = [account ?? null, minconf ?? 1, include_watchonly ?? false];
+    return this._client.request('getbalance', data);
   }
 
   /**
@@ -359,8 +378,9 @@ export class Wallet {
    * @param {string=} params.account DEPRECATED. The account name for the address to be linked to. If not provided, the default account \"\" is used. It can also be set to the empty string \"\" to represent the default account. The account does not need to exist, it will be created if there is no account by the given name.
    * @returns {Promise<GetNewAddressResponse>} The new raven address
    */
-  getNewAddress(params: GetNewAddress): Promise<GetNewAddressResponse> {
-    return this._client.request('getnewaddress', params);
+  getNewAddress({ account }: GetNewAddress): Promise<GetNewAddressResponse> {
+    const data = account ? [account] : [];
+    return this._client.request('getnewaddress', data);
   }
 
   /**
@@ -381,10 +401,12 @@ export class Wallet {
    * @param {number=} [params.minconf=1] Default = 1. Only include transactions confirmed at least this many times.
    * @returns {Promise<GetReceivedByAccountResponse>} The total amount in " + CURRENCY_UNIT + " received for this account.
    */
-  getReceivedByAccount(
-    params: GetReceivedByAccount
-  ): Promise<GetReceivedByAccountResponse> {
-    return this._client.request('getreceivedbyaccount', params);
+  getReceivedByAccount({
+    account,
+    minconf,
+  }: GetReceivedByAccount): Promise<GetReceivedByAccountResponse> {
+    const data = [account, minconf ?? 1];
+    return this._client.request('getreceivedbyaccount', data);
   }
 
   /**
@@ -394,10 +416,12 @@ export class Wallet {
    * @param {number=} [params.minconf=1] Default = 1. Only include transactions confirmed at least this many times.
    * @returns {Promise<GetReceivedByAddressResponse>} The total amount in " + CURRENCY_UNIT + " received at this address.
    */
-  getReceivedByAddress(
-    params: GetReceivedByAddress
-  ): Promise<GetReceivedByAddressResponse> {
-    return this._client.request('getreceivedbyaddress', params);
+  getReceivedByAddress({
+    address,
+    minconf,
+  }: GetReceivedByAddress): Promise<GetReceivedByAddressResponse> {
+    const data = [address, minconf ?? 1];
+    return this._client.request('getreceivedbyaddress', data);
   }
 
   /**
@@ -407,8 +431,12 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Default = false. Whether to include watch-only addresses in balance calculation and details[]
    * @returns {Promise<GetTransactionResponse>}
    */
-  getTransaction(params: GetTransaction): Promise<GetTransactionResponse> {
-    return this._client.request('gettransaction', params);
+  getTransaction({
+    txid,
+    include_watchonly,
+  }: GetTransaction): Promise<GetTransactionResponse> {
+    const data = [txid, include_watchonly ?? false];
+    return this._client.request('gettransaction', data);
   }
 
   /**
@@ -434,8 +462,15 @@ export class Wallet {
    * @param {ImportMultiOptions=} params.options
    * @returns {Promise<ImportMultiResponse[]>} Response is an array with the same size as the input that has the execution result
    */
-  importMulti(params: ImportMulti): Promise<ImportMultiResponse[]> {
-    return this._client.request('importmulti', params);
+  importMulti({
+    requests,
+    options,
+  }: ImportMulti): Promise<ImportMultiResponse[]> {
+    const data: (ImportMultiRequests | ImportMultiOptions)[] = [requests];
+    if (options) {
+      data.push(options);
+    }
+    return this._client.request('importmulti', data);
   }
 
   /**
@@ -460,8 +495,9 @@ export class Wallet {
    * @param {boolean=} [params.rescan=true] Rescan the wallet for transactions
    * @returns {Promise<null>}
    */
-  importPrivKey(params: ImportPrivKey): Promise<null> {
-    return this._client.request('importprivkey', params);
+  importPrivKey({ privkey, label, rescan }: ImportPrivKey): Promise<null> {
+    const data = [privkey, label ?? '', rescan ?? true];
+    return this._client.request('importprivkey', data);
   }
 
   /**
@@ -470,8 +506,8 @@ export class Wallet {
    * @param {string} params.filename The wallet file
    * @returns {Promise<null>}
    */
-  importWallet(params: ImportWallet): Promise<null> {
-    return this._client.request('importwallet', params);
+  importWallet({ filename }: ImportWallet): Promise<null> {
+    return this._client.request('importwallet', [filename]);
   }
 
   /**
@@ -496,8 +532,9 @@ export class Wallet {
    * @param {boolean=} [params.p2sh=false] Add the P2SH version of the script as well
    * @returns {Promise<null>}
    */
-  importAddress(params: ImportAddress): Promise<null> {
-    return this._client.request('importaddress', params);
+  importAddress({ script, label, rescan, p2sh }: ImportAddress): Promise<null> {
+    const data = [script, label ?? '', rescan ?? true, p2sh ?? false];
+    return this._client.request('importaddress', data);
   }
 
   /**
@@ -507,8 +544,12 @@ export class Wallet {
    * @param {string} params.txoutproof The hex output from gettxoutproof that contains the transaction
    * @returns {Promise<null>}
    */
-  importPrunedFunds(params: ImportPrunedFunds): Promise<null> {
-    return this._client.request('importprunedfunds', params);
+  importPrunedFunds({
+    rawtransaction,
+    txoutproof,
+  }: ImportPrunedFunds): Promise<null> {
+    const data = [rawtransaction, txoutproof];
+    return this._client.request('importprunedfunds', data);
   }
 
   /**
@@ -521,8 +562,9 @@ export class Wallet {
    * @param {boolean=} [params.rescan=true] Rescan the wallet for transactions
    * @returns {Promise<null>}
    */
-  importPubKey(params: ImportPubKey): Promise<null> {
-    return this._client.request('importpubkey', params);
+  importPubKey({ pubkey, label, rescan }: ImportPubKey): Promise<null> {
+    const data = [pubkey, label ?? '', rescan ?? true];
+    return this._client.request('importpubkey', data);
   }
 
   /**
@@ -531,8 +573,9 @@ export class Wallet {
    * @param {number=} [params.newsize=100] The new keypool size
    * @returns {Promise<null>}
    */
-  keypoolRefill(params: KeypoolRefill): Promise<null> {
-    return this._client.request('keypoolrefill', params);
+  keypoolRefill({ newsize }: KeypoolRefill): Promise<null> {
+    const data = [newsize ?? 100];
+    return this._client.request('keypoolrefill', data);
   }
 
   /**
@@ -543,8 +586,12 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Include balances in watch-only addresses (see 'importaddress')
    * @returns {Promise<ListAccountsResponse>}
    */
-  listAccounts(params: ListAccounts): Promise<ListAccountsResponse> {
-    return this._client.request('listaccounts', params);
+  listAccounts({
+    minconf,
+    include_watchonly,
+  }: ListAccounts): Promise<ListAccountsResponse> {
+    const data = [minconf ?? 1, include_watchonly ?? false];
+    return this._client.request('listaccounts', data);
   }
 
   /**
@@ -574,10 +621,17 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Whether to include watch-only addresses (see 'importaddress').
    * @returns {Promise<ListReceivedByAccountResponse[]>}
    */
-  listReceivedByAccount(
-    params: ListReceivedByAccount
-  ): Promise<ListReceivedByAccountResponse[]> {
-    return this._client.request('listreceivedbyaccount', params);
+  listReceivedByAccount({
+    minconf,
+    include_empty,
+    include_watchonly,
+  }: ListReceivedByAccount): Promise<ListReceivedByAccountResponse[]> {
+    const data = [
+      minconf ?? 1,
+      include_empty ?? false,
+      include_watchonly ?? false,
+    ];
+    return this._client.request('listreceivedbyaccount', data);
   }
 
   /**
@@ -588,10 +642,17 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Whether to include watch-only addresses (see 'importaddress').
    * @returns {Promise<ListReceivedByAddressResponse[]>}
    */
-  listReceivedByAddress(
-    params: ListReceivedByAddress
-  ): Promise<ListReceivedByAddressResponse[]> {
-    return this._client.request('listreceivedbyaddress', params);
+  listReceivedByAddress({
+    minconf,
+    include_empty,
+    include_watchonly,
+  }: ListReceivedByAddress): Promise<ListReceivedByAddressResponse[]> {
+    const data = [
+      minconf ?? 1,
+      include_empty ?? false,
+      include_watchonly ?? false,
+    ];
+    return this._client.request('listreceivedbyaddress', data);
   }
 
   /**
@@ -607,8 +668,19 @@ export class Wallet {
    * @param {boolean=} [params.include_removed=true] Show transactions that were removed due to a reorg in the \"removed\" array (not guaranteed to work on pruned nodes)
    * @returns {Promise<ListSinceBlockResponse>}
    */
-  listSinceBlock(params: ListSinceBlock): Promise<ListSinceBlockResponse> {
-    return this._client.request('listsinceblock', params);
+  listSinceBlock({
+    blockhash,
+    target_confirmations,
+    include_watchonly,
+    include_removed,
+  }: ListSinceBlock): Promise<ListSinceBlockResponse> {
+    const data = [
+      blockhash ?? null,
+      target_confirmations ?? null,
+      include_watchonly ?? null,
+      include_removed ?? null,
+    ];
+    return this._client.request('listsinceblock', data);
   }
 
   /**
@@ -620,10 +692,19 @@ export class Wallet {
    * @param {boolean=} [params.include_watchonly=false] Include transactions to watch-only addresses (see 'importaddress')
    * @returns {Promise<ListTransactionsResponse[]>}
    */
-  listTransactions(
-    params: ListTransactions
-  ): Promise<ListTransactionsResponse[]> {
-    return this._client.request('listtransactions', params);
+  listTransactions({
+    account,
+    count,
+    skip,
+    include_watchonly,
+  }: ListTransactions): Promise<ListTransactionsResponse[]> {
+    const data = [
+      account ?? '*',
+      count ?? 10,
+      skip ?? 0,
+      include_watchonly ?? false,
+    ];
+    return this._client.request('listtransactions', data);
   }
 
   /**
@@ -635,11 +716,24 @@ export class Wallet {
    * @param {number=} [params.maxconf=9999999] The maximum confirmations to filter
    * @param {Array} params.addresses An array of raven addresses to filter
    * @param {boolean=} [params.include_unsafe=true] Include outputs that are not safe to spend. See description of \"safe\" attribute below.
-   * @param {ListUnspentQueryOptions=} params.query_options JSON with query options
+   * @param {ListUnspentQueryOptions=} [params.query_options=true] JSON with query options
    * @returns {Promise<ListUnspentResponse[]>}
    */
-  listUnspent(params: ListUnspent): Promise<ListUnspentResponse[]> {
-    return this._client.request('listunspent', params);
+  listUnspent({
+    minconf,
+    maxconf,
+    addresses,
+    include_unsafe,
+    query_options,
+  }: ListUnspent): Promise<ListUnspentResponse[]> {
+    const data = [
+      minconf ?? 1,
+      maxconf ?? 9999999,
+      addresses,
+      include_unsafe ?? true,
+      query_options ?? true,
+    ];
+    return this._client.request('listunspent', data);
   }
 
   /**
@@ -667,8 +761,9 @@ export class Wallet {
    * @param {Array} params.transactions An array of objects. Each object the txid (string) vout (numeric)
    * @returns {Promise<boolean>} Whether the command was successful or not
    */
-  lockUnspent(params: LockUnspent): Promise<boolean> {
-    return this._client.request('lockunspent', params);
+  lockUnspent({ unlock, transactions }: LockUnspent): Promise<boolean> {
+    const data = [unlock, transactions];
+    return this._client.request('lockunspent', data);
   }
 
   /**
@@ -682,8 +777,18 @@ export class Wallet {
    * @param {string=} params.comment An optional comment, stored in the wallet only.
    * @returns {Promise<boolean>} True if successful.
    */
-  moveCmd(params: MoveCmd): Promise<boolean> {
-    return this._client.request('movecmd', params);
+  moveCmd({
+    fromaccount,
+    toaccount,
+    amount,
+    dummy,
+    comment,
+  }: MoveCmd): Promise<boolean> {
+    const data = [fromaccount, toaccount, amount, dummy ?? null];
+    if (comment) {
+      data.push(comment);
+    }
+    return this._client.request('movecmd', data);
   }
 
   /**
@@ -698,8 +803,23 @@ export class Wallet {
    * @param {string=} params.comment_to An optional comment to store the name of the person or organization to which you're sending the transaction. This is not part of the transaction, it is just kept in your wallet.
    * @returns {Promise<string>} The transaction id.
    */
-  sendFrom(params: SendFrom): Promise<string> {
-    return this._client.request('sendfrom', params);
+  sendFrom({
+    fromaccount,
+    toaddress,
+    amount,
+    minconf,
+    comment,
+    comment_to,
+  }: SendFrom): Promise<string> {
+    const data = [
+      fromaccount,
+      toaddress,
+      amount,
+      minconf ?? 1,
+      comment ?? null,
+      comment_to ?? null,
+    ];
+    return this._client.request('sendfrom', data);
   }
 
   /**
@@ -714,8 +834,27 @@ export class Wallet {
    * @param {string=} [params.estimate_mode=UNSET] Default = UNSET. The fee estimate mode, must be one of: "UNSET", "ECONOMICAL", "CONSERVATIVE"
    * @returns {Promise<string>} The transaction id for the send. Only 1 transaction is created regardless of the number of addresses.
    */
-  sendMany(params: SendMany): Promise<string> {
-    return this._client.request('sendmany', params);
+  sendMany({
+    fromaccount,
+    amounts,
+    minconf,
+    comment,
+    subtractfeefrom,
+    conf_target,
+    estimate_mode,
+  }: SendMany): Promise<string> {
+    const data: (string | number | string[] | SendManyAmounts)[] = [
+      fromaccount,
+      amounts,
+    ];
+    if (minconf || comment || subtractfeefrom || conf_target || estimate_mode) {
+      data.push(minconf ?? 1);
+      data.push(comment ?? null);
+      data.push(subtractfeefrom ?? null);
+      data.push(conf_target ?? null);
+      data.push(estimate_mode ?? 'UNSET');
+    }
+    return this._client.request('sendmany', data);
   }
 
   /**
@@ -730,8 +869,30 @@ export class Wallet {
    * @param {string} params.estimate_mode Default = UNSET. The fee estimate mode, must be one of: "UNSET", "ECONOMICAL", "CONSERVATIVE"
    * @returns {Promise<string>} The transaction id.
    */
-  sendToAddress(params: SendToAddress): Promise<string> {
-    return this._client.request('sendtoaddress', params);
+  sendToAddress({
+    address,
+    amount,
+    comment,
+    comment_to,
+    subtractfeefromamount,
+    conf_target,
+    estimate_mode,
+  }: SendToAddress): Promise<string> {
+    const data: (string | number | boolean | null)[] = [address, amount];
+    if (
+      comment ||
+      comment_to ||
+      subtractfeefromamount ||
+      conf_target ||
+      estimate_mode
+    ) {
+      data.push(comment ?? null);
+      data.push(comment_to ?? null);
+      data.push(subtractfeefromamount ?? false);
+      data.push(conf_target ?? null);
+      data.push(estimate_mode ?? 'UNSET');
+    }
+    return this._client.request('sendtoaddress', data);
   }
 
   /**
@@ -784,8 +945,9 @@ export class Wallet {
    * @param {string} params.account The account to assign the address to.
    * @returns {Promise<null>}
    */
-  setAccount(params: SetAccount): Promise<null> {
-    return this._client.request('setaccount', params);
+  setAccount({ address, account }: SetAccount): Promise<null> {
+    const data = [address, account];
+    return this._client.request('setaccount', data);
   }
 
   /**
@@ -794,8 +956,8 @@ export class Wallet {
    * @param {(string|number)} params.amount The transaction fee in " + CURRENCY_UNIT + "/kB
    * @returns {Promise<boolean>} Returns true if successful
    */
-  setTxFee(params: SetTxFee): Promise<boolean> {
-    return this._client.request('settxfee', params);
+  setTxFee({ amount }: SetTxFee): Promise<boolean> {
+    return this._client.request('settxfee', [amount]);
   }
 
   /**
@@ -805,8 +967,9 @@ export class Wallet {
    * @param {string} params.message The message to create a signature of.
    * @returns {Promise<string>} The signature of the message encoded in base 64
    */
-  signMessage(params: SignMessage): Promise<string> {
-    return this._client.request('signmessage', params);
+  signMessage({ address, message }: SignMessage): Promise<string> {
+    const data = [address, message];
+    return this._client.request('signmessage', data);
   }
 
   /**
@@ -826,8 +989,12 @@ export class Wallet {
    * @param {string} params.newpassphrase The new passphrase
    * @returns {Promise<null>}
    */
-  walletPassphraseChange(params: WalletPassphraseChange): Promise<null> {
-    return this._client.request('walletpassphrasechange', params);
+  walletPassphraseChange({
+    oldpassphrase,
+    newpassphrase,
+  }: WalletPassphraseChange): Promise<null> {
+    const data = [oldpassphrase, newpassphrase];
+    return this._client.request('walletpassphrasechange', data);
   }
 
   /**
@@ -844,8 +1011,9 @@ export class Wallet {
    * @param {number} params.timeout The time to keep the decryption key in seconds.
    * @returns {Promise<null>}
    */
-  walletPassphrase(params: WalletPassphrase): Promise<null> {
-    return this._client.request('walletpassphrase', params);
+  walletPassphrase({ passphrase, timeout }: WalletPassphrase): Promise<null> {
+    const data = [passphrase, timeout];
+    return this._client.request('walletpassphrase', data);
   }
 
   /**
@@ -854,8 +1022,8 @@ export class Wallet {
    * @param {string} params.txid The hex-encoded id of the transaction you are deleting
    * @returns {Promise<null>}
    */
-  removePrunedFunds(params: RemovePrunedFunds): Promise<null> {
-    return this._client.request('removeprunedfunds', params);
+  removePrunedFunds({ txid }: RemovePrunedFunds): Promise<null> {
+    return this._client.request('removeprunedfunds', [txid]);
   }
 
   /**
@@ -865,10 +1033,12 @@ export class Wallet {
    * @param {number=} params.stop_height The last block height that should be scanned
    * @returns {Promise<RescanBlockchainResponse>}
    */
-  rescanBlockchain(
-    params: RescanBlockchain
-  ): Promise<RescanBlockchainResponse> {
-    return this._client.request('rescanblockchain', params);
+  rescanBlockchain({
+    start_height,
+    stop_height,
+  }: RescanBlockchain): Promise<RescanBlockchainResponse> {
+    const data = [start_height ?? null, stop_height ?? null];
+    return this._client.request('rescanblockchain', data);
   }
 
   /**
@@ -878,68 +1048,8 @@ export class Wallet {
    * @param {number=} params.maxtries How many iterations to try (default = 1000000).\n"
    * @returns {Promise<string[]>} Hashes of blocks generated
    */
-  generate(params: Generate): Promise<string[]> {
-    return this._client.request('generate', params);
+  generate({ nblocks, maxtries }: Generate): Promise<string[]> {
+    const data = [nblocks, maxtries ?? 1000000];
+    return this._client.request('generate', data);
   }
 }
-
-// static const CRPCCommand commands[] =
-// { //  category              name                        actor (function)           argNames
-//     //  --------------------- ------------------------    -----------------------  ----------
-//     { "rawtransactions",    "fundrawtransaction",       &fundrawtransaction,       {"hexstring","options"} },
-//     { "hidden",             "resendwallettransactions", &resendwallettransactions, {} },
-//     { "wallet",             "abandontransaction",       &abandontransaction,       {"txid"} },
-//     { "wallet",             "abortrescan",              &abortrescan,              {} },
-//     { "wallet",             "addmultisigaddress",       &addmultisigaddress,       {"nrequired","keys","account"} },
-//     { "wallet",             "addwitnessaddress",        &addwitnessaddress,        {"address"} },
-//     { "wallet",             "backupwallet",             &backupwallet,             {"destination"} },
-//     { "wallet",             "bumpfee",                  &bumpfee,                  {"txid", "options"} },
-//     { "wallet",             "dumpprivkey",              &dumpprivkey,              {"address"}  },
-//     { "wallet",             "dumpwallet",               &dumpwallet,               {"filename"} },
-//     { "wallet",             "encryptwallet",            &encryptwallet,            {"passphrase"} },
-//     { "wallet",             "getaccountaddress",        &getaccountaddress,        {"account"} },
-//     { "wallet",             "getaccount",               &getaccount,               {"address"} },
-//     { "wallet",             "getaddressesbyaccount",    &getaddressesbyaccount,    {"account"} },
-//     { "wallet",             "getbalance",               &getbalance,               {"account","minconf","include_watchonly"} },
-//     { "wallet",             "getmasterkeyinfo",         &getmasterkeyinfo,         {} },
-//     { "wallet",             "getmywords",               &getmywords,                        {} },
-//     { "wallet",             "getnewaddress",            &getnewaddress,            {"account"} },
-//     { "wallet",             "getrawchangeaddress",      &getrawchangeaddress,      {} },
-//     { "wallet",             "getreceivedbyaccount",     &getreceivedbyaccount,     {"account","minconf"} },
-//     { "wallet",             "getreceivedbyaddress",     &getreceivedbyaddress,     {"address","minconf"} },
-//     { "wallet",             "gettransaction",           &gettransaction,           {"txid","include_watchonly"} },
-//     { "wallet",             "getunconfirmedbalance",    &getunconfirmedbalance,    {} },
-//     { "wallet",             "getwalletinfo",            &getwalletinfo,            {} },
-//     { "wallet",             "importmulti",              &importmulti,              {"requests","options"} },
-//     { "wallet",             "importprivkey",            &importprivkey,            {"privkey","label","rescan"} },
-//     { "wallet",             "importwallet",             &importwallet,             {"filename"} },
-//     { "wallet",             "importaddress",            &importaddress,            {"address","label","rescan","p2sh"} },
-//     { "wallet",             "importprunedfunds",        &importprunedfunds,        {"rawtransaction","txoutproof"} },
-//     { "wallet",             "importpubkey",             &importpubkey,             {"pubkey","label","rescan"} },
-//     { "wallet",             "keypoolrefill",            &keypoolrefill,            {"newsize"} },
-//     { "wallet",             "listaccounts",             &listaccounts,             {"minconf","include_watchonly"} },
-//     { "wallet",             "listaddressgroupings",     &listaddressgroupings,     {} },
-//     { "wallet",             "listlockunspent",          &listlockunspent,          {} },
-//     { "wallet",             "listreceivedbyaccount",    &listreceivedbyaccount,    {"minconf","include_empty","include_watchonly"} },
-//     { "wallet",             "listreceivedbyaddress",    &listreceivedbyaddress,    {"minconf","include_empty","include_watchonly"} },
-//     { "wallet",             "listsinceblock",           &listsinceblock,           {"blockhash","target_confirmations","include_watchonly","include_removed"} },
-//     { "wallet",             "listtransactions",         &listtransactions,         {"account","count","skip","include_watchonly"} },
-//     { "wallet",             "listunspent",              &listunspent,              {"minconf","maxconf","addresses","include_unsafe","query_options"} },
-//     { "wallet",             "listwallets",              &listwallets,              {} },
-//     { "wallet",             "lockunspent",              &lockunspent,              {"unlock","transactions"} },
-//     { "wallet",             "move",                     &movecmd,                  {"fromaccount","toaccount","amount","minconf","comment"} },
-//     { "wallet",             "sendfrom",                 &sendfrom,                 {"fromaccount","toaddress","amount","minconf","comment","comment_to"} },
-//     { "wallet",             "sendmany",                 &sendmany,                 {"fromaccount","amounts","minconf","comment","subtractfeefrom", "conf_target","estimate_mode"} },
-//     { "wallet",             "sendtoaddress",            &sendtoaddress,            {"address","amount","comment","comment_to","subtractfeefromamount", "conf_target","estimate_mode"} },
-//     { "wallet",             "sendfromaddress",          &sendfromaddress,          {"from_address","address","amount","comment","comment_to","subtractfeefromamount", "conf_target","estimate_mode"} },
-//     { "wallet",             "setaccount",               &setaccount,               {"address","account"} },
-//     { "wallet",             "settxfee",                 &settxfee,                 {"amount"} },
-//     { "wallet",             "signmessage",              &signmessage,              {"address","message"} },
-//     { "wallet",             "walletlock",               &walletlock,               {} },
-//     { "wallet",             "walletpassphrasechange",   &walletpassphrasechange,   {"oldpassphrase","newpassphrase"} },
-//     { "wallet",             "walletpassphrase",         &walletpassphrase,         {"passphrase","timeout"} },
-//     { "wallet",             "removeprunedfunds",        &removeprunedfunds,        {"txid"} },
-//     { "wallet",             "rescanblockchain",         &rescanblockchain,         {"start_height", "stop_height"} },
-
-//     { "generating",         "generate",                 &generate,                 {"nblocks","maxtries"} },
-// };

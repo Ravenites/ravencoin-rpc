@@ -52,8 +52,9 @@ export class Misc {
    * @param {string=} [params.mode='stats'] Determines what kind of information is returned. This argument is optional, the default mode is \"stats\"
    * @returns {Promise<GetMemoryInfoResponse>}
    */
-  getMemoryInfo(params: GetMemoryInfo): Promise<GetMemoryInfoResponse> {
-    return this._client.request('getmemoryinfo', params);
+  getMemoryInfo({ mode }: GetMemoryInfo): Promise<GetMemoryInfoResponse> {
+    const data = [mode ?? 'stats'];
+    return this._client.request('getmemoryinfo', data);
   }
 
   /**
@@ -62,8 +63,10 @@ export class Misc {
    * @param {string} params.address The raven address to validate
    * @returns {Promise<ValidateAddressResponse>}
    */
-  validateAddress(params: ValidateAddress): Promise<ValidateAddressResponse> {
-    return this._client.request('validateaddress', params);
+  validateAddress({
+    address,
+  }: ValidateAddress): Promise<ValidateAddressResponse> {
+    return this._client.request('validateaddress', [address]);
   }
 
   /**
@@ -73,8 +76,12 @@ export class Misc {
    * @param {string} params.keys      A json array of keys which are raven addresses or hex-encoded public keys
    * @returns {Promise<CreateMultisigResponse>} An object with the address and redeemScript
    */
-  createMultisig(params: CreateMultisig): Promise<CreateMultisigResponse> {
-    return this._client.request('createmultisig', params);
+  createMultisig({
+    nrequired,
+    keys,
+  }: CreateMultisig): Promise<CreateMultisigResponse> {
+    const data = [nrequired, keys];
+    return this._client.request('createmultisig', data);
   }
 
   /**
@@ -85,8 +92,13 @@ export class Misc {
    * @param {string} params.message   The message that was signed.
    * @returns {Promise<boolean>} If the signature is verified or not.
    */
-  verifyMessage(params: VerifyMessage): Promise<boolean> {
-    return this._client.request('verifymessage', params);
+  verifyMessage({
+    address,
+    signature,
+    message,
+  }: VerifyMessage): Promise<boolean> {
+    const data = [address, signature, message];
+    return this._client.request('verifymessage', data);
   }
 
   /**
@@ -96,10 +108,12 @@ export class Misc {
    * @param {string} params.message The message to create a signature of.
    * @returns {Promise<SignMessageWithPrivKeyResponse>} The signature of the message encoded in base 64
    */
-  signMessageWithPrivKey(
-    params: SignMessageWithPrivKey
-  ): Promise<SignMessageWithPrivKeyResponse> {
-    return this._client.request('signmessagewithprivkey', params);
+  signMessageWithPrivKey({
+    privkey,
+    message,
+  }: SignMessageWithPrivKey): Promise<SignMessageWithPrivKeyResponse> {
+    const data = [privkey, message];
+    return this._client.request('signmessagewithprivkey', data);
   }
 
   /**
@@ -109,10 +123,12 @@ export class Misc {
    * @param {boolean=} [params.includeAssets=false] If true this will return an expanded result which includes asset deltas
    * @returns {Promise<GetAddressMempoolResponse[]>}
    */
-  getAddressMempool(
-    params: GetAddressMempool
-  ): Promise<GetAddressMempoolResponse[]> {
-    return this._client.request('getaddressmempool', params);
+  getAddressMempool({
+    addresses,
+    includeAssets,
+  }: GetAddressMempool): Promise<GetAddressMempoolResponse[]> {
+    const data = [addresses, includeAssets ?? false];
+    return this._client.request('getaddressmempool', data);
   }
 
   /**
@@ -166,10 +182,14 @@ export class Misc {
    * @param {boolean=} [params.includeAssets=false] If true this will return an expanded result which includes asset balances
    * @returns {Promise<GetAddressBalanceResponse | GetAddressBalanceResponseWithAsset[]>}
    */
-  getAddressBalance(
-    params: GetAddressBalance
-  ): Promise<GetAddressBalanceResponse | GetAddressBalanceResponseWithAsset[]> {
-    return this._client.request('getaddressbalance', [params]);
+  getAddressBalance({
+    addresses,
+    includeAssets,
+  }: GetAddressBalance): Promise<
+    GetAddressBalanceResponse | GetAddressBalanceResponseWithAsset[]
+  > {
+    const data = [addresses, includeAssets ?? false];
+    return this._client.request('getaddressbalance', data);
   }
 
   /**
@@ -189,8 +209,8 @@ export class Misc {
    * @param {number} timestamp Unix seconds-since-epoch timestamp. Pass 0 to go back to using the system time.
    * @returns {Promise<null>}
    */
-  setMockTime(params: SetMockTime): Promise<null> {
-    return this._client.request('setmocktime', params);
+  setMockTime({ timestamp }: SetMockTime): Promise<null> {
+    return this._client.request('setmocktime', [timestamp]);
   }
 
   /**
@@ -199,11 +219,10 @@ export class Misc {
    * The difference between echo and echojson is that echojson has argument conversion enabled in the client-side table in raven-cli and the GUI.
    *
    * There is no server-side difference.
-   * @param params
    * @returns {Promise<unknown>}
    */
-  echo(params = {}): Promise<unknown> {
-    return this._client.request('echo', params);
+  echo(): Promise<unknown> {
+    return this._client.request('echo');
   }
 
   /**
@@ -212,11 +231,10 @@ export class Misc {
    * The difference between echo and echojson is that echojson has argument conversion enabled in the client-side table in raven-cli and the GUI.
    *
    * There is no server-side difference.
-   * @param params
    * @returns {Promise<unknown>}
    */
-  echojson(params = {}): Promise<unknown> {
-    return this._client.request('echojson', params);
+  echojson(): Promise<unknown> {
+    return this._client.request('echojson');
   }
 
   /**
@@ -232,7 +250,8 @@ export class Misc {
    * @param {Array} params.exclude Array of strings. Remove debug logging for these categories.
    * @returns {Promise<string>} A list of the logging categories that are active.
    */
-  logging(params: loggingRequest): Promise<string> {
-    return this._client.request('logging', params);
+  logging({ include, exclude }: loggingRequest): Promise<string> {
+    const data = [include, exclude];
+    return this._client.request('logging', data);
   }
 }

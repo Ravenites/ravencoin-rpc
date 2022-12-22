@@ -34,8 +34,12 @@ export class Rewards {
    * @param {number} params.block_height The block height at which the snapshot will be take
    * @returns {Promise} Object - { request_status: 'Added' }
    */
-  requestSnapshot(params: RequestSnapshot): Promise<RequestSnapshotResponse> {
-    return this._client.request('requestsnapshot', params);
+  requestSnapshot({
+    asset_name,
+    block_height,
+  }: RequestSnapshot): Promise<RequestSnapshotResponse> {
+    const data = [asset_name, block_height];
+    return this._client.request('requestsnapshot', data);
   }
 
   /**
@@ -45,10 +49,12 @@ export class Rewards {
    * @param {number} params.block_height The block height at which the snapshot will be take
    * @returns {Promise} Returns the asset_name and block_height
    */
-  getSnapshotRequest(
-    params: GetSnapshotRequest
-  ): Promise<GetSnapshotRequestResponse> {
-    return this._client.request('getsnapshotrequest', params);
+  getSnapshotRequest({
+    asset_name,
+    block_height,
+  }: GetSnapshotRequest): Promise<GetSnapshotRequestResponse> {
+    const data = [asset_name, block_height];
+    return this._client.request('getsnapshotrequest', data);
   }
 
   /**
@@ -58,10 +64,21 @@ export class Rewards {
    * @param {number=} params.block_height List only requests for a particular block height (default is 0 for ALL)
    * @returns {Promise} Array of objects containing asset_name and block_height
    */
-  listSnapshotRequests(
-    params: ListSnapshotRequests
-  ): Promise<ListSnapshotRequestsResponse[]> {
-    return this._client.request('listsnapshotrequests', params);
+  listSnapshotRequests({
+    asset_name,
+    block_height,
+  }: ListSnapshotRequests): Promise<ListSnapshotRequestsResponse[]> {
+    const data = [];
+    if (asset_name) {
+      data.push(block_height);
+    }
+    if (block_height) {
+      if (!asset_name) {
+        throw new Error('missing asset_name');
+      }
+      data.push(block_height ?? 0);
+    }
+    return this._client.request('listsnapshotrequests', data);
   }
 
   /**
@@ -71,10 +88,12 @@ export class Rewards {
    * @param {number} params.block_height The block height at which the snapshot will be take
    * @returns {Promise} Returns the request status
    */
-  cancelSnapshotRequest(
-    params: CancelSnapshotRequest
-  ): Promise<CancelSnapshotRequestResponse> {
-    return this._client.request('cancelsnapshotrequest', params);
+  cancelSnapshotRequest({
+    asset_name,
+    block_height,
+  }: CancelSnapshotRequest): Promise<CancelSnapshotRequestResponse> {
+    const data = [asset_name, block_height];
+    return this._client.request('cancelsnapshotrequest', data);
   }
 
   /**
@@ -88,10 +107,30 @@ export class Rewards {
    * @param {string=} params.change_address            If the rewards can't be fully distributed. The change will be sent to this address
    * @returns {Promise}
    */
-  distributeReward(
-    params: DistributeReward
-  ): Promise<DistributeRewardResponse> {
-    return this._client.request('distributereward', params);
+  distributeReward({
+    asset_name,
+    snapshot_height,
+    distribution_asset_name,
+    gross_distribution_amount,
+    exception_addresses,
+    change_address,
+  }: DistributeReward): Promise<DistributeRewardResponse> {
+    const data = [
+      asset_name,
+      snapshot_height,
+      distribution_asset_name,
+      gross_distribution_amount,
+    ];
+    if (exception_addresses) {
+      data.push(exception_addresses);
+    }
+    if (change_address) {
+      if (!exception_addresses) {
+        throw new Error('missing exception_addresses');
+      }
+      data.push(change_address);
+    }
+    return this._client.request('distributereward', data);
   }
 
   /**
@@ -104,9 +143,22 @@ export class Rewards {
    * @param {string=} parasm.exception_addresses       Ownership addresses that should be excluded\n"
    * @returns {Promise}
    */
-  getDistributeStatus(
-    params: GetDistributeStatus
-  ): Promise<string | GetDistributeStatusResponse> {
-    return this._client.request('getdistributestatus', params);
+  getDistributeStatus({
+    asset_name,
+    snapshot_height,
+    distribution_asset_name,
+    gross_distribution_amount,
+    exception_addresses,
+  }: GetDistributeStatus): Promise<string | GetDistributeStatusResponse> {
+    const data = [
+      asset_name,
+      snapshot_height,
+      distribution_asset_name,
+      gross_distribution_amount,
+    ];
+    if (exception_addresses) {
+      data.push(exception_addresses);
+    }
+    return this._client.request('getdistributestatus', data);
   }
 }

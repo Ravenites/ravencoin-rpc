@@ -105,7 +105,7 @@ export default class Client implements IClient {
    * @param {(Object|Array)=} params Data required by rpc command. Typically an object or an array.
    * @returns {Promise}
    */
-  request(method: string, params: any = {}): Promise<any | RpcError> {
+  request(method: string, params: any = []): Promise<any | RpcError> {
     const data: any = {
       jsonrpc: '2.0',
       id: Math.random(),
