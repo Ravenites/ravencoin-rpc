@@ -27,7 +27,7 @@ You can either write manually requests to your RPC connection via the `request` 
 #### Manually
 
 ```javascript
-import Client from '@ravenite/ravencoin-rpc';
+import { Client } from '@ravenite/ravencoin-rpc';
 
 const client = new Client({
   url: 'http://127.0.0.1:9050',
@@ -43,7 +43,7 @@ client.request('getchaintips').then(response => {
 #### Built-in Methods
 
 ```javascript
-import Client from '@ravenite/ravencoin-rpc';
+import { Client } from '@ravenite/ravencoin-rpc';
 
 const client = new Client({
   url: 'http://127.0.0.1:9050',
