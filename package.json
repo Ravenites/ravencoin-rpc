@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.0.1",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
     "src"
   ],
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
   "scripts": {
     "start": "tsdx watch",
@@ -41,16 +41,6 @@
     "directory": "packages/rpc"
   },
   "module": "dist/ravencoin-rpc.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/ravencoin-rpc.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/ravencoin-rpc.esm.js",
-      "limit": "10 KB"
-    }
-  ],
   "devDependencies": {
     "@size-limit/preset-small-lib": "^7.0.8",
     "@types/node": "^17.0.23",
