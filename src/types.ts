@@ -9,14 +9,6 @@ export type Config = {
   httpOptions?: any; // object
 };
 
-export type Options = {
-  auth: {
-    username: string;
-    password: string;
-  };
-  [k: string]: any; // httpOptions
-};
-
 export type RpcError = {
   code: mumber;
   data: any;
