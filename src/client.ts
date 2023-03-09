@@ -1,3 +1,4 @@
+import { Client as HyperbitClient } from '@hyperbitjs/rpc';
 import {
   Assets,
   Blockchain,
@@ -9,8 +10,7 @@ import {
   Rewards,
   Wallet,
 } from './methods';
-import { Config, IClient, Options, RpcError } from './types';
-import axios, { Axios } from 'axios';
+import { Config, IClient, RpcError } from './types';
 
 /**
  * Create a RPC Client to connect to a Ravencoin node.
@@ -53,37 +53,10 @@ export class Client implements IClient {
   public rewards: Rewards;
   /** @type {Wallet} */
   public wallet: Wallet;
-  private _url: string;
-  private _options: Options;
-  private _instance: Axios = axios.create();
+  private _instance: HyperbitClient;
 
   constructor(config: Config) {
-    this._instance.defaults.validateStatus = status => {
-      return status >= 200 && status < 400;
-    };
-
-    this._instance.interceptors.response.use(
-      response => {
-        return response;
-      },
-      error => {
-        return Promise.reject(error);
-      }
-    );
-
-    this._url = config.url;
-    this._options = {
-      auth: {
-        username: config.username,
-        password: config.password,
-      },
-    };
-
-    if (config.httpOptions) {
-      for (let k in config.httpOptions) {
-        this._options[k] = config.httpOptions[k];
-      }
-    }
+    this._instance = new HyperbitClient(config);
 
     this.assets = new Assets(this);
     this.blockchain = new Blockchain(this);
@@ -103,30 +76,6 @@ export class Client implements IClient {
    * @returns {Promise}
    */
   request(method: string, params: any = []): Promise<any | RpcError> {
-    const data: any = {
-      jsonrpc: '2.0',
-      id: Math.random(),
-      method,
-      params,
-    };
-
-    return this._instance
-      .post(this._url, data, this._options)
-      .then(res => {
-        return res.data?.result ? res.data.result : res.data;
-      })
-      .catch(err => {
-        return {
-          code: err.response?.status || 500,
-          data: err.response?.config?.data,
-          message:
-            err.response?.data?.error?.message ||
-            err.response?.message ||
-            err?.message ||
-            'Unknown request failure. Please review: rpc command, arguments and connection.',
-          name: err.response?.statusText,
-          status: err.response?.status || 500,
-        };
-      });
+    return this._instance.request(method, params);
   }
 }
